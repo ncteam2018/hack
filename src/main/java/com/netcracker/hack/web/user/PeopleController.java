@@ -16,7 +16,7 @@ public class PeopleController {
     @Autowired
     private PeopleRepository repository;
 
-    @GetMapping("/")
+    @GetMapping("/log")
     public String main(Map<String, Object> model) {
         return "index";
     }
