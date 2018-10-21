@@ -1,5 +1,6 @@
 package com.netcracker.hack.web.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,37 +10,34 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import com.netcracker.hack.repository.PeopleRepository;
 
 @Configuration
 @EnableWebSecurity
 public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-/*	@Override
+	@Autowired
+	PeopleRepository peopleRepository;
+	
+	@Autowired
+	PasswordEncoder encoder;
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
+	
+	
+	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
 		auth
-			.inMemoryAuthentication()
-				.withUser("test").password("test").roles("user")
-					.and()
-				.withUser("admin").password("123").roles("user","admin");
-	
-	}*/
-	
-	 @Bean
-	    public UserDetailsService userDetailsService() {
-	        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-	        manager.createUser(User.withDefaultPasswordEncoder().username("test").password("test").roles("USER").build());
-	        return manager;
-	    }
-	
-	
-
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		// TODO Auto-generated method stub
-		super.configure(web);
-		
+			.userDetailsService(new UserAuthenticationService(peopleRepository))
+			.passwordEncoder(encoder);
 	}
 
 	@Override
@@ -67,6 +65,7 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login","/loginError","/mainPage").permitAll()
 				.antMatchers("/**").authenticated();
 				
+			//HTTPS	
 			//.and()
 			//.requiresChannel();
 				//.antMatchers("/login").requiresSecure()

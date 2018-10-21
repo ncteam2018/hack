@@ -15,7 +15,18 @@ public class People {
     @Column(name = "name", length = 32)
     private String name;
 
-    public People() {
+    @Column(name = "password", length = 60)
+    private String password;
+    
+    public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public People() {
     }
 
     public People(String name) {
@@ -37,4 +48,5 @@ public class People {
     public void setName(String name) {
         this.name = name;
     }
+
 }
