@@ -5,7 +5,6 @@ import com.netcracker.hack.model.*;
 import java.util.List;
 
 public class User {
-
     private PersonalData personalData;
     private Contact contact;
     private Education education;
@@ -15,6 +14,4 @@ public class User {
     private List<Team> teams;
     private List<Role> roles;
     private List<UserNotification> userNotifications;
-
-
 }
