@@ -17,7 +17,7 @@ public class Profile {
     @Column(name = "uuid")
     private UUID uuid;
 
-    @Column(name = "login", length = 32)
+    @Column(name = "login", length = 32, unique = true)
     private String login;
 
     @Column(name = "password")
