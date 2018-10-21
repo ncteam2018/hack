@@ -11,17 +11,14 @@ import java.util.UUID;
 @Table(name = "teamProfile")
 @Immutable
 public class TeamProfile {
-
     @EmbeddedId
     private Id id = new Id();
-
     @ManyToOne
     @JoinColumn(
             name = "teamId",
             insertable = false,
             updatable = false)
     private Team team;
-
     @ManyToOne
     @JoinColumn(
             name = "profileId",
