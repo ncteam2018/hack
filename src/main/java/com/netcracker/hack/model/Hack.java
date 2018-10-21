@@ -1,39 +1,116 @@
 package com.netcracker.hack.model;
 
-import java.net.URL;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
+@Entity
+@Table(name = "hack")
 public class Hack {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "uuid")
     private UUID uuid;
-    private String name;
-    private String about;
-    private ArrayList<Role> roles;
-    private ArrayList<Interest> interests;
-    private LocalDateTime dateStart;
-    private LocalDateTime dateEnd;
-    private String location;
-    private URL site;
-    private Organizer organizer;
-    private String sponsors;
-    private LocalDateTime dateOfPublishing;
-    private boolean verified;
-    private ArrayList<TeamNotification> teamNotifications;
 
-    public Hack(UUID uuid, String name, String about, ArrayList<Role> roles, ArrayList<Interest> interests, LocalDateTime dateStart,
-                LocalDateTime dateEnd, String location, URL site, Organizer organizer, String sponsors, LocalDateTime dateOfPublishing) {
+    @Column(name = "name")
+    private String name;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id", unique = true)
+    private CompanyData company;
+
+    @Column(name = "startDate")
+    private String startDate;
+
+    @Column(name = "countOfDays")
+    private Integer countOfDays;
+
+    @Column(name = "place")
+    private String place;
+
+    @Column(name = "site")
+    private String site;
+
+    public Hack() {
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
-        this.about = about;
-        this.roles = roles;
-        this.interests = interests;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-        this.location = location;
+    }
+
+    public CompanyData getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyData company) {
+        this.company = company;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public Integer getCountOfDays() {
+        return countOfDays;
+    }
+
+    public void setCountOfDays(Integer countOfDays) {
+        this.countOfDays = countOfDays;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
         this.site = site;
-        this.organizer = organizer;
-        this.sponsors = sponsors;
-        this.dateOfPublishing = dateOfPublishing;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hack hack = (Hack) o;
+        return Objects.equals(uuid, hack.uuid) &&
+                Objects.equals(name, hack.name) &&
+                Objects.equals(company, hack.company) &&
+                Objects.equals(startDate, hack.startDate) &&
+                Objects.equals(countOfDays, hack.countOfDays) &&
+                Objects.equals(place, hack.place) &&
+                Objects.equals(site, hack.site);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(uuid, name, company, startDate, countOfDays, place, site);
     }
 }

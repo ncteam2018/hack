@@ -1,11 +1,15 @@
 package com.netcracker.hack.model;
 
-public class Skill {
-    private int id;
-    private String name;
+import javax.persistence.*;
 
-    public Skill(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+@Entity
+@Table(name = "skill")
+public class Skill {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "tag")
+    private String tag;
 }
