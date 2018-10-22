@@ -1,17 +1,89 @@
 package com.netcracker.hack.model;
 
-public class Education {
-    private int id;
-    private String educationLevel;
-    private String institution;
-    private String faculty;
-    private int course;
+import javax.persistence.*;
+import java.util.Objects;
+import java.util.Set;
 
-    public Education(int id, String educationLevel, String institution, String faculty, int course) {
+
+@Entity
+@Table(name = "education")
+public class Education {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @ElementCollection(targetClass = EducationLvl.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "educationLvl", joinColumns = @JoinColumn(name = "educationLvl_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<EducationLvl> level;
+
+    @Column(name = "institution")
+    private String institution;
+
+    @Column(name = "faculty")
+    private String faculty;
+
+    @Column(name = "course")
+    private Integer course;
+
+    public Education() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
-        this.educationLevel = educationLevel;
+    }
+
+    public Set<EducationLvl> getLevel() {
+        return level;
+    }
+
+    public void setLevel(Set<EducationLvl> level) {
+        this.level = level;
+    }
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(String institution) {
         this.institution = institution;
+    }
+
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(String faculty) {
         this.faculty = faculty;
+    }
+
+    public Integer getCourse() {
+        return course;
+    }
+
+    public void setCourse(Integer course) {
         this.course = course;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Education education = (Education) o;
+        return Objects.equals(id, education.id) &&
+                level == education.level &&
+                Objects.equals(institution, education.institution) &&
+                Objects.equals(faculty, education.faculty) &&
+                Objects.equals(course, education.course);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, level, institution, faculty, course);
     }
 }

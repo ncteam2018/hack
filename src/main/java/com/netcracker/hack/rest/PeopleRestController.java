@@ -20,24 +20,28 @@ public class PeopleRestController {
     public List<People> retrieveAllUsers() {
         return (List<People>) repository.findAll();
     }
+
     @GetMapping("/people/{id}")
-    public People retrieveStudent(@PathVariable int id){
+    public People retrieveStudent(@PathVariable int id) {
         Optional<People> people = repository.findById(id);
         return people.get();
     }
+
     @DeleteMapping("/people/{id}")
-    public void deletePeople (@PathVariable int id){
+    public void deletePeople(@PathVariable int id) {
         repository.deleteById(id);
     }
+
     @PostMapping("/people")
-    public ResponseEntity<Object> createPeople (@RequestBody People people){
+    public ResponseEntity<Object> createPeople(@RequestBody People people) {
         People savedPeople = repository.save(people);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedPeople.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
+
     @PutMapping("/people/{id}")
-    public ResponseEntity<Object> updatePeople (@RequestBody People people, @PathVariable int id){
+    public ResponseEntity<Object> updatePeople(@RequestBody People people, @PathVariable int id) {
         Optional<People> peopleOptional = repository.findById(id);
         if (!peopleOptional.isPresent())
             return ResponseEntity.notFound().build();
