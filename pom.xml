@@ -37,11 +37,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!-- Security
+		<!-- Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency> -->
+		</dependency> 
 		<!-- JPA -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -53,6 +53,25 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+
+		<!-- Swagger -->
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger2</artifactId>
+		    <version>2.9.2</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger-ui</artifactId>
+		    <version>2.9.2</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		
 
 		<!-- Test -->
 		<dependency>
@@ -67,11 +86,12 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Thymeleaf
+		<!-- Thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency> -->
+        </dependency> 
+        
 		<!-- Mustache -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
