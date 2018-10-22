@@ -20,22 +20,22 @@ public class HackRestController {
     }
 
     @GetMapping("/api/hack/{id}")
-    public Hack retrieveHack(@PathVariable UUID id){
+    public Hack retrieveHack(@PathVariable UUID id) {
         return service.retrieveHack(id);
     }
 
     @DeleteMapping("/api/hack/{id}")
-    public void deleteHack (@PathVariable UUID id){
+    public void deleteHack(@PathVariable UUID id) {
         service.deleteHack(id);
     }
 
     @PostMapping("/api/hack")
-    public ResponseEntity<Object> createHack (@RequestBody Hack hack){
-        return createHack(hack);
+    public ResponseEntity<Object> createHack(@RequestBody Hack hack) {
+        return service.createHack(hack);
     }
 
     @PutMapping("/api/hack/{id}")
-    public ResponseEntity<Object> updateHack (@RequestBody Hack hack, @PathVariable UUID id){
+    public ResponseEntity<Object> updateHack(@RequestBody Hack hack, @PathVariable UUID id) {
         return service.updateHack(hack, id);
     }
 }

@@ -19,22 +19,22 @@ public class PeopleRestController {
     }
 
     @GetMapping("/api/people/{id}")
-    public People retrievePeople(@PathVariable int id){
+    public People retrievePeople(@PathVariable int id) {
         return service.retrievePeople(id);
     }
 
     @DeleteMapping("/api/people/{id}")
-    public void deletePeople (@PathVariable int id){
+    public void deletePeople(@PathVariable int id) {
         service.deletePeople(id);
     }
 
     @PostMapping("/api/people")
-    public ResponseEntity<Object> createPeople (@RequestBody People people){
-        return createPeople(people);
+    public ResponseEntity<Object> createPeople(@RequestBody People people) {
+        return service.createPeople(people);
     }
 
     @PutMapping("/api/people/{id}")
-    public ResponseEntity<Object> updatePeople (@RequestBody People people, @PathVariable int id){
-       return service.updatePeople(people, id);
+    public ResponseEntity<Object> updatePeople(@RequestBody People people, @PathVariable int id) {
+        return service.updatePeople(people, id);
     }
 }

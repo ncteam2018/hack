@@ -20,22 +20,22 @@ public class ProfileRestController {
     }
 
     @GetMapping("/api/profile/{id}")
-    public Profile retrieveProfile(@PathVariable UUID id){
+    public Profile retrieveProfile(@PathVariable UUID id) {
         return service.retrieveProfile(id);
     }
 
     @DeleteMapping("/api/profile/{id}")
-    public void deleteProfile (@PathVariable UUID id){
+    public void deleteProfile(@PathVariable UUID id) {
         service.deleteProfile(id);
     }
 
     @PostMapping("/api/profile")
-    public ResponseEntity<Object> createProfile (@RequestBody Profile profile){
-        return createProfile(profile);
+    public ResponseEntity<Object> createProfile(@RequestBody Profile profile) {
+        return service.createProfile(profile);
     }
 
     @PutMapping("/api/profile/{id}")
-    public ResponseEntity<Object> updateProfile (@RequestBody Profile profile, @PathVariable UUID id){
+    public ResponseEntity<Object> updateProfile(@RequestBody Profile profile, @PathVariable UUID id) {
         return service.updateProfile(profile, id);
     }
 }
