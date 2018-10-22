@@ -11,30 +11,33 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.netcracker.hack.model.People;
-import com.netcracker.hack.repository.PeopleRepository;
+import com.netcracker.hack.model.Profile;
+import com.netcracker.hack.model.Role;
+import com.netcracker.hack.repository.ProfileRepository;
 
 public class UserAuthenticationService implements UserDetailsService{
 
-	private PeopleRepository userRepository;
+	private ProfileRepository profileRepository;
 	
 	
-	public UserAuthenticationService(PeopleRepository userRepository){
-		this.userRepository = userRepository;
+	public UserAuthenticationService(ProfileRepository profileRepository){
+		this.profileRepository = profileRepository;
 	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		List<People> users = userRepository.findByName(username);
+		 Profile profile = profileRepository.findByLogin(username);
 		
-		if(users.size() != 0) {
+		if(profile != null) {
 			List<GrantedAuthority> authorities= new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+			
+			for(Role role: profile.getRoles())
+				authorities.add( new SimpleGrantedAuthority( "ROLE_" + role.toString().toUpperCase() ));
 
 			return new User(
-					users.get(0).getName(),
-					users.get(0).getPassword(),
+					profile.getLogin(),
+					profile.getPassword(),
 					authorities);
 		}
 		
