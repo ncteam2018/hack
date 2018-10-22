@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 @Controller
 public class PeopleController {
@@ -45,9 +46,13 @@ public class PeopleController {
         return "demo";
     }
 
+    
     @GetMapping(path = "/error")
     public String error(Map<String, Object> model) {
+    	for(Entry<String, Object> line: model.entrySet())
+    		System.out.println("Error log - " + line.toString());
         return "error";
     }
+   
 }
 
