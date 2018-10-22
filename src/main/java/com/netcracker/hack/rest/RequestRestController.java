@@ -30,7 +30,7 @@ public class RequestRestController {
 
     @PostMapping("/api/request")
     public ResponseEntity<Object> createRequest(@RequestBody Request request) {
-        return createRequest(request);
+        return service.createRequest(request);
     }
 
     @PutMapping("/api/request/{id}")
