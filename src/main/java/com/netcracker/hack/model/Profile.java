@@ -20,7 +20,7 @@ public class Profile {
     @Column(name = "login", length = 32, unique = true)
     private String login;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 60)
     private String password;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
