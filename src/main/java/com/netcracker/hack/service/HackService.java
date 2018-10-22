@@ -46,5 +46,4 @@ public class HackService {
         repository.save(hack);
         return ResponseEntity.noContent().build();
     }
-
 }
