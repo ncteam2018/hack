@@ -37,14 +37,12 @@ public class PeopleController {
         model.put("users", users);
         return "demo";
     }
-
     @PostMapping("filter")
     public String filter(@RequestParam String filter, Map<String, Object> model) {
         List<People> peopleList = repository.findByName(filter);
         model.put("users", peopleList);
         return "demo";
     }
-
     @GetMapping(path = "/error")
     public String error(Map<String, Object> model) {
         return "error";
