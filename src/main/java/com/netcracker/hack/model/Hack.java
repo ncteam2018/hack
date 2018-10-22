@@ -1,6 +1,5 @@
 package com.netcracker.hack.model;
 
-import javax.persistence.Entity;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

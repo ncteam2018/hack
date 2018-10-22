@@ -1,11 +1,15 @@
 package com.netcracker.hack.model;
 
-public class Interest {
-    private int id;
-    private String name;
+import javax.persistence.*;
 
-    public Interest(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+@Entity
+@Table(name = "interest")
+public class Interest {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "value")
+    private String value;
 }
