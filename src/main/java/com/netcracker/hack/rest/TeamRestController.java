@@ -20,22 +20,22 @@ public class TeamRestController {
     }
 
     @GetMapping("/api/team/{id}")
-    public Team retrieveTeam(@PathVariable UUID id){
+    public Team retrieveTeam(@PathVariable UUID id) {
         return service.retrieveTeam(id);
     }
 
     @DeleteMapping("/api/team/{id}")
-    public void deleteTeam (@PathVariable UUID id){
+    public void deleteTeam(@PathVariable UUID id) {
         service.deleteTeam(id);
     }
 
     @PostMapping("/api/team")
-    public ResponseEntity<Object> createTeam (@RequestBody Team team){
-        return createTeam(team);
+    public ResponseEntity<Object> createTeam(@RequestBody Team team) {
+        return service.createTeam(team);
     }
 
     @PutMapping("/api/team/{id}")
-    public ResponseEntity<Object> updateTeam (@RequestBody Team team, @PathVariable UUID id){
+    public ResponseEntity<Object> updateTeam(@RequestBody Team team, @PathVariable UUID id) {
         return service.updateTeam(team, id);
     }
 }

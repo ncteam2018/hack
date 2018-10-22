@@ -4,7 +4,7 @@ import com.netcracker.hack.model.Hack;
 import com.netcracker.hack.repository.HackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+@Service
 public class HackService {
     @Autowired
     private HackRepository repository;
@@ -21,16 +21,16 @@ public class HackService {
         return (List<Hack>) repository.findAll();
     }
 
-    public Hack retrieveHack(UUID id){
+    public Hack retrieveHack(UUID id) {
         Optional<Hack> hack = repository.findById(id);
         return hack.get();
     }
 
-    public void deleteHack (UUID id){
+    public void deleteHack(UUID id) {
         repository.deleteById(id);
     }
 
-    public ResponseEntity<Object> createHack (Hack hack){
+    public ResponseEntity<Object> createHack(Hack hack) {
         Hack savedHack = repository.save(hack);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedHack.getUuid()).toUri();
@@ -38,7 +38,7 @@ public class HackService {
         return ResponseEntity.created(location).build();
     }
 
-    public ResponseEntity<Object> updateHack (Hack hack, UUID id){
+    public ResponseEntity<Object> updateHack(Hack hack, UUID id) {
         Optional<Hack> hackOptional = repository.findById(id);
         if (!hackOptional.isPresent())
             return ResponseEntity.notFound().build();
@@ -46,5 +46,4 @@ public class HackService {
         repository.save(hack);
         return ResponseEntity.noContent().build();
     }
-
 }
