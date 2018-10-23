@@ -31,7 +31,7 @@ public class SwaggerConfig {
 						
 		return new Docket(DocumentationType.SWAGGER_2)
 					.select()
-						.apis(RequestHandlerSelectors.basePackage("com.netcracker.hack.rest"))
+						.apis(RequestHandlerSelectors.basePackage("com.netcracker.hack.controller.rest"))
 						.paths(regex("/api.*"))
 						.build()
 					.apiInfo(apiInfoBuilder.build());
