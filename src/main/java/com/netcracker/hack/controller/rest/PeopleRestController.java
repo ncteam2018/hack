@@ -1,7 +1,8 @@
-package com.netcracker.hack.rest;
+package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.model.People;
 import com.netcracker.hack.service.PeopleService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

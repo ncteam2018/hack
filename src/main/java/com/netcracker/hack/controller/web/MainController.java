@@ -1,4 +1,4 @@
-package com.netcracker.hack.web;
+package com.netcracker.hack.controller.web;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

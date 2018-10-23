@@ -1,4 +1,4 @@
-package com.netcracker.hack.rest;
+package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.model.Hack;
 import com.netcracker.hack.service.HackService;

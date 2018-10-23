@@ -1,4 +1,4 @@
-package com.netcracker.hack.web.user;
+package com.netcracker.hack.controller.web;
 
 import com.netcracker.hack.model.People;
 import com.netcracker.hack.repository.PeopleRepository;
