@@ -1,4 +1,4 @@
-package com.netcracker.hack.securityConfig;
+package com.netcracker.hack.auth;
 
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.model.Role;
