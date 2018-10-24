@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-	@RequestMapping(path = "/login", method = RequestMethod.GET)
-	public String login(Model model, @RequestParam(name = "loginError", defaultValue = "nope") String loginError) {
+    @RequestMapping(path = "/login", method = RequestMethod.GET)
+    public String login(Model model, @RequestParam(name = "loginError", defaultValue = "nope") String loginError) {
 
-		model.addAttribute("loginError", loginError);
-		return "open/login";
-	}
+        model.addAttribute("loginError", loginError);
+        return "open/login";
+    }
 }

@@ -34,7 +34,6 @@ public class TeamService {
         Team savedTeam = repository.save(team);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedTeam.getUuid()).toUri();
-
         return ResponseEntity.created(location).build();
     }
 
@@ -46,6 +45,5 @@ public class TeamService {
         repository.save(team);
         return ResponseEntity.noContent().build();
     }
-
 }
 

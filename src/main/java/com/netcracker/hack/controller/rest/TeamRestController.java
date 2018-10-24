@@ -17,7 +17,7 @@ public class TeamRestController {
     @Autowired
     private TeamService service;
 
-    @ApiOperation("Returns all Teams")
+    @ApiOperation("Returns all teams")
     @GetMapping
     public List<Team> getAllTeams() {
         return service.getAllTeams();
@@ -30,7 +30,7 @@ public class TeamRestController {
     }
 
     @ApiOperation("Deletes hack by uuid")
-    @DeleteMapping("/api/team/{id}")
+    @DeleteMapping("/{id}")
     public void deleteTeam(@ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
         service.deleteTeam(id);
     }

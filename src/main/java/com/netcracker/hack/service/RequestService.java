@@ -21,7 +21,7 @@ public class RequestService {
     }
 
     public Request getRequest(int id) {
-        Optional<Request> request = (Optional<Request>) repository.findById(id);
+        Optional<Request> request = repository.findById(id);
         return request.get();
     }
 

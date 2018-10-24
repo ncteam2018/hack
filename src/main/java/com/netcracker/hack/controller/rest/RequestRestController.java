@@ -43,7 +43,7 @@ public class RequestRestController {
     @ApiOperation("Updates request by uuid")
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateRequest(@ApiParam(value = "new Request", required = true) @RequestBody Request request,
-                                                @ApiParam(value = "Request's uuid", required = true)@PathVariable int id) {
+                                                @ApiParam(value = "Request's uuid", required = true) @PathVariable int id) {
         return service.updateRequest(request, id);
     }
 }

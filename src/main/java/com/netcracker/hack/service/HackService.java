@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.spring.web.json.Json;
 
 import java.net.URI;
 import java.util.List;
@@ -23,6 +24,9 @@ public class HackService {
 
     public Hack getHack(UUID id) {
         Optional<Hack> hack = repository.findById(id);
+        if (hack.isPresent()) {
+            return new Hack();
+        }
         return hack.get();
     }
 

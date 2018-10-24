@@ -4,7 +4,6 @@ import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,16 +21,16 @@ public class ProfileService {
         return (List<Profile>) repository.findAll();
     }
 
-    public Profile getProfile(UUID id){
+    public Profile getProfile(UUID id) {
         Optional<Profile> profile = repository.findById(id);
         return profile.get();
     }
 
-    public void deleteProfile (UUID id){
+    public void deleteProfile(UUID id) {
         repository.deleteById(id);
     }
 
-    public ResponseEntity<Object> createProfile (Profile profile){
+    public ResponseEntity<Object> createProfile(Profile profile) {
         Profile savedProfile = repository.save(profile);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedProfile.getUuid()).toUri();
@@ -39,7 +38,7 @@ public class ProfileService {
         return ResponseEntity.created(location).build();
     }
 
-    public ResponseEntity<Object> updateProfile (Profile profile, UUID id){
+    public ResponseEntity<Object> updateProfile(Profile profile, UUID id) {
         Optional<Profile> profileOptional = repository.findById(id);
         if (!profileOptional.isPresent())
             return ResponseEntity.notFound().build();
