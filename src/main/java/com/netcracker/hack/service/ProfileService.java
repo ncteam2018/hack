@@ -18,11 +18,11 @@ public class ProfileService {
     @Autowired
     private ProfileRepository repository;
 
-    public List<Profile> retrieveAllProfile() {
+    public List<Profile> getAllProfile() {
         return (List<Profile>) repository.findAll();
     }
 
-    public Profile retrieveProfile(UUID id){
+    public Profile getProfile(UUID id){
         Optional<Profile> profile = repository.findById(id);
         return profile.get();
     }

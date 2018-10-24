@@ -2,6 +2,8 @@ package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.model.Team;
 import com.netcracker.hack.service.TeamService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,32 +12,39 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/team")
 public class TeamRestController {
     @Autowired
     private TeamService service;
 
-    @GetMapping("/api/team")
-    public List<Team> retrieveAllTeams() {
-        return service.retrieveAllTeams();
+    @ApiOperation("Returns all Teams")
+    @GetMapping
+    public List<Team> getAllTeams() {
+        return service.getAllTeams();
     }
 
-    @GetMapping("/api/team/{id}")
-    public Team retrieveTeam(@PathVariable UUID id) {
-        return service.retrieveTeam(id);
+    @ApiOperation("Returns hack by uuid")
+    @GetMapping("/{id}")
+    public Team getTeam(@ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
+        return service.getTeam(id);
     }
 
+    @ApiOperation("Deletes hack by uuid")
     @DeleteMapping("/api/team/{id}")
-    public void deleteTeam(@PathVariable UUID id) {
+    public void deleteTeam(@ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
         service.deleteTeam(id);
     }
 
-    @PostMapping("/api/team")
-    public ResponseEntity<Object> createTeam(@RequestBody Team team) {
+    @ApiOperation("Adds team by uuid")
+    @PostMapping
+    public ResponseEntity<Object> createTeam(@ApiParam(value = "new Team", required = true) @RequestBody Team team) {
         return service.createTeam(team);
     }
 
-    @PutMapping("/api/team/{id}")
-    public ResponseEntity<Object> updateTeam(@RequestBody Team team, @PathVariable UUID id) {
+    @ApiOperation("Updates team by uuid")
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateTeam(@ApiParam(value = "new Team", required = true) @RequestBody Team team,
+                                             @ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
         return service.updateTeam(team, id);
     }
 }

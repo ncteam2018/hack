@@ -17,11 +17,11 @@ public class HackService {
     @Autowired
     private HackRepository repository;
 
-    public List<Hack> retrieveAllHack() {
+    public List<Hack> getAllHack() {
         return (List<Hack>) repository.findAll();
     }
 
-    public Hack retrieveHack(UUID id) {
+    public Hack getHack(UUID id) {
         Optional<Hack> hack = repository.findById(id);
         return hack.get();
     }
