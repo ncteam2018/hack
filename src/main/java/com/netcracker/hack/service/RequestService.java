@@ -16,11 +16,11 @@ public class RequestService {
     @Autowired
     private RequestRepository repository;
 
-    public List<Request> retrieveAllRequests() {
+    public List<Request> getAllRequests() {
         return (List<Request>) repository.findAll();
     }
 
-    public Request retrieveRequest(int id) {
+    public Request getRequest(int id) {
         Optional<Request> request = (Optional<Request>) repository.findById(id);
         return request.get();
     }

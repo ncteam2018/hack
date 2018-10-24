@@ -2,6 +2,8 @@ package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.model.Request;
 import com.netcracker.hack.service.RequestService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,32 +11,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/request")
 public class RequestRestController {
     @Autowired
     private RequestService service;
 
-    @GetMapping("/api/request")
-    public List<Request> retrieveAllRequest() {
-        return service.retrieveAllRequests();
+    @ApiOperation("Returns all requests")
+    @GetMapping
+    public List<Request> getAllRequest() {
+        return service.getAllRequests();
     }
 
-    @GetMapping("/api/request/{id}")
-    public Request retrieveRequest(@PathVariable int id) {
-        return service.retrieveRequest(id);
+    @ApiOperation("Returns request by uuid")
+    @GetMapping("/{id}")
+    public Request getRequest(@ApiParam(value = "Request's uuid", required = true) @PathVariable int id) {
+        return service.getRequest(id);
     }
 
-    @DeleteMapping("/api/request/{id}")
-    public void deleteRequest(@PathVariable int id) {
+    @ApiOperation("Deletes request by uuid")
+    @DeleteMapping("/{id}")
+    public void deleteRequest(@ApiParam(value = "Request's uuid", required = true) @PathVariable int id) {
         service.deleteRequest(id);
     }
 
-    @PostMapping("/api/request")
-    public ResponseEntity<Object> createRequest(@RequestBody Request request) {
+    @ApiOperation("Adds new request")
+    @PostMapping
+    public ResponseEntity<Object> createRequest(@ApiParam(value = "new Request", required = true) @RequestBody Request request) {
         return service.createRequest(request);
     }
 
-    @PutMapping("/api/request/{id}")
-    public ResponseEntity<Object> updateRequest(@RequestBody Request request, @PathVariable int id) {
+    @ApiOperation("Updates request by uuid")
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateRequest(@ApiParam(value = "new Request", required = true) @RequestBody Request request,
+                                                @ApiParam(value = "Request's uuid", required = true)@PathVariable int id) {
         return service.updateRequest(request, id);
     }
 }
