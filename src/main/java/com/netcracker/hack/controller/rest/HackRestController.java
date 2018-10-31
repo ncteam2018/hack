@@ -1,7 +1,7 @@
 package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.model.Hack;
-import com.netcracker.hack.service.HackService;
+import com.netcracker.hack.service.Impl.HackServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,18 @@ import java.util.UUID;
 @RequestMapping("api/hack")
 public class HackRestController {
     @Autowired
-    private HackService service;
+    private HackServiceImpl service;
 
     @ApiOperation("Returns all hacks")
     @GetMapping
     public List<Hack> getAllHack() {
         return service.getAllHack();
+    }
+
+    @ApiOperation("Returns all hacks by company UUID")
+    @GetMapping("company/{id}")
+    public List<Hack> getHackByCompanyUuid(@ApiParam(value = "Company's uuid", required = true) @PathVariable UUID id) {
+        return service.getHackByCompany(id);
     }
 
     @ApiOperation("Returns hack by uuid")
