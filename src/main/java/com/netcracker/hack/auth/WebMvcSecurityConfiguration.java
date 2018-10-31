@@ -58,18 +58,24 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-	                .antMatchers("/login", "/mainPage", "/").permitAll()
+                	.antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
+                	.antMatchers("/v2/api-docs", "/configuration/ui", 
+        					"/swagger-resources", "/configuration/security", 
+        					"/swagger-ui.html", "/webjars/**").hasRole("ADMIN");
+                
+	                /*.antMatchers("/login", "/mainPage", "/").permitAll()
 	                .antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
 	        		.antMatchers("/v2/api-docs", "/configuration/ui", 
 	        					"/swagger-resources", "/configuration/security", 
 	        					"/swagger-ui.html", "/webjars/**").hasRole("ADMIN")
-	                .antMatchers("/**").authenticated();
-        
+	        		.antMatchers("/**").permitAll();
+	                //.antMatchers("/**").authenticated();
+*/        
         //HTTPS
         //.and()
         //.requiresChannel();
         //.antMatchers("/login").requiresSecure()
         //.antMatchers("/loginError").requiresSecure();
 
-    }
+    }  
 }
