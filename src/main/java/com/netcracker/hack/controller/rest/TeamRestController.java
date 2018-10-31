@@ -1,7 +1,7 @@
 package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.model.Team;
-import com.netcracker.hack.service.TeamService;
+import com.netcracker.hack.service.Impl.TeamServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/api/team")
 public class TeamRestController {
     @Autowired
-    private TeamService service;
+    private TeamServiceImpl service;
 
     @ApiOperation("Returns all teams")
     @GetMapping

@@ -8,5 +8,6 @@ import java.util.UUID;
 
 public interface RequestRepository extends CrudRepository<Request, Integer> {
     public List<Request> findAllByFromId(UUID uuid);
+
     public List<Request> findAllByToId(UUID uuid);
 }

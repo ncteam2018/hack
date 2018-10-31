@@ -1,8 +1,7 @@
 package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.model.Profile;
-import com.netcracker.hack.service.ProfileService;
-import io.swagger.annotations.Api;
+import com.netcracker.hack.service.Impl.ProfileServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/api/profile")
 public class ProfileRestController {
     @Autowired
-    private ProfileService service;
+    private ProfileServiceImpl service;
 
     @ApiOperation("Returns all users")
     @GetMapping
@@ -32,7 +31,7 @@ public class ProfileRestController {
 
     @ApiOperation("Returns user by login")
     @GetMapping("login/{login}")
-    public Profile getProfileByLogin(@PathVariable String login){
+    public Profile getProfileByLogin(@PathVariable String login) {
         return service.getProfileByLogin(login);
     }
 
