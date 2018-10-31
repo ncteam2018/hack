@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "phone")

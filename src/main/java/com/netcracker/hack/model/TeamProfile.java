@@ -13,13 +13,14 @@ import java.util.UUID;
 public class TeamProfile {
     @EmbeddedId
     private Id id = new Id();
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "teamId",
             insertable = false,
             updatable = false)
     private Team team;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "profileId",
             insertable = false,

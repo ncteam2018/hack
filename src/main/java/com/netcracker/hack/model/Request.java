@@ -10,12 +10,13 @@ import java.util.UUID;
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "toId")
+    @Column(name = "receiver")
     private UUID toId;
 
-    @Column(name = "fromId")
+    @Column(name = "sender")
     private UUID fromId;
 
     @Column(name = "message")

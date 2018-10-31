@@ -10,6 +10,7 @@ import java.util.UUID;
 public class CompanyData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private UUID uuid;
 
     @ElementCollection(targetClass = CompanyStatus.class, fetch = FetchType.EAGER)

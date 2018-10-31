@@ -13,7 +13,7 @@ public class Hack {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "uuid")
+    @Column(name = "id")
     private UUID uuid;
 
     @Column(name = "name")
@@ -34,6 +34,9 @@ public class Hack {
 
     @Column(name = "site")
     private String site;
+
+    @Column(name = "auditory")
+    private String auditory;
 
     public Hack() {
     }

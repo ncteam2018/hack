@@ -14,18 +14,18 @@ public class Team {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "uuid")
+    @Column(name = "id")
     private UUID uuid;
 
     @Column(name = "name")
     private String name;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "captain_id", unique = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "captain_id")
     private Profile captain;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "hack_id", unique = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hack_id")
     private Hack hack;
 
     @Column(name = "about")
@@ -48,7 +48,7 @@ public class Team {
     @Column(name = "peopleCount")
     private Integer peopleCount;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "team")
     private Set<TeamProfile> profiles = new HashSet<>();
 
     //TODO viewCount???
