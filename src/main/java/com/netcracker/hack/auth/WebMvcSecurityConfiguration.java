@@ -42,7 +42,7 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login?loginError=fail")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/profile")
                 .and()
 
                 .httpBasic()
