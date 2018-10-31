@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/request")
@@ -28,6 +29,16 @@ public class RequestRestController {
         return service.getRequest(id);
     }
 
+    @ApiOperation("Returns all requests from")
+    @GetMapping("/from/{id}")
+    public List<Request> getAllRequestsFrom(@ApiParam(value = "Author's uuid", required = true) @PathVariable UUID id) {
+        return service.getAllRequestsFrom(id);
+    }
+    @ApiOperation("Returns all requests to")
+    @GetMapping("/to/{id}")
+    public List<Request> getAllRequestsTo(@ApiParam(value = "Resiever's uuid", required = true) @PathVariable UUID id) {
+        return service.getAllRequestsTo(id);
+    }
     @ApiOperation("Deletes request by uuid")
     @DeleteMapping("/{id}")
     public void deleteRequest(@ApiParam(value = "Request's uuid", required = true) @PathVariable int id) {

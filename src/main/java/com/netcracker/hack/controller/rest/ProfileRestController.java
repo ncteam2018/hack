@@ -2,6 +2,7 @@ package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.service.ProfileService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,12 @@ public class ProfileRestController {
     @GetMapping("/{id}")
     public Profile getProfile(@ApiParam(value = "User's uuid", required = true) @PathVariable UUID id) {
         return service.getProfile(id);
+    }
+
+    @ApiOperation("Returns user by login")
+    @GetMapping("login/{login}")
+    public Profile getProfileByLogin(@PathVariable String login){
+        return service.getProfileByLogin(login);
     }
 
     @ApiOperation("Deletes user profile by uuid")

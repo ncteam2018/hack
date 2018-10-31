@@ -25,6 +25,9 @@ public class ProfileService {
         Optional<Profile> profile = repository.findById(id);
         return profile.get();
     }
+    public Profile getProfileByLogin(String login){
+        return repository.findByLogin(login);
+    }
 
     public void deleteProfile(UUID id) {
         repository.deleteById(id);
@@ -46,5 +49,7 @@ public class ProfileService {
         repository.save(profile);
         return ResponseEntity.noContent().build();
     }
+
+
 
 }

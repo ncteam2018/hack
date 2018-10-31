@@ -30,6 +30,10 @@ public class HackService {
         return hack.get();
     }
 
+    public List<Hack> getHackByCompany(UUID id){
+        return repository.findByCompany_Uuid(id);
+    }
+
     public void deleteHack(UUID id) {
         repository.deleteById(id);
     }
@@ -50,4 +54,6 @@ public class HackService {
         repository.save(hack);
         return ResponseEntity.noContent().build();
     }
+
+
 }

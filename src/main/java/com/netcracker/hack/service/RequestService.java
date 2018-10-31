@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RequestService {
@@ -24,6 +25,14 @@ public class RequestService {
         Optional<Request> request = repository.findById(id);
         return request.get();
     }
+
+    public List<Request> getAllRequestsFrom(UUID id){
+        return repository.findAllByFromId(id);
+    }
+    public List<Request> getAllRequestsTo(UUID id){
+        return repository.findAllByToId(id);
+    }
+
 
     public void deleteRequest(int id) {
         repository.deleteById(id);

@@ -23,6 +23,12 @@ public class HackRestController {
         return service.getAllHack();
     }
 
+    @ApiOperation("Returns all hacks by company UUID")
+    @GetMapping("company/{id}")
+    public List<Hack> getHackByCompanyUuid(@ApiParam(value = "Company's uuid", required = true) @PathVariable UUID id){
+        return service.getHackByCompany(id);
+    }
+
     @ApiOperation("Returns hack by uuid")
     @GetMapping("/{id}")
     public Hack getHack(@ApiParam(value = "Hack's uuid", required = true) @PathVariable UUID id) {
