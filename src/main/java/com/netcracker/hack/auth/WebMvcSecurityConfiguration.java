@@ -19,13 +19,8 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	ProfileRepository profileRepository;
 
-	@Autowired
-	PasswordEncoder encoder;
+	PasswordEncoder encoder = new BCryptPasswordEncoder();
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

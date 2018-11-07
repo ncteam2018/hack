@@ -7,6 +7,7 @@ import com.netcracker.hack.service.ProfileService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,14 +21,10 @@ import java.util.UUID;
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
-	private ProfileRepository repository;
-	private PasswordEncoder encoder;
-
 	@Autowired
-	public ProfileServiceImpl(ProfileRepository repository, PasswordEncoder encoder) {
-		this.repository = repository;
-		this.encoder = encoder;
-	}
+	private ProfileRepository repository;
+	private PasswordEncoder encoder = new BCryptPasswordEncoder();;
+
 
 	public List<UserDTO> getAllProfile() {
 		return makeListOfUserDTO((List<Profile>) repository.findAll());
