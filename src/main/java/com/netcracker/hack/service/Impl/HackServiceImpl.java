@@ -24,8 +24,8 @@ public class HackServiceImpl implements HackService {
 
   public Hack getHack(UUID id) {
     Optional<Hack> hack = repository.findById(id);
-    if (hack.isPresent()) {
-      return new Hack();
+    if (!hack.isPresent()) {
+      return new Hack(); // через ошибку
     }
     return hack.get();
   }

@@ -8,15 +8,15 @@ import org.springframework.http.ResponseEntity;
 
 public interface ProfileService {
 
-  public List<UserDTO> getAllProfile();
+  List<UserDTO> getAllProfile();
 
-  public UserDTO getProfile(UUID id);
+  UserDTO getProfile(UUID id);
 
-  public UserDTO getProfileByLogin(String login);
+  UserDTO getProfileByLogin(String login);
 
-  public void deleteProfile(UUID id);
+  void deleteProfile(UUID id);
 
-  public ResponseEntity<Object> createProfile(UserDTO profile);
+  ResponseEntity<Object> createProfile(UserDTO profile);
 
-  public ResponseEntity<Object> updateProfile(Profile profile, UUID id);
+  ResponseEntity<Object> updateProfile(Profile profile, UUID id);
 }
