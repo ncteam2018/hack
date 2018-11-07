@@ -16,9 +16,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/profile")
-public class ProfileRestController {
-	@Autowired
+public class ProfileRestController {	
 	private ProfileServiceImpl service;
+	
+	@Autowired
+	public ProfileRestController(ProfileServiceImpl service) {
+		this.service = service;
+	}
 
 	@ApiOperation("Returns all users")
 	@GetMapping
