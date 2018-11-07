@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class ProfileWebController {
+public class ProfileController {
 
   @RequestMapping(path = "/profile", method = RequestMethod.GET)
   public String getProfilePage(String loginError) {

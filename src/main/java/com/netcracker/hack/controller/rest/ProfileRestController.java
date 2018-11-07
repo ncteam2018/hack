@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/profile")
-public class ProfileController {
+public class ProfileRestController {
 
   private ProfileServiceImpl service;
 
   @Autowired
-  public ProfileController(ProfileServiceImpl service) {
+  public ProfileRestController(ProfileServiceImpl service) {
     this.service = service;
   }
 
