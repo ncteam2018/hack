@@ -42,7 +42,7 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login?loginError=fail")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/profile")
                 .and()
 
                 .httpBasic()
@@ -58,13 +58,13 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-	                .antMatchers("/login", "/mainPage", "/").permitAll()
-	                .antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
-	        		.antMatchers("/v2/api-docs", "/configuration/ui", 
-	        					"/swagger-resources", "/configuration/security", 
-	        					"/swagger-ui.html", "/webjars/**").hasRole("ADMIN")
-	                .antMatchers("/**").authenticated();
-        
+                	.antMatchers("/","/login", "/mainPage").permitAll()
+                	.antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
+                	.antMatchers("/v2/api-docs", "/configuration/ui", 
+        					"/swagger-resources", "/configuration/security", 
+        					"/swagger-ui.html", "/webjars/**").hasRole("ADMIN")
+        			.antMatchers("/**").authenticated();
+                	        
         //HTTPS
         //.and()
         //.requiresChannel();
@@ -72,4 +72,13 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
         //.antMatchers("/loginError").requiresSecure();
 
     }
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		
+		web.ignoring().antMatchers("/js/**", "/css/**");
+	}  
+    
+    
+    
 }
