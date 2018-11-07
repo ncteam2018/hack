@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="header">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">SearchHack</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse profile-navbar" id="navbarNav">
+      <ul class="navbar-nav ml-auto ">
+        <li class="nav-item">
+          <a class="nav-link active" href="/profile">Профиль</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Команды</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Хакатоны</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Уведомления</a>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button type="button" class="btn-sm  btn-dark dropdown-toggle border-0"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+                   class="img-responsive rounded profile-image"/>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#">Настройки</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/logout">Выход </a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</body>
+</html>
