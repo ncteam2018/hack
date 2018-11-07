@@ -1,6 +1,9 @@
 package com.netcracker.hack.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.netcracker.hack.dto.UserDTO;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,137 +14,167 @@ import java.util.UUID;
 @Entity
 @Table(name = "profile")
 public class Profile {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id")
-    private UUID uuid;
+	@Id
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "uuid")
+	private UUID uuid;
 
-    @Column(name = "login", length = 32, unique = true)
-    private String login;
+	@Column(name = "login", length = 32, unique = true)
+	private String login;
 
-    @Column(name = "password", length = 60)
-    private String password;
+	@Column(name = "password", length = 60)
+	private String password;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "profile_role", joinColumns = @JoinColumn(name = "profile_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+	@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+	@CollectionTable(name = "profile_role", joinColumns = @JoinColumn(name = "profile_id"))
+	@Enumerated(EnumType.STRING)
+	private Set<Role> roles;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "userData_id", unique = true)
-    private UserData userData;
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@JoinColumn(name = "userData_id", unique = true)
+	private UserData userData;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "contact_id", unique = true)
-    private Contact contact;
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@JoinColumn(name = "contact_id", unique = true)
+	private Contact contact;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "education_id", unique = true)
-    private Education education;
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@JoinColumn(name = "education_id", unique = true)
+	private Education education;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "career_id", unique = true)
-    private Career career;
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@JoinColumn(name = "career_id", unique = true)
+	private Career career;
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
-    private Set<TeamProfile> teams = new HashSet<>();
+	@OneToMany(mappedBy = "profile")
+	private Set<TeamProfile> teams = new HashSet<>();
 
-    public Profile() {
-    }
+	public Profile() {
+	}
 
-    public UUID getUuid() {
-        return uuid;
-    }
+	public Profile(UserDTO user, PasswordEncoder encoder) {
+		this.login = user.getLogin();
+		this.password = encoder.encode(user.getPassword());
+		this.roles = user.getRoles();
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
+		this.userData = new UserData();
+		this.userData.setAbout(user.getAbout());
+		this.userData.setActive(user.getActive());
+		this.userData.setCity(user.getCity());
+		this.userData.setDateOfBirth(user.getDateOfBirth());
+		this.userData.setfName(user.getfName());
+		this.userData.setGender(user.getGender());
+		this.userData.setlName(user.getlName());
+		this.userData.setmName(user.getmName());
 
-    public String getLogin() {
-        return login;
-    }
+		this.contact = new Contact();
+		this.contact.setEmail(user.getEmail());
+		this.contact.setPhone(user.getPhone());
+		this.contact.setSkype(user.getSkype());
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+		this.education = new Education();
+		this.education.setCourse(user.getCourse());
+		this.education.setFaculty(user.getFaculty());
+		this.education.setInstitution(user.getInstitution());
+		this.education.setLevel(user.getLevel());
 
-    public String getPassword() {
-        return password;
-    }
+		this.career = new Career();
+		this.career.setPlaceOfWork(user.getPlaceOfWork());
+		this.career.setPosition(user.getPosition());
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+		this.teams = null;
+	}
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+	public UUID getUuid() {
+		return uuid;
+	}
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
+	}
 
-    public UserData getUserData() {
-        return userData;
-    }
+	public String getLogin() {
+		return login;
+	}
 
-    public void setUserData(UserData userData) {
-        this.userData = userData;
-    }
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
-    public Contact getContact() {
-        return contact;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public Education getEducation() {
-        return education;
-    }
+	public Set<Role> getRoles() {
+		return roles;
+	}
 
-    public void setEducation(Education education) {
-        this.education = education;
-    }
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
-    public Career getCareer() {
-        return career;
-    }
+	public UserData getUserData() {
+		return userData;
+	}
 
-    public void setCareer(Career career) {
-        this.career = career;
-    }
+	public void setUserData(UserData userData) {
+		this.userData = userData;
+	}
 
-    public Set<TeamProfile> getTeams() {
-        return teams;
-    }
+	public Contact getContact() {
+		return contact;
+	}
 
-    public void setTeams(Set<TeamProfile> teams) {
-        this.teams = teams;
-    }
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Profile profile = (Profile) o;
-        return Objects.equals(uuid, profile.uuid) &&
-                Objects.equals(login, profile.login) &&
-                Objects.equals(password, profile.password) &&
-                Objects.equals(roles, profile.roles) &&
-                Objects.equals(userData, profile.userData) &&
-                Objects.equals(contact, profile.contact) &&
-                Objects.equals(education, profile.education) &&
-                Objects.equals(teams, profile.teams) &&
-                Objects.equals(career, profile.career);
-    }
+	public Education getEducation() {
+		return education;
+	}
 
-    @Override
-    public int hashCode() {
+	public void setEducation(Education education) {
+		this.education = education;
+	}
 
-        return Objects.hash(uuid, login, password, roles, userData, contact, education, teams, career);
-    }
+	public Career getCareer() {
+		return career;
+	}
+
+	public void setCareer(Career career) {
+		this.career = career;
+	}
+
+	public Set<TeamProfile> getTeams() {
+		return teams;
+	}
+
+	public void setTeams(Set<TeamProfile> teams) {
+		this.teams = teams;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Profile profile = (Profile) o;
+		return Objects.equals(uuid, profile.uuid) && Objects.equals(login, profile.login)
+				&& Objects.equals(password, profile.password) && Objects.equals(roles, profile.roles)
+				&& Objects.equals(userData, profile.userData) && Objects.equals(contact, profile.contact)
+				&& Objects.equals(education, profile.education) && Objects.equals(teams, profile.teams)
+				&& Objects.equals(career, profile.career);
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(uuid, login, password, roles, userData, contact, education, teams, career);
+	}
 }
-

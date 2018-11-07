@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<script src="/js/registration.js?refresh"></script>
+<title>Registration</title>
+</head>
+<body style="background-color: gray;">
+	<!-- BEGIN: Главное меню -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">SearchHack</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNav" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse " id="navbarNav">
+			<ul class="navbar-nav ml-auto ">
+				<li class="nav-item"><a class="nav-link" href="/">Главная<span
+						class="sr-only">(current)</span></a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Хакатоны</a>
+				</li>
+				<li class="nav-item active"><a class="nav-link" href="/login">Войти</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<!--  END: Главное меню -->
+
+
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<div class="col-md-12 ">
+
+			<form class="form card row" name="loginForm">
+				<div class="card-header text-center bg-dark text-light">Регистрация</div>
+				<div class="card-body col-md-12 "
+					style="padding-left: 10%; padding-right: 10%;">
+
+					<div class="form-group row">
+						<label for="username" class="col-md-2 col-form-label form-right">
+							Username * </label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="username"
+								id="username" placeholder="Enter username" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="password" class="col-md-2 col-form-label form-right">
+							Password * </label>
+						<div class="col-md-5">
+							<input type="password" class="form-control " name="password"
+								id="password" placeholder="Enter password" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-md-2 col-form-label form-right" for="email">Email
+							*</label>
+						<div class="col-md-5">
+							<input type="email" class="form-control" name="email" id="email"
+								placeholder="name@example.com">
+						</div>
+					</div>
+
+					<hr />
+
+
+
+
+					<div class="form-group row">
+						<label for="lname" class="col-md-2 col-form-label form-right">
+							Фамилия </label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="lname" id="lname"
+								placeholder="Введите фамилию" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="fname" class="col-md-2 col-form-label form-right">
+							Имя </label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="fname" id="fname"
+								placeholder="Введите имя" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="mname" class="col-md-2 col-form-label form-right">
+							Отчество </label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="mname" id="mname"
+								placeholder="Введите отчество" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="gender" class="col-md-3 col-form-label form-right">
+							Пол </label>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="gender"
+								id="gender1" value="M"> <label class="form-check-label"
+								for="gender1">М</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="gender"
+								id="gender2" value="W"> <label class="form-check-label"
+								for="gender2">Ж</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="dateOfBirth"
+							class="col-md-2 col-form-label form-right"> Дата рождения
+						</label>
+						<div class="col-md-5">
+							<input type="date" class="form-control " name="dateOfBirth"
+								id="dateOfBirth" placeholder="Введите дату рождения" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="city" class="col-md-2 col-form-label form-right">
+							Город </label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="city" id="city"
+								placeholder="Москва" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 col-form-label form-right" for="about">О
+							себе</label>
+						<div class="col-md-7">
+							<textarea class="form-control" name="about" id="about" rows="3"></textarea>
+						</div>
+					</div>
+
+					<hr />
+
+
+					<div class="form-group row">
+						<label for="phone" class="col-md-2 col-form-label form-right">
+							Телефон </label>
+						<div class="col-md-5">
+							<input type="tel" class="form-control " name="phone" id="phone"
+								placeholder="89124390529" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="skype" class="col-md-2 col-form-label form-right">
+							Skype </label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="skype" id="skype"
+								placeholder="FakeSkype122" />
+						</div>
+					</div>
+
+					<hr />
+
+					<div class="form-group row">
+						<label for="university" class="col-md-2 col-form-label form-right">
+							ВУЗ </label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="university"
+								id="university" placeholder="Введите название" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="faculty" class="col-md-2 col-form-label form-right">
+							Факультет </label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="faculty"
+								id="faculty" placeholder="Введите название" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 col-form-label form-right" for="course">Курс</label>
+						<div class="col-md-2">
+							<select class="form-control" id="course">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+								<option>6</option>
+							</select>
+						</div>
+					</div>
+
+					<hr />
+					<div class="form-group row">
+						<label for="placeOfWork"
+							class="col-md-2 col-form-label form-right"> Место работы
+						</label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="placeOfWork"
+								id="placeOfWork" placeholder="Введите название" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="position" class="col-md-2 col-form-label form-right">
+							Позиция </label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="position"
+								id="position" placeholder="Введите название" />
+						</div>
+					</div>
+
+					<hr />
+
+					<button onclick="return createUserProfile()"
+						class="btn bg-dark text-light">Подтвердить</button>
+					<a href="/login" class="btn bg-dark text-light"> Отмена</a>
+				</div>
+			</form>
+		</div>
+
+
+		<br> <br> <br> <br> <br> <br>
+
+		<!-- BEGIN: Footer -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom">
+			<div class=" navbar-collapse " id="navbarNav">
+				<ul class="navbar-nav ml-auto ">
+					<li class="nav-item"><a class="nav-link" href="#">О нас</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Связь</a></li>
+				</ul>
+			</div>
+		</nav>
+		<!--  END: Footer -->
+
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+			integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+			crossorigin="anonymous"></script>
+</body>
+</body>
+</html>

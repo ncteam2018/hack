@@ -1,0 +1,80 @@
+function getDefaultHeaders() {
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    return headers;
+}
+
+function createUserProfile() {
+
+	var userData = new function() {
+		  this.login = document.getElementById("username").value;
+		  this.password=document.getElementById("password").value;
+		  this.email=document.getElementById("email").value;
+		  this.roles=["USER"];
+		  
+		  this.about=document.getElementById("about").value;
+		  this.active=true;
+		  this.city=document.getElementById("city").value;
+		  this.dateOfBirth=document.getElementById("dateOfBirth").value;
+		  this.fName=document.getElementById("fname").value;
+		  this.mName=document.getElementById("mname").value;
+		  this.lName=document.getElementById("lname").value;  
+		  
+		  if ($("input[name='gender']:checked").val() != 'M' )
+			  this.gender= [ "MAN"];
+		  else
+			  this.gender= [ "MAN"];
+		  this.level= [ "PUPIL"] ;
+		  
+		  this.faculty=document.getElementById("faculty").value;
+		  this.institution=document.getElementById("university").value;
+		  this.course=document.getElementById("course").value;
+		  
+		  this.placeOfWork=document.getElementById("placeOfWork").value;
+		  this.position=document.getElementById("position").value;
+		  
+		  this.phone=document.getElementById("phone").value;
+		  this.skype=document.getElementById("skype").value;
+	  
+		};
+	
+	fetch("api/profile", {
+		 method: 'POST',
+	     headers: getDefaultHeaders(),
+	     body: JSON.stringify(userData),
+	     credentials: "same-origin"
+	}).catch(function(err) {  
+	    console.log('Ошибка регистрации, исправьте данные! - ', err);  
+	  })
+	.then(function (response) {
+		
+		if(response.status != 201){
+			$(function (){
+				
+				   $('body').prepend(' <div id="myModalFail" class="modal fade" tabindex="-1"><div class="modal-dialog modal-lg"> <div class="modal-content"> <div class="modal-header"> <h4 class="modal-title">Регистрация</h4></div><div class="modal-body">При регистрации произошла ошибка!</div><div class="modal-footer"><button class="btn btn-danger" data-dismiss="modal">Ок</button></div></div></div></div>');
+				   $('#myModalFail').modal("show");
+
+				});	
+		}else{
+			$(function (){
+				
+				   $('body').prepend(' <div id="myModal" class="modal fade" tabindex="-1"><div class="modal-dialog modal-lg"> <div class="modal-content"> <div class="modal-header"> <h4 class="modal-title">Регистрация</h4></div><div class="modal-body">Пользователь успешно создан!</div><div class="modal-footer"><button class="btn btn-success" data-dismiss="modal">Войти</button></div></div></div></div>');
+				   $('#myModal').modal("show");
+				   $('#myModal').on('hidden.bs.modal', function (event) {
+					   
+					   window.location.replace("/profile");
+				   });
+				});	
+			
+		}
+	});
+	
+	 return false;
+}	
+
+
+
+
+
+
+
