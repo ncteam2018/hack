@@ -19,11 +19,15 @@ import java.util.UUID;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
-	@Autowired
+
 	private ProfileRepository repository;
+	private PasswordEncoder encoder;
 
 	@Autowired
-	PasswordEncoder encoder;
+	public ProfileServiceImpl(ProfileRepository repository, PasswordEncoder encoder) {
+		this.repository = repository;
+		this.encoder = encoder;
+	}
 
 	public List<UserDTO> getAllProfile() {
 		return makeListOfUserDTO((List<Profile>) repository.findAll());
