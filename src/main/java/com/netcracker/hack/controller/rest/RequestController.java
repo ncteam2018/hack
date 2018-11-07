@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/request")
-public class RequestRestController {
+public class RequestController {
 
   @Autowired
   private RequestServiceImpl service;

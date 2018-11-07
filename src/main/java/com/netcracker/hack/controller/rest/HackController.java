@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/hack")
-public class HackRestController {
+public class HackController {
 
   @Autowired
   private HackServiceImpl service;

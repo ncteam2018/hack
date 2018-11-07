@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/team")
-public class TeamRestController {
+public class TeamController {
 
   @Autowired
   private TeamServiceImpl service;
