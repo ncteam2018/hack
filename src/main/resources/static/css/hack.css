@@ -1,0 +1,40 @@
+.profile-navbar {
+  padding-right: 5%;
+}
+
+.profile-image {
+  width: 30px;
+}
+
+.profile-avatar {
+  width: 200px;
+}
+
+.profile-card {
+  padding: 10px;
+}
+
+.profile-nick {
+  font-size: 25px;
+}
+.profile-info-top{
+  padding-top: 20px;
+}
+.profile-info-left{
+  padding-left: 15px;
+}
+.profile-info-right{
+  padding-right: 15px;
+}
+
+.login-error {
+  color: red;
+}
+
+.login-col {
+  padding-left: 20%;
+}
+
+.reg-back {
+  background-color: gray;
+}

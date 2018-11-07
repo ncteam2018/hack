@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class RegistrationController {
 
-	@RequestMapping(path = "/registration", method = RequestMethod.GET)
-	public String getProfilePage(String loginError) {
+  @RequestMapping(path = "/registration", method = RequestMethod.GET)
+  public String getProfilePage(String loginError) {
 
-		return "open/registration";
-	}
+    return "open/registration";
+  }
 }

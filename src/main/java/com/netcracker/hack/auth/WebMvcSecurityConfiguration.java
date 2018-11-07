@@ -2,7 +2,6 @@ package com.netcracker.hack.auth;
 
 import com.netcracker.hack.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,45 +15,50 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	ProfileRepository profileRepository;
+  @Autowired
+  ProfileRepository profileRepository;
 
-	PasswordEncoder encoder = new BCryptPasswordEncoder();
+  PasswordEncoder encoder = new BCryptPasswordEncoder();
 
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		auth.userDetailsService(new UserAuthenticationService(profileRepository)).passwordEncoder(encoder);
-	}
+    auth.userDetailsService(new UserAuthenticationService(profileRepository))
+        .passwordEncoder(encoder);
+  }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
 
-		http.formLogin().loginPage("/login").failureUrl("/login?loginError=fail").defaultSuccessUrl("/profile").and()
+    http.formLogin().loginPage("/login").failureUrl("/login?loginError=fail")
+        .defaultSuccessUrl("/profile").and()
 
-				.httpBasic().and().csrf().disable()
+        .httpBasic().and().csrf().disable()
 
-				.rememberMe().key("shvahyvadlydvhy").and().logout().logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+        .rememberMe().key("shvahyvadlydvhy").and().logout().logoutSuccessUrl("/")
+        .deleteCookies("JSESSIONID")
 
-				.and().authorizeRequests().antMatchers("/", "/login", "/mainPage", "/registration").permitAll()
-				.antMatchers("/api/profile").permitAll().antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
-				.antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",
-						"/swagger-ui.html", "/webjars/**").hasRole("ADMIN")
-				.antMatchers("/**").authenticated();
+        .and().authorizeRequests().antMatchers("/", "/login", "/mainPage", "/registration")
+        .permitAll()
+        .antMatchers("/api/profile").permitAll().antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
+        .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
+            "/configuration/security",
+            "/swagger-ui.html", "/webjars/**").hasRole("ADMIN")
+        .antMatchers("/**").authenticated();
 
-		// HTTPS
-		// .and()
-		// .requiresChannel();
-		// .antMatchers("/login").requiresSecure()
-		// .antMatchers("/loginError").requiresSecure();
+    // HTTPS
+    // .and()
+    // .requiresChannel();
+    // .antMatchers("/login").requiresSecure()
+    // .antMatchers("/loginError").requiresSecure();
 
-	}
+  }
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
+  @Override
+  public void configure(WebSecurity web) throws Exception {
 
-		web.ignoring().antMatchers("/js/**", "/css/**");
-	}
+    web.ignoring().antMatchers("/js/**", "/css/**");
+  }
 
 }

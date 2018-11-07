@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class MainController {
-    @GetMapping
 
-    public String getMainPage(){
-        return "open/mainPage";
-    }
+  @GetMapping
+  public String getMainPage() {
+    return "index";
+  }
 }

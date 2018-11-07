@@ -1,90 +1,106 @@
 package com.netcracker.hack.model;
 
-import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "request")
 public class Request {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Integer id;
 
-    @Column(name = "receiver")
-    private UUID toId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "id")
+  private Integer id;
 
-    @Column(name = "sender")
-    private UUID fromId;
+  @Column(name = "receiver")
+  private UUID toId;
 
-    @Column(name = "message")
-    private String message;
+  @Column(name = "sender")
+  private UUID fromId;
 
-    @ElementCollection(targetClass = RequestStatus.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "request_status", joinColumns = @JoinColumn(name = "requestStatus_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<RequestStatus> status;
+  @Column(name = "message")
+  private String message;
 
-    public Request() {
+  @ElementCollection(targetClass = RequestStatus.class, fetch = FetchType.EAGER)
+  @CollectionTable(name = "request_status", joinColumns = @JoinColumn(name = "requestStatus_id"))
+  @Enumerated(EnumType.STRING)
+  private Set<RequestStatus> status;
+
+  public Request() {
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public UUID getToId() {
+    return toId;
+  }
+
+  public void setToId(UUID toId) {
+    this.toId = toId;
+  }
+
+  public UUID getFromId() {
+    return fromId;
+  }
+
+  public void setFromId(UUID fromId) {
+    this.fromId = fromId;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  public Set<RequestStatus> getStatus() {
+    return status;
+  }
+
+  public void setStatus(Set<RequestStatus> status) {
+    this.status = status;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public Integer getId() {
-        return id;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    Request request = (Request) o;
+    return Objects.equals(id, request.id) &&
+        Objects.equals(toId, request.toId) &&
+        Objects.equals(fromId, request.fromId) &&
+        Objects.equals(message, request.message) &&
+        status == request.status;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  @Override
+  public int hashCode() {
 
-    public UUID getToId() {
-        return toId;
-    }
-
-    public void setToId(UUID toId) {
-        this.toId = toId;
-    }
-
-    public UUID getFromId() {
-        return fromId;
-    }
-
-    public void setFromId(UUID fromId) {
-        this.fromId = fromId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Set<RequestStatus> getStatus() {
-        return status;
-    }
-
-    public void setStatus(Set<RequestStatus> status) {
-        this.status = status;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Request request = (Request) o;
-        return Objects.equals(id, request.id) &&
-                Objects.equals(toId, request.toId) &&
-                Objects.equals(fromId, request.fromId) &&
-                Objects.equals(message, request.message) &&
-                status == request.status;
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, toId, fromId, message, status);
-    }
+    return Objects.hash(id, toId, fromId, message, status);
+  }
 }
