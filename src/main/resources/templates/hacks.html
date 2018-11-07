@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Hackathon</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/hack.css}" href="/static/css/hack.css">
+
+</head>
+<body>
+	<div th:replace="fragments/profile_header :: header"/>
+
+	<br>
+	<br>
+
+
+	<div class="container-fluid  row">
+		<div class="col-lg-3 border-right">
+
+			<h1>Фильтры</h1>
+			<div class="tag-card ">
+				<div class="card  ">
+			          <div class="card-header bg-dark text-light font-weight-bold">Интересы</div>
+			          <div id="career" class="card-body">
+			            <div class="row">
+			                <div  class=" tag-padding"> <a href="#" class="btn bg-dark text-light"  > Web</a>  </div>
+			               <div  class=" tag-padding" > <a href="#" class="btn bg-dark text-light"  > Наука</a>  </div>
+			               <div class="tag-padding"> <a href="#" class="btn bg-dark text-light"  > Физика</a>  </div>
+			            </div>
+			          </div>
+			      </div>
+			</div>
+			<div class="tag-card ">
+ 				 <div class="card">
+		          <div class="card-header bg-dark text-light font-weight-bold">Умения</div>
+		          <div id="career" class="card-body">
+		            <div class="row">
+		               <div  class=" tag-padding"> <button onclick="return addTag()" class="btn bg-dark text-light test" id="java"  > Java</button>  </div>
+		               <div  class=" tag-padding" > <a href="#" class="btn bg-dark text-light"  > Python</a>  </div>
+		               <div class="tag-padding"> <a href="#" class="btn bg-dark text-light"  > C++</a>  </div>
+		               <div class="tag-padding"> <a href="#" class="btn bg-dark text-light"  > C#</a>  </div>
+		               <div  class=" tag-padding"> <a href="#" class="btn bg-dark text-light"  > JS</a>  </div>   
+		                <div  class=" tag-padding"> <a href="#" class="btn bg-dark text-light"  > Android</a>  </div> 
+		            </div>
+		          </div>
+		        </div>
+		     </div>
+		     <div class="tag-card ">
+		         <div class="card">
+		          <div class="card-header bg-dark text-light font-weight-bold">Место проведения</div>
+		          <div id="career" class="card-body">
+		            <div class="row">
+		                <div  class=" tag-padding"> <a href="#" class="btn bg-dark text-light"  > Москва</a>  </div>
+		               <div  class=" tag-padding" > <a href="#" class="btn bg-dark text-light"  > Санкт-Петербург</a>  </div>
+		               <div class="tag-padding"> <a href="#" class="btn bg-dark text-light"  > Омск</a>  </div>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+
+		        <div class="card">
+		          <div class="card-header bg-dark text-light font-weight-bold">Компания</div>
+		          <div id="career" class="card-body">
+		            <div>
+		            <form class="form  row" name="loginForm">
+						<div class=" col-md-12 "
+							style="padding-left: 10%; padding-right: 10%;">
+							<div class="form-group">
+								<div class="row">
+									<input type="text" class="form-control col-md-8" name="username"
+										id="username" placeholder="Название компании" />
+										
+										<a href="/login" class="btn bg-dark text-light col-md-4"> Добавить</a>
+								</div>
+							</div>
+						</div>
+					</form>
+		            
+		            
+		            </div>
+		          </div>
+		        </div>
+
+
+
+
+		</div>
+		<div class="col">
+
+			<form class="form  row" name="loginForm">
+				<div class=" col-md-12 "
+					style="padding-left: 10%; padding-right: 10%;">
+					<div class="form-group row">
+						<div class="col-md-5">
+							 <div class="card">
+							 	<div id="career" class="card-body">
+						          
+						          </div>
+							 </div>
+						</div>
+						
+						<div class="input-group mb-3 col-md-3">
+						  <div class="input-group-prepend">
+						    <label class="input-group-text" for="inputGroupSelect01">Sort by</label>
+						  </div>
+						  <select class="custom-select" id="inputGroupSelect01">
+						    <option selected>По имени UP</option>
+						    <option value="1">По имени down</option>
+						    <option value="2">По дате up</option>
+						    <option value="3">По дате down</option>
+						  </select>
+						</div>
+						
+					</div>
+
+					<button onclick="return createUserProfile()"
+						class="btn bg-dark text-light">Поиск</button>
+					<a href="#" class="btn bg-dark text-light"> Очистить</a>
+				</div>
+			</form>
+			<hr />
+			
+			<!-- Начало блока -->
+			<div class="container card profile-card">
+				<div class=" row">
+
+
+					<div class="userInfo  col-md-8 row">
+						<div class="avatar col-md-4">
+							<img
+								src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+								class="img-responsive rounded float-left profile-avatar"
+								alt="Avatar">
+						</div>
+
+						<div class="userData col-md-8">
+							<div>
+								<div id="hackName"
+									class=" text-center font-weight-bold profile-nick">Хакатон
+									в Москве</div>
+							</div>
+							<br>
+							<div>
+
+								<div class="contacts row">
+									<br>
+									<div class="text-left col-md-8">
+										<label for="place " class="font-weight-bold">Описание
+										</label>
+										<div id="place" class="font-italic">оч интереснооч
+											интереснооч интереснооч интересно</div>
+									</div>
+
+									<div class="text-left col-md-4">
+										<label for="place " class="font-weight-bold">Расположение
+										</label>
+										<div id="place" class="font-italic">Москва 12</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<!-- Конец блока -->
+			
+			<!-- Начало блока -->
+			<div class="container card profile-card">
+				<div class=" row">
+
+
+					<div class="userInfo  col-md-8 row">
+						<div class="avatar col-md-4">
+							<img
+								src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+								class="img-responsive rounded float-left profile-avatar"
+								alt="Avatar">
+						</div>
+
+						<div class="userData col-md-8">
+							<div>
+								<div id="hackName"
+									class=" text-center font-weight-bold profile-nick">Хакатон
+									в Москве</div>
+							</div>
+							<br>
+							<div>
+
+								<div class="contacts row">
+									<br>
+									<div class="text-left col-md-8">
+										<label for="place " class="font-weight-bold">Описание
+										</label>
+										<div id="place" class="font-italic">оч интереснооч
+											интереснооч интереснооч интересно</div>
+									</div>
+
+									<div class="text-left col-md-4">
+										<label for="place " class="font-weight-bold">Расположение
+										</label>
+										<div id="place" class="font-italic">Москва 12</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<!-- Конец блока -->
+			<!-- Начало блока -->
+			<div class="container card profile-card">
+				<div class=" row">
+
+
+					<div class="userInfo  col-md-8 row">
+						<div class="avatar col-md-4">
+							<img
+								src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+								class="img-responsive rounded float-left profile-avatar"
+								alt="Avatar">
+						</div>
+
+						<div class="userData col-md-8">
+							<div>
+								<div id="hackName"
+									class=" text-center font-weight-bold profile-nick">Хакатон
+									в Москве</div>
+							</div>
+							<br>
+							<div>
+
+								<div class="contacts row">
+									<br>
+									<div class="text-left col-md-8">
+										<label for="place " class="font-weight-bold">Описание
+										</label>
+										<div id="place" class="font-italic">оч интереснооч
+											интереснооч интереснооч интересно</div>
+									</div>
+
+									<div class="text-left col-md-4">
+										<label for="place " class="font-weight-bold">Расположение
+										</label>
+										<div id="place" class="font-italic">Москва 12</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<!-- Конец блока -->
+			<!-- Начало блока -->
+			<div class="container card profile-card">
+				<div class=" row">
+
+
+					<div class="userInfo  col-md-8 row">
+						<div class="avatar col-md-4">
+							<img
+								src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+								class="img-responsive rounded float-left profile-avatar"
+								alt="Avatar">
+						</div>
+
+						<div class="userData col-md-8">
+							<div>
+								<div id="hackName"
+									class=" text-center font-weight-bold profile-nick">Хакатон
+									в Москве</div>
+							</div>
+							<br>
+							<div>
+
+								<div class="contacts row">
+									<br>
+									<div class="text-left col-md-8">
+										<label for="place " class="font-weight-bold">Описание
+										</label>
+										<div id="place" class="font-italic">оч интереснооч
+											интереснооч интереснооч интересно</div>
+									</div>
+
+									<div class="text-left col-md-4">
+										<label for="place " class="font-weight-bold">Расположение
+										</label>
+										<div id="place" class="font-italic">Москва 12</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<!-- Конец блока -->
+			
+			
+			<br>
+			<br>
+			<br>
+			<br>
+
+			<nav aria-label="Page navigation example">
+				<ul class="pagination ">
+					<li class="page-item"><a class="page-link bg-dark text-light"
+						href="#">Previous</a></li>
+					<li class="page-item"><a class="page-link bg-dark text-light"
+						href="#">1</a></li>
+					<li class="page-item"><a class="page-link bg-dark text-light"
+						href="#">2</a></li>
+					<li class="page-item"><a class="page-link bg-dark text-light"
+						href="#">3</a></li>
+					<li class="page-item"><a class="page-link bg-dark text-light"
+						href="#">Next</a></li>
+				</ul>
+			</nav>
+			<br>
+			<br>
+
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<div th:replace="fragments/footer :: footer" />
+		<!-- Optional JavaScript -->
+		<script src="/js/hack.js?refresh"></script>
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+			integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+			crossorigin="anonymous"></script>
+</body>
+</html>
