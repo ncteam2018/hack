@@ -20,12 +20,12 @@ import java.util.UUID;
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
+	@Autowired
 	private ProfileRepository repository;
 	private PasswordEncoder encoder;
 
 	@Autowired
-	public ProfileServiceImpl(ProfileRepository repository, PasswordEncoder encoder) {
-		this.repository = repository;
+	public ProfileServiceImpl( PasswordEncoder encoder) {
 		this.encoder = encoder;
 	}
 
