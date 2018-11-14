@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses=TagMapper.class)
 public interface HackMapper {
     HackMapper INSTANCE = Mappers.getMapper(HackMapper.class);
 

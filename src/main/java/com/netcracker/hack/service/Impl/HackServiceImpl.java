@@ -52,8 +52,8 @@ public class HackServiceImpl implements HackService {
     }
 
 
-    return new HackDTO(hack.get());
-//    return HackMapper.INSTANCE.hackToHackDTO( hack.get() );
+//    return new HackDTO(hack.get());
+    return HackMapper.INSTANCE.hackToHackDTO( hack.get() );
   }
 
   public List<Hack> getHackByCompany(UUID id) {
@@ -80,8 +80,8 @@ public class HackServiceImpl implements HackService {
     }
 
     hackDTO.setTags(TagConverter.convertTo(tags));
-    Hack savedHack = hackRepository.save(new Hack(hackDTO));
-//    Hack savedHack = hackRepository.save(HackMapper.INSTANCE.hackDTOToHack(hackDTO));
+//    Hack savedHack = hackRepository.save(new Hack(hackDTO));
+    Hack savedHack = hackRepository.save(HackMapper.INSTANCE.hackDTOToHack(hackDTO));
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(savedHack.getUuid()).toUri();
@@ -106,8 +106,8 @@ public class HackServiceImpl implements HackService {
     ArrayList<HackDTO> hackDTOList = new ArrayList<>();
 
     hacks.forEach((Hack hack) -> {
-      hackDTOList.add(new HackDTO(hack));
-//      hackDTOList.add(HackMapper.INSTANCE.hackToHackDTO(hack));
+//      hackDTOList.add(new HackDTO(hack));
+      hackDTOList.add(HackMapper.INSTANCE.hackToHackDTO(hack));
     });
 
     return hackDTOList;
