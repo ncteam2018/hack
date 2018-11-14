@@ -38,3 +38,29 @@
 .reg-back {
   background-color: gray;
 }
+
+.tag-padding {
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.tag-card {
+  padding-bottom: 10px;
+}
+
+
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    width: 100%;
+    margin-left: 15%;
+    margin-top: 5%;
+    margin-right: 10%;
+  }
+  .modal-content{
+    width: 1000px;
+  } 
+  
+}
+
+

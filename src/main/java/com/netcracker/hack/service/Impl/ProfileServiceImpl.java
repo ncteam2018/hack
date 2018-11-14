@@ -29,6 +29,10 @@ public class ProfileServiceImpl implements ProfileService {
 
   public UserDTO getProfile(UUID id) {
     Optional<Profile> profile = repository.findById(id);
+
+    if (!profile.isPresent()) {
+      return new UserDTO(); // TODO: Должно возвращать ошибку
+    }
     return new UserDTO(profile.get());
   }
 

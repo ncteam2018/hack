@@ -16,7 +16,7 @@ function loadUserProfile() {
   }).then(function (profile) {
 
     $("#nickname").html(profile.login);
-    $("#fio").html(profile.lName + " " + profile.mName + " " + profile.fName);
+    $("#fio").html(profile.lastName + " " + profile.firstName + " " + profile.middleName);
     $("#gender").html(profile.gender[0]);
     $("#birth").html(profile.dateOfBirth);
     $("#place").html(profile.city);
@@ -29,9 +29,6 @@ function loadUserProfile() {
     $("#course").html(profile.course);
     $("#placeOfWork").html(profile.placeOfWork);
     $("#position").html(profile.position);
-
-    //var profile = JSON.stringify(profile, null, 2);
-    //alert(profile);
 
   });
 

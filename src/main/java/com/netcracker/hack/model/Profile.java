@@ -62,8 +62,7 @@ public class Profile {
   @OneToMany(mappedBy = "profile")
   private Set<TeamProfile> teams = new HashSet<>();
 
-  public Profile() {
-  }
+  public Profile() {}
 
   public Profile(UserDTO user, PasswordEncoder encoder) {
     this.login = user.getLogin();
@@ -75,10 +74,10 @@ public class Profile {
     this.userData.setActive(user.getActive());
     this.userData.setCity(user.getCity());
     this.userData.setDateOfBirth(user.getDateOfBirth());
-    this.userData.setfName(user.getfName());
+    this.userData.setfName(user.getFirstName());
     this.userData.setGender(user.getGender());
-    this.userData.setlName(user.getlName());
-    this.userData.setmName(user.getmName());
+    this.userData.setlName(user.getLastName());
+    this.userData.setmName(user.getMiddleName());
 
     this.contact = new Contact();
     this.contact.setEmail(user.getEmail());

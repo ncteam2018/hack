@@ -5,16 +5,20 @@ import com.netcracker.hack.model.Gender;
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.model.Role;
 import java.util.Set;
+import java.util.UUID;
 
 public class UserDTO {
 
+  private UUID uuid;
   private String login;
   private String password;
   private Set<Role> roles;
 
-  private String fName;
-  private String mName;
-  private String lName;
+  private String firstName;
+  private String middleName;
+  private String lastName;
+
+  // TODO: Почему пол set?
   private Set<Gender> gender;
   private String city;
   private String dateOfBirth;
@@ -34,14 +38,15 @@ public class UserDTO {
   private String position;
 
   public UserDTO(Profile profile) {
+    this.uuid = profile.getUuid();
     this.login = profile.getLogin();
     this.password = "";
     this.roles = profile.getRoles();
 
     if (profile.getUserData() != null) {
-      this.fName = profile.getUserData().getfName();
-      this.mName = profile.getUserData().getmName();
-      this.lName = profile.getUserData().getlName();
+      this.firstName = profile.getUserData().getfName();
+      this.middleName = profile.getUserData().getmName();
+      this.lastName = profile.getUserData().getlName();
       this.gender = profile.getUserData().getGender();
       this.city = profile.getUserData().getCity();
       this.dateOfBirth = profile.getUserData().getDateOfBirth();
@@ -69,7 +74,14 @@ public class UserDTO {
 
   }
 
-  public UserDTO() {
+  public UserDTO() {}
+
+  public UUID getUuid() {
+    return uuid;
+  }
+
+  public void setUuid(UUID uuid) {
+    this.uuid = uuid;
   }
 
   public String getLogin() {
@@ -96,28 +108,28 @@ public class UserDTO {
     this.roles = roles;
   }
 
-  public String getfName() {
-    return fName;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public void setfName(String fName) {
-    this.fName = fName;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
   }
 
-  public String getmName() {
-    return mName;
+  public String getMiddleName() {
+    return middleName;
   }
 
-  public void setmName(String mName) {
-    this.mName = mName;
+  public void setMiddleName(String middleName) {
+    this.middleName = middleName;
   }
 
-  public String getlName() {
-    return lName;
+  public String getLastName() {
+    return lastName;
   }
 
-  public void setlName(String lName) {
-    this.lName = lName;
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 
   public Set<Gender> getGender() {
@@ -233,186 +245,29 @@ public class UserDTO {
   }
 
   @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((about == null) ? 0 : about.hashCode());
-    result = prime * result + ((active == null) ? 0 : active.hashCode());
-    result = prime * result + ((city == null) ? 0 : city.hashCode());
-    result = prime * result + ((course == null) ? 0 : course.hashCode());
-    result = prime * result + ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
-    result = prime * result + ((email == null) ? 0 : email.hashCode());
-    result = prime * result + ((fName == null) ? 0 : fName.hashCode());
-    result = prime * result + ((faculty == null) ? 0 : faculty.hashCode());
-    result = prime * result + ((gender == null) ? 0 : gender.hashCode());
-    result = prime * result + ((institution == null) ? 0 : institution.hashCode());
-    result = prime * result + ((lName == null) ? 0 : lName.hashCode());
-    result = prime * result + ((level == null) ? 0 : level.hashCode());
-    result = prime * result + ((login == null) ? 0 : login.hashCode());
-    result = prime * result + ((mName == null) ? 0 : mName.hashCode());
-    result = prime * result + ((password == null) ? 0 : password.hashCode());
-    result = prime * result + ((phone == null) ? 0 : phone.hashCode());
-    result = prime * result + ((placeOfWork == null) ? 0 : placeOfWork.hashCode());
-    result = prime * result + ((position == null) ? 0 : position.hashCode());
-    result = prime * result + ((roles == null) ? 0 : roles.hashCode());
-    result = prime * result + ((skype == null) ? 0 : skype.hashCode());
-    return result;
+  public boolean equals(Object obj) {
+
+    if (obj == null || this.getClass() != obj.getClass()) {
+      return false;
+    }
+
+    UserDTO other = (UserDTO) obj;
+
+    return this.uuid == other.uuid;
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    UserDTO other = (UserDTO) obj;
-    if (about == null) {
-      if (other.about != null) {
-        return false;
-      }
-    } else if (!about.equals(other.about)) {
-      return false;
-    }
-    if (active == null) {
-      if (other.active != null) {
-        return false;
-      }
-    } else if (!active.equals(other.active)) {
-      return false;
-    }
-    if (city == null) {
-      if (other.city != null) {
-        return false;
-      }
-    } else if (!city.equals(other.city)) {
-      return false;
-    }
-    if (course == null) {
-      if (other.course != null) {
-        return false;
-      }
-    } else if (!course.equals(other.course)) {
-      return false;
-    }
-    if (dateOfBirth == null) {
-      if (other.dateOfBirth != null) {
-        return false;
-      }
-    } else if (!dateOfBirth.equals(other.dateOfBirth)) {
-      return false;
-    }
-    if (email == null) {
-      if (other.email != null) {
-        return false;
-      }
-    } else if (!email.equals(other.email)) {
-      return false;
-    }
-    if (fName == null) {
-      if (other.fName != null) {
-        return false;
-      }
-    } else if (!fName.equals(other.fName)) {
-      return false;
-    }
-    if (faculty == null) {
-      if (other.faculty != null) {
-        return false;
-      }
-    } else if (!faculty.equals(other.faculty)) {
-      return false;
-    }
-    if (gender == null) {
-      if (other.gender != null) {
-        return false;
-      }
-    } else if (!gender.equals(other.gender)) {
-      return false;
-    }
-    if (institution == null) {
-      if (other.institution != null) {
-        return false;
-      }
-    } else if (!institution.equals(other.institution)) {
-      return false;
-    }
-    if (lName == null) {
-      if (other.lName != null) {
-        return false;
-      }
-    } else if (!lName.equals(other.lName)) {
-      return false;
-    }
-    if (level == null) {
-      if (other.level != null) {
-        return false;
-      }
-    } else if (!level.equals(other.level)) {
-      return false;
-    }
-    if (login == null) {
-      if (other.login != null) {
-        return false;
-      }
-    } else if (!login.equals(other.login)) {
-      return false;
-    }
-    if (mName == null) {
-      if (other.mName != null) {
-        return false;
-      }
-    } else if (!mName.equals(other.mName)) {
-      return false;
-    }
-    if (password == null) {
-      if (other.password != null) {
-        return false;
-      }
-    } else if (!password.equals(other.password)) {
-      return false;
-    }
-    if (phone == null) {
-      if (other.phone != null) {
-        return false;
-      }
-    } else if (!phone.equals(other.phone)) {
-      return false;
-    }
-    if (placeOfWork == null) {
-      if (other.placeOfWork != null) {
-        return false;
-      }
-    } else if (!placeOfWork.equals(other.placeOfWork)) {
-      return false;
-    }
-    if (position == null) {
-      if (other.position != null) {
-        return false;
-      }
-    } else if (!position.equals(other.position)) {
-      return false;
-    }
-    if (roles == null) {
-      if (other.roles != null) {
-        return false;
-      }
-    } else if (!roles.equals(other.roles)) {
-      return false;
-    }
-    if (skype == null) {
-      if (other.skype != null) {
-        return false;
-      }
-    } else if (!skype.equals(other.skype)) {
-      return false;
-    }
-    return true;
+  public String toString() {
+    return "UserDTO [uuid=" + uuid + ", login=" + login + ", password=" + password + ", roles="
+        + roles + ", fisrtName=" + firstName + ", middleName=" + middleName + ", lastName="
+        + lastName + ", gender=" + gender + ", city=" + city + ", dateOfBirth=" + dateOfBirth
+        + ", active=" + active + ", about=" + about + ", phone=" + phone + ", email=" + email
+        + ", skype=" + skype + ", level=" + level + ", institution=" + institution + ", faculty="
+        + faculty + ", course=" + course + ", placeOfWork=" + placeOfWork + ", position=" + position
+        + "]";
   }
+
+
 
   // private List<Skill> skills;
   // private List<Interest> interests;

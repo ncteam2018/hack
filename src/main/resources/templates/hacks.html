@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Hackathons</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css?123"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/hack.css?123}">
+</head>
+<body onload="loadData(true)">
+	<div th:replace="fragments/profile_header :: header" />
+
+	<br>
+	<br>
+
+
+	<div class="container-fluid  row">
+		<div class="col-lg-3 border-right">
+
+
+			<h1>Фильтры</h1>
+			<div class="tag-card ">
+				<div class="card  ">
+					<div class="card-header bg-dark text-light font-weight-bold">Интересы</div>
+					<div id="career" class="card-body">
+						<div id="tag_scope" class="row"></div>
+					</div>
+				</div>
+			</div>
+			<div class="tag-card ">
+				<div class="card">
+					<div class="card-header bg-dark text-light font-weight-bold">Умения</div>
+					<div id="career" class="card-body">
+						<div id="tag_skills" class="row"></div>
+					</div>
+				</div>
+			</div>
+			<div class="tag-card ">
+				<div class="card">
+					<div class="card-header bg-dark text-light font-weight-bold">Место
+						проведения</div>
+					<div id="career" class="card-body">
+						<div class="row">
+							<div class=" tag-padding">
+								<a href="#" class="btn bg-dark text-light"> Москва</a>
+							</div>
+							<div class=" tag-padding">
+								<a href="#" class="btn bg-dark text-light"> Санкт-Петербург</a>
+							</div>
+							<div class="tag-padding">
+								<a href="#" class="btn bg-dark text-light"> Омск</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="card-header bg-dark text-light font-weight-bold">Компания</div>
+				<div id="career" class="card-body">
+					<div>
+						<form class="form  row" name="loginForm">
+							<div class=" col-md-12 "
+								style="padding-left: 10%; padding-right: 10%;">
+								<div class="form-group">
+									<div class="row">
+										<input type="text" class="form-control col-md-8"
+											name="username" id="username" placeholder="Название компании" />
+
+										<a href="/login" class="btn bg-dark text-light col-md-4">
+											Добавить</a>
+									</div>
+								</div>
+							</div>
+						</form>
+
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+		</div>
+		<div class="col">
+
+			<form id="form1" class="form  row" name="loginForm">
+				<div class=" col-md-12 "
+					style="padding-left: 10%; padding-right: 10%;">
+
+					<div>
+						<input type="text" class="form-control col-md-8" name="hackName"
+							id="hackName" placeholder="Название хакатона" />
+
+					</div>
+					<div class="col-md-8" style="padding-left: 0px;">
+						<div id="career" class="card-body">
+							<div id="filterTags" class="row"></div>
+						</div>
+					</div>
+
+
+					<div class="input-group mb-3  row ">
+						<div class="profile-info-left">
+							<button onclick="return findNewHackList()"
+								class="btn bg-dark text-light">Поиск</button>
+							<button onclick="return clearAllTags()"
+								class="btn bg-dark text-light">Очистить</button>
+						</div>
+
+
+						<div class="input-group mb-3 col-md-4">
+							<div class="input-group-prepend">
+								<label class="input-group-text" for="inputGroupSelect01">Sort
+									by</label>
+							</div>
+							<select class="custom-select" id="sortDirection">
+								<option value="1" selected>По имени</option>
+								<option value="2">По дате</option>
+
+							</select>
+						</div>
+
+						<div id="direction" class="btn-group btn-group-toggle" data-toggle="buttons">
+							<div>
+								<label class="btn btn-secondary active"><i
+									class="fas fa-arrow-down"></i> <input type="radio"
+									name="options" id="option2" value="1" autocomplete="off"
+									checked> </label>
+							</div>
+							<div>
+								<label class="btn btn-secondary"> <input type="radio"
+									name="options" id="option3" value="2" autocomplete="off">
+									<i class="fas fa-arrow-up"></i>
+								</label>
+
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+
+			</form>
+			<hr />
+			<nav aria-label="Page navigation example">
+				<ul id="hackPagination" class="pagination"></ul>
+			</nav>
+			<br>
+			<div id="hackList"></div>
+			<br> <br>
+		</div>
+	</div>
+
+	<div th:replace="fragments/footer :: footer" />
+
+	<script id="hackItem" type="text/jquery-tmpl">
+		<div class="container card profile-card">
+		<div class=" row"> 
+		<div class="userInfo  col-md-12 row">
+			<div class="avatar col-md-3">
+				<img
+					src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+					class="img-responsive rounded  profile-avatar"
+					alt="Avatar">
+			</div>
+		
+			<div class="userData col-md-9">
+				<div>
+					<div id="hackName" class=" text-center font-weight-bold profile-nick">${title}</div>
+				</div>
+				<br>
+				<div>
+		
+					<div class="contacts row">
+						<br>
+						<div class="text-left col-md-7">
+							<label for="place " class="font-weight-bold">Описание
+							</label>
+							<div id="place" class="font-italic">${description}</div>
+						</div>
+		
+						<div class="text-left col-md-5">
+							<label for="place " class="font-weight-bold">Расположение
+							</label>
+							<div id="place" class="font-italic">${place}</div>
+						</div>
+						<br><br><br><br>
+						
+						<div>
+							<button onclick="return showHackInformation(${index})" class="btn bg-dark text-light">Подробнее</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<br>
+	 	</script>
+
+	<script id="tagItem" type="text/jquery-tmpl">
+				<div id ="tag_${id}" class=" tag-padding">
+				<button id="tag_${id}_button" onclick="return addTag(${id})" class="btn bg-dark text-light  btn-sm"> ${tagName}</button>
+				</div>
+		</script>
+
+	<script id="tagItem-active" type="text/jquery-tmpl">
+				<div id ="tag_act_${id}" class=" tag-padding">
+				<button onclick="return removeTag(${id})" class="btn bg-dark text-warning  btn-sm"> ${tagName} <span class="text-danger">X</span> </button>
+				</div>
+		</script>
+	<script id="tag-info" type="text/jquery-tmpl">
+				<div  class=" tag-padding">
+				<button onclick="return false;" class="btn bg-dark text-warning  btn-sm" readonly> ${tagName}  </button>
+				</div>
+		</script>
+	<script id="paginationItem" type="text/jquery-tmpl">
+			<li class="page-item">
+				<button id="page_${number}" class="page-link bg-dark text-light" onclick="return changePage(${number})">${number}</button>
+			</li>
+	</script>
+
+	<div id="fullHackInfo" class="modal fade " tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Подробнее</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid card profile-card">
+
+						<div class="userInfo   row">
+							<div class="avatar col-md-2">
+								<img
+									src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+									class="img-responsive rounded  profile-avatar" alt="Avatar">
+
+								<div class="profile-info-top ">
+									<button href="" class="btn bg-dark text-light">Организатор</button>
+								</div>
+
+
+							</div>
+
+							<div class="userData col-md-10">
+								<div>
+									<div id="full_hackName"
+										class=" text-center font-weight-bold profile-nick"></div>
+								</div>
+								<br>
+								<div>
+
+									<div class="contacts row">
+										<br>
+										<div class="text-left col-md-3">
+											<label for="place " class="font-weight-bold">Адрес </label>
+											<div id="full_place" class="font-italic"></div>
+										</div>
+										<div class="text-left col-md-3">
+											<label for="full_date " class="font-weight-bold">Дата
+												проведения </label>
+											<div id="full_date" class="font-italic"></div>
+										</div>
+
+										<div class="text-left col-md-3">
+											<label for="full_dutarion " class="font-weight-bold">Продолжительность
+											</label>
+											<div id="full_dutarion" class="font-italic"></div>
+										</div>
+										<div class="text-left col-md-3">
+											<label for="full_site " class="font-weight-bold">Где
+												записаться </label>
+											<div id="full_site" class="font-italic"></div>
+										</div>
+									</div>
+
+								</div>
+								<br> <label for="hack-tags" class="font-weight-bold">Хештеги
+								</label>
+								<div class="card">
+									<div id="hack-tags" class="card-body row "></div>
+								</div>
+							</div>
+						</div>
+						<br>
+
+						<div>
+							<div>
+								<label for="place " class="font-weight-bold">Описание </label>
+								<div id="full_description" class="font-italic"></div>
+
+							</div>
+						</div>
+						<br>
+
+						<div>
+							<div>
+								<label for="full_auditory" class="font-weight-bold">Аудитория</label>
+								<div class="font-italic">
+									- <span id="full_auditory"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success">Поиск команды</button>
+					<button class="btn btn-success">Вкл. уведомления</button>
+					<button class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+		
+	</script>
+	<script src="/js/hack.js?refre1122"></script>
+</body>
+</html>
