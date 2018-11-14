@@ -2,6 +2,8 @@ package com.netcracker.hack.service.Impl;
 
 import com.netcracker.hack.dto.HackDTO;
 import com.netcracker.hack.dto.TagDTO;
+import com.netcracker.hack.dto.converter.TagConverter;
+import com.netcracker.hack.mapper.HackMapper;
 import com.netcracker.hack.model.Hack;
 import com.netcracker.hack.model.Tag;
 import com.netcracker.hack.repository.HackRepository;
@@ -35,7 +37,7 @@ public class HackServiceImpl implements HackService {
     if (tags == null)
       oldPage = hackRepository.findAllByNameContains(pageRequest,hackName);
     else
-      oldPage = hackRepository.findDistinctByTagsInAndNameContains(pageRequest, TagDTO.convertFrom(tags),hackName);
+      oldPage = hackRepository.findDistinctByTagsInAndNameContains(pageRequest, TagConverter.convertFrom(tags),hackName);
 
     PageImpl<HackDTO> newPage = new PageImpl<HackDTO>(makeListOfHackDTO(oldPage.getContent()),
         oldPage.getPageable(), oldPage.getTotalElements());
@@ -46,10 +48,12 @@ public class HackServiceImpl implements HackService {
   public HackDTO getHack(UUID id) {
     Optional<Hack> hack = hackRepository.findById(id);
     if (!hack.isPresent()) {
-      return new HackDTO(); // TODO: Должно возвращать ошибку
+      return new HackDTO();
     }
 
+
     return new HackDTO(hack.get());
+//    return HackMapper.INSTANCE.hackToHackDTO( hack.get() );
   }
 
   public List<Hack> getHackByCompany(UUID id) {
@@ -64,7 +68,7 @@ public class HackServiceImpl implements HackService {
 
   public ResponseEntity<Object> createHack(HackDTO hackDTO) {
 
-    List<Tag> tags = TagDTO.convertFrom(hackDTO.getTags());
+    List<Tag> tags = TagConverter.convertFrom(hackDTO.getTags());
     for (Tag tag : tags) {
       Tag existingTag = tagRepository.findByTag(tag.getTag());
       if (existingTag == null) {
@@ -75,8 +79,9 @@ public class HackServiceImpl implements HackService {
       }
     }
 
-    hackDTO.setTags(TagDTO.convertTo(tags));
+    hackDTO.setTags(TagConverter.convertTo(tags));
     Hack savedHack = hackRepository.save(new Hack(hackDTO));
+//    Hack savedHack = hackRepository.save(HackMapper.INSTANCE.hackDTOToHack(hackDTO));
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(savedHack.getUuid()).toUri();
@@ -102,6 +107,7 @@ public class HackServiceImpl implements HackService {
 
     hacks.forEach((Hack hack) -> {
       hackDTOList.add(new HackDTO(hack));
+//      hackDTOList.add(HackMapper.INSTANCE.hackToHackDTO(hack));
     });
 
     return hackDTOList;

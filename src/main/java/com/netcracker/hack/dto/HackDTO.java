@@ -1,5 +1,6 @@
 package com.netcracker.hack.dto;
 
+import com.netcracker.hack.dto.converter.TagConverter;
 import com.netcracker.hack.model.Hack;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +28,7 @@ public class HackDTO {
     this.site = hack.getSite();
     this.description = hack.getDescription();
     this.auditory = hack.getAuditory();
-    this.tags = TagDTO.convertTo( hack.getTags() ) ;
+    this.tags = TagConverter.convertTo( hack.getTags() ) ;
   }
 
   public HackDTO() {}

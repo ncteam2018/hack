@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RequestRepository extends CrudRepository<Request, Integer> {
-
   public List<Request> findAllByFromId(UUID uuid);
 
   public List<Request> findAllByToId(UUID uuid);
