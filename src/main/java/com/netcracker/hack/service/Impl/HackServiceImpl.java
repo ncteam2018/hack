@@ -1,13 +1,21 @@
 package com.netcracker.hack.service.Impl;
 
+import com.netcracker.hack.dto.HackDTO;
+import com.netcracker.hack.dto.TagDTO;
 import com.netcracker.hack.model.Hack;
+import com.netcracker.hack.model.Tag;
 import com.netcracker.hack.repository.HackRepository;
+import com.netcracker.hack.repository.TagRepository;
 import com.netcracker.hack.service.HackService;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,45 +24,87 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class HackServiceImpl implements HackService {
 
   @Autowired
-  private HackRepository repository;
+  private HackRepository hackRepository;
 
-  public List<Hack> getAllHack() {
-    return (List<Hack>) repository.findAll();
+  @Autowired
+  private TagRepository tagRepository;
+
+  public Page<HackDTO> getAllHack(Pageable pageRequest, List<TagDTO> tags, String hackName) {
+
+    Page<Hack> oldPage;
+    if (tags == null)
+      oldPage = hackRepository.findAllByNameContains(pageRequest,hackName);
+    else
+      oldPage = hackRepository.findDistinctByTagsInAndNameContains(pageRequest, TagDTO.convertFrom(tags),hackName);
+
+    PageImpl<HackDTO> newPage = new PageImpl<HackDTO>(makeListOfHackDTO(oldPage.getContent()),
+        oldPage.getPageable(), oldPage.getTotalElements());
+
+    return newPage;
   }
 
-  public Hack getHack(UUID id) {
-    Optional<Hack> hack = repository.findById(id);
+  public HackDTO getHack(UUID id) {
+    Optional<Hack> hack = hackRepository.findById(id);
     if (!hack.isPresent()) {
-      return new Hack(); // через ошибку
+      return new HackDTO(); // TODO: Должно возвращать ошибку
     }
-    return hack.get();
+
+    return new HackDTO(hack.get());
   }
 
   public List<Hack> getHackByCompany(UUID id) {
-    return repository.findByCompany_Uuid(id);
+    return null;// repository.findByCompany_Uuid(id);
   }
 
   public void deleteHack(UUID id) {
-    repository.deleteById(id);
+    hackRepository.deleteById(id);
   }
 
-  public ResponseEntity<Object> createHack(Hack hack) {
-    Hack savedHack = repository.save(hack);
+
+
+  public ResponseEntity<Object> createHack(HackDTO hackDTO) {
+
+    List<Tag> tags = TagDTO.convertFrom(hackDTO.getTags());
+    for (Tag tag : tags) {
+      Tag existingTag = tagRepository.findByTag(tag.getTag());
+      if (existingTag == null) {
+        tag.setId(null);
+        tagRepository.save(tag);
+      } else {
+        tag.setId(existingTag.getId());
+      }
+    }
+
+    hackDTO.setTags(TagDTO.convertTo(tags));
+    Hack savedHack = hackRepository.save(new Hack(hackDTO));
+
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(savedHack.getUuid()).toUri();
 
     return ResponseEntity.created(location).build();
   }
 
+
+
   public ResponseEntity<Object> updateHack(Hack hack, UUID id) {
-    Optional<Hack> hackOptional = repository.findById(id);
+    Optional<Hack> hackOptional = hackRepository.findById(id);
     if (!hackOptional.isPresent()) {
       return ResponseEntity.notFound().build();
     }
     hack.setUuid(id);
-    repository.save(hack);
+    hackRepository.save(hack);
     return ResponseEntity.noContent().build();
   }
 
+  private List<HackDTO> makeListOfHackDTO(List<Hack> hacks) {
+
+    ArrayList<HackDTO> hackDTOList = new ArrayList<>();
+
+    hacks.forEach((Hack hack) -> {
+      hackDTOList.add(new HackDTO(hack));
+    });
+
+    return hackDTOList;
+  }
 
 }
