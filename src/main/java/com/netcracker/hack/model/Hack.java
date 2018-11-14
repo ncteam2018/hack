@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.netcracker.hack.dto.converter.TagConverter;
 import org.hibernate.annotations.GenericGenerator;
 import com.netcracker.hack.dto.HackDTO;
 import com.netcracker.hack.dto.TagDTO;
@@ -71,7 +73,7 @@ public class Hack {
     // company.setVerification(false);
     // company.setAbout("testCompany #1");
 
-    this.tags = TagDTO.convertFrom( hackDTO.getTags() );
+    this.tags = TagConverter.convertFrom( hackDTO.getTags() );
     this.startDate = hackDTO.getStartDate();
     this.countOfDays = hackDTO.getDuration();
     this.place = hackDTO.getPlace();

@@ -125,29 +125,4 @@ public class UserData {
     this.about = about;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    UserData userData = (UserData) o;
-    return Objects.equals(id, userData.id) &&
-        Objects.equals(fName, userData.fName) &&
-        Objects.equals(mName, userData.mName) &&
-        Objects.equals(lName, userData.lName) &&
-        Objects.equals(gender, userData.gender) &&
-        Objects.equals(city, userData.city) &&
-        Objects.equals(dateOfBirth, userData.dateOfBirth) &&
-        Objects.equals(active, userData.active) &&
-        Objects.equals(about, userData.about);
-  }
-
-  @Override
-  public int hashCode() {
-
-    return Objects.hash(id, fName, mName, lName, gender, city, dateOfBirth, active, about);
-  }
 }
