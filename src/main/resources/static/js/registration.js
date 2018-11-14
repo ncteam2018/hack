@@ -16,9 +16,9 @@ function createUserProfile() {
     this.active = true;
     this.city = document.getElementById("city").value;
     this.dateOfBirth = document.getElementById("dateOfBirth").value;
-    this.fName = document.getElementById("fname").value;
-    this.mName = document.getElementById("mname").value;
-    this.lName = document.getElementById("lname").value;
+    this.firstName = document.getElementById("fname").value;
+    this.middleName = document.getElementById("mname").value;
+    this.lastName = document.getElementById("lname").value;
 
     if ($("input[name='gender']:checked").val() != 'M') {
       this.gender = ["MAN"];
