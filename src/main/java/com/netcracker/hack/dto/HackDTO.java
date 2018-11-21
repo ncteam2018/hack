@@ -14,6 +14,7 @@ public class HackDTO {
   private Date startDate;
   private int duration;
   private String place;
+  private String placeCoords;
   private String site;
   private String description;
   private String auditory;
@@ -27,6 +28,7 @@ public class HackDTO {
     this.startDate = hack.getStartDate();
     this.duration = hack.getCountOfDays();
     this.place = hack.getPlace();
+    this.placeCoords = hack.getPlaceCoords();
     this.site = hack.getSite();
     this.description = hack.getDescription();
     this.auditory = hack.getAuditory();
@@ -83,6 +85,15 @@ public class HackDTO {
 
   public void setSite(String site) {
     this.site = site;
+  }
+
+  
+  public String getPlaceCoords() {
+    return placeCoords;
+  }
+
+  public void setPlaceCoords(String placeCoords) {
+    this.placeCoords = placeCoords;
   }
 
   public String getDescription() {

@@ -41,6 +41,9 @@ public class Hack {
   @Column(name = "place")
   private String place;
 
+  @Column(name = "placeCoords")
+  private String placeCoords;
+  
   @Column(name = "site")
   private String site;
 
@@ -71,6 +74,7 @@ public class Hack {
     this.startDate = hackDTO.getStartDate();
     this.countOfDays = hackDTO.getDuration();
     this.place = hackDTO.getPlace();
+    this.placeCoords = hackDTO.getPlaceCoords();
     this.site = hackDTO.getSite();
     this.description = hackDTO.getDescription();
     this.auditory = hackDTO.getAuditory();
@@ -117,6 +121,15 @@ public class Hack {
 
   public void setCountOfDays(Integer countOfDays) {
     this.countOfDays = countOfDays;
+  }
+
+  
+  public String getPlaceCoords() {
+    return placeCoords;
+  }
+
+  public void setPlaceCoords(String placeCoords) {
+    this.placeCoords = placeCoords;
   }
 
   public String getPlace() {
