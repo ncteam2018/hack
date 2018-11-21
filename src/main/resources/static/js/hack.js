@@ -355,7 +355,7 @@ function findNewHackList() {
 		sort.property = "name";
 		break;
 	case "2":
-		sort.property = "time";
+		sort.property = "startDate";
 	}
 
 	filterQueryString += "sort=" + JSON.stringify(sort);
