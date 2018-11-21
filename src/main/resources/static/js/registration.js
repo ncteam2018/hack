@@ -36,7 +36,13 @@ function createUserProfile() {
 
     this.phone = document.getElementById("phone").value;
     this.skype = document.getElementById("skype").value;
-
+    
+    var companyData = new Object();
+    
+    companyData.companyName = document.getElementById("companyName").value;
+    companyData.about = document.getElementById("aboutCompany").value;
+    
+    this.companyData = companyData;
   };
 
   fetch("api/profile", {
@@ -74,6 +80,33 @@ function createUserProfile() {
 
   return false;
 }	
+
+
+$("#orgCheck").change(function() {
+    if(this.checked) 
+    	$('#orgRegForm').css('display', 'block');
+    else
+    	$('#orgRegForm').css('display', 'none');
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
