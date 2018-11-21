@@ -62,6 +62,10 @@ public class Profile {
   @OneToMany(mappedBy = "profile")
   private Set<TeamProfile> teams = new HashSet<>();
 
+  @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+  @JoinColumn(name = "company_id")
+  private CompanyData companyProfile;
+  
   public Profile() {}
 
   public Profile(UserDTO user, PasswordEncoder encoder) {
@@ -93,8 +97,15 @@ public class Profile {
     this.career = new Career();
     this.career.setPlaceOfWork(user.getPlaceOfWork());
     this.career.setPosition(user.getPosition());
-
+    
+    this.companyProfile = new CompanyData();
+    this.companyProfile.setCompanyName(user.getCompanyData().getCompanyName());
+    this.companyProfile.setAbout(user.getCompanyData().getAbout());
+    this.companyProfile.setStatus(user.getCompanyData().getStatus());
+    this.companyProfile.setVerification(user.getCompanyData().getVerification());
+    
     this.teams = null;
+    
   }
 
   public UUID getUuid() {
@@ -167,6 +178,14 @@ public class Profile {
 
   public void setTeams(Set<TeamProfile> teams) {
     this.teams = teams;
+  }
+
+  public CompanyData getCompanyProfile() {
+    return companyProfile;
+  }
+
+  public void setCompanyProfile(CompanyData companyProfile) {
+    this.companyProfile = companyProfile;
   }
 
   @Override

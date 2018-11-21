@@ -41,7 +41,7 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         .and().authorizeRequests().antMatchers("/", "/login", "/mainPage", "/registration")
         .permitAll()
-        .antMatchers("/api/profile").permitAll().antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
+        .antMatchers("/api/profile").permitAll().antMatchers("/api/**").hasAnyRole("USER", "ADMIN", "ORGANIZATION")
         .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
             "/configuration/security",
             "/swagger-ui.html", "/webjars/**").hasRole("ADMIN")

@@ -1,25 +1,19 @@
 package com.netcracker.hack.model;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import com.netcracker.hack.dto.converter.TagConverter;
 import org.hibernate.annotations.GenericGenerator;
 import com.netcracker.hack.dto.HackDTO;
-import com.netcracker.hack.dto.TagDTO;
 
 @Entity
 @Table(name = "hack")
@@ -34,11 +28,8 @@ public class Hack {
   @Column(name = "name")
   private String name;
 
-  /*
-   * @OneToOne(fetch = FetchType.EAGER)
-   * 
-   * @JoinColumn(name = "company_id", unique = true) private CompanyData company;
-   */
+  @ManyToOne(fetch = FetchType.EAGER)
+  private CompanyData company;
 
   @Column(name = "startDate")
   private String startDate;
@@ -57,10 +48,14 @@ public class Hack {
 
   @Column(name = "auditory")
   private String auditory;
-  
-  
+
+
   @ManyToMany
-  private List<Tag> tags;
+  private List<Tag> skillTags;
+
+  @ManyToMany
+  private List<Tag> scopeTags;
+
 
   public Hack() {}
 
@@ -68,12 +63,10 @@ public class Hack {
     this.uuid = hackDTO.getUuid();
     this.name = hackDTO.getTitle();
 
-    // this.company = new CompanyData();
-    // company.setStatus(null);
-    // company.setVerification(false);
-    // company.setAbout("testCompany #1");
+    this.company = hackDTO.getCompany();
 
-    this.tags = TagConverter.convertFrom( hackDTO.getTags() );
+    this.skillTags = TagConverter.convertFrom(hackDTO.getSkillTags());
+    this.scopeTags = TagConverter.convertFrom(hackDTO.getScopeTags());
     this.startDate = hackDTO.getStartDate();
     this.countOfDays = hackDTO.getDuration();
     this.place = hackDTO.getPlace();
@@ -99,11 +92,15 @@ public class Hack {
     this.name = name;
   }
 
-  /*
-   * public CompanyData getCompany() { return company; }
-   * 
-   * public void setCompany(CompanyData company) { this.company = company; }
-   */
+
+  public CompanyData getCompany() {
+    return company;
+  }
+
+  public void setCompany(CompanyData company) {
+    this.company = company;
+  }
+
 
   public String getStartDate() {
     return startDate;
@@ -152,13 +149,21 @@ public class Hack {
   public void setSite(String site) {
     this.site = site;
   }
-  
-  public List<Tag> getTags() {
-    return tags;
+
+  public List<Tag> getSkillTags() {
+    return skillTags;
   }
 
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
+  public void setSkillTags(List<Tag> skillTags) {
+    this.skillTags = skillTags;
+  }
+
+  public List<Tag> getScopeTags() {
+    return scopeTags;
+  }
+
+  public void setScopeTags(List<Tag> scopeTags) {
+    this.scopeTags = scopeTags;
   }
 
   @Override

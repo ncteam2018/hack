@@ -1,5 +1,6 @@
 package com.netcracker.hack.model;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,9 +35,15 @@ public class CompanyData {
   @Column(name = "verification")
   private Boolean verification;
 
+  @Column(name = "companyName")
+  private String companyName;
+  
   @Column(name = "about")
   private String about;
-
+  
+  @OneToMany(mappedBy="company")
+  private List<Hack> hacks;
+  
   public CompanyData() {
   }
 
@@ -69,6 +77,14 @@ public class CompanyData {
 
   public void setAbout(String about) {
     this.about = about;
+  }
+
+  public String getCompanyName() {
+    return companyName;
+  }
+
+  public void setCompanyName(String companyName) {
+    this.companyName = companyName;
   }
 
   @Override
