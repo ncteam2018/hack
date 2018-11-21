@@ -29,7 +29,9 @@ function loadUserProfile() {
     $("#course").html(profile.course);
     $("#placeOfWork").html(profile.placeOfWork);
     $("#position").html(profile.position);
-
+    $("#companyData").html(profile.companyData.companyName);
+    $("#aboutCompany").html(profile.companyData.about);
+    
   });
 
 }	

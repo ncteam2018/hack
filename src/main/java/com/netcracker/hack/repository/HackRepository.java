@@ -1,6 +1,5 @@
 package com.netcracker.hack.repository;
 
-import com.netcracker.hack.dto.TagDTO;
 import com.netcracker.hack.model.Hack;
 import com.netcracker.hack.model.Tag;
 import java.util.List;
@@ -13,7 +12,24 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface HackRepository extends PagingAndSortingRepository<Hack, UUID> {
 
   // public List<Hack> findByCompany_Uuid(UUID uuid);
-  
-  public Page<Hack> findAllByNameContains(Pageable pageable, String hackName);
-  public Page<Hack> findDistinctByTagsInAndNameContains(Pageable pageable,List<Tag> tags,String hackName);
+
+  public Page<Hack> findDistinctByNameContainsAndCompanyCompanyNameContains(Pageable pageable,
+      String hackName, String companyName);
+
+  public Page<Hack> findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContains(
+      Pageable pageable, List<Tag> skillTags, List<Tag> scopeTags, String hackName,
+      String companyName);
+
+  public Page<Hack> findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContains(
+      Pageable pageable, List<Tag> scopeTags, String hackName, String companyName);
+
+  public Page<Hack> findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContains(
+      Pageable pageable, List<Tag> skillTags, String hackName, String companyName);
+
+
+  @Query("SELECT DISTINCT skillTags FROM Hack")
+  List<Tag> findDistinctSkillTags();
+
+  @Query("SELECT DISTINCT scopeTags FROM Hack")
+  List<Tag> findDistinctScopeTags();
 }

@@ -18,7 +18,7 @@ public class TagsController {
 
   @ApiOperation("Returns all tags")
   @GetMapping
-  public List<TagDTO> getAllTags() {
+  public List<List<TagDTO>> getAllTags() {
     return service.getAllTags();
   }
 

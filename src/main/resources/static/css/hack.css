@@ -7,7 +7,8 @@
 }
 
 .profile-avatar {
-  width: 200px;
+  width: 90%;
+  
 }
 
 .profile-card {
@@ -58,7 +59,7 @@
     margin-right: 10%;
   }
   .modal-content{
-    width: 1000px;
+    width: 150%;
   } 
   
 }
