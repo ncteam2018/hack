@@ -1,13 +1,16 @@
 package com.netcracker.hack.service.Impl;
 
 import com.netcracker.hack.dto.UserDTO;
+import com.netcracker.hack.model.CompanyStatus;
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.repository.ProfileRepository;
 import com.netcracker.hack.service.ProfileService;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +48,11 @@ public class ProfileServiceImpl implements ProfileService {
   }
 
   public ResponseEntity<Object> createProfile(UserDTO profile) {
+
+    Set<CompanyStatus> status = new HashSet<>();
+    status.add(CompanyStatus.INDIVIDUAL);
+    profile.getCompanyData().setStatus(status);
+    profile.getCompanyData().setVerification(false);
 
     Profile savedProfile = repository.save(new Profile(profile, encoder));
 

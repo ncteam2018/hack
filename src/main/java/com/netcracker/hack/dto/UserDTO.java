@@ -1,5 +1,6 @@
 package com.netcracker.hack.dto;
 
+import com.netcracker.hack.model.CompanyData;
 import com.netcracker.hack.model.EducationLvl;
 import com.netcracker.hack.model.Gender;
 import com.netcracker.hack.model.Profile;
@@ -18,7 +19,6 @@ public class UserDTO {
   private String middleName;
   private String lastName;
 
-  // TODO: Почему пол set?
   private Set<Gender> gender;
   private String city;
   private String dateOfBirth;
@@ -36,6 +36,8 @@ public class UserDTO {
 
   private String placeOfWork;
   private String position;
+
+  private CompanyData companyData;
 
   public UserDTO(Profile profile) {
     this.uuid = profile.getUuid();
@@ -72,6 +74,9 @@ public class UserDTO {
       this.position = profile.getCareer().getPosition();
     }
 
+    if (profile.getCompanyProfile() != null) 
+      this.companyData = profile.getCompanyProfile();
+   
   }
 
   public UserDTO() {}
@@ -242,6 +247,14 @@ public class UserDTO {
 
   public void setPosition(String position) {
     this.position = position;
+  }
+
+  public CompanyData getCompanyData() {
+    return companyData;
+  }
+
+  public void setCompanyData(CompanyData companyData) {
+    this.companyData = companyData;
   }
 
   @Override

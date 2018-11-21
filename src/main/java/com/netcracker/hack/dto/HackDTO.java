@@ -1,6 +1,7 @@
 package com.netcracker.hack.dto;
 
 import com.netcracker.hack.dto.converter.TagConverter;
+import com.netcracker.hack.model.CompanyData;
 import com.netcracker.hack.model.Hack;
 import java.util.List;
 import java.util.UUID;
@@ -15,9 +16,9 @@ public class HackDTO {
   private String site;
   private String description;
   private String auditory;
-  private List<TagDTO> tags;
-
-  // private CompanyData company;
+  private List<TagDTO> skillTags;
+  private List<TagDTO> scopeTags;
+  private CompanyData company;
 
   public HackDTO(Hack hack) {
     this.uuid = hack.getUuid();
@@ -28,7 +29,9 @@ public class HackDTO {
     this.site = hack.getSite();
     this.description = hack.getDescription();
     this.auditory = hack.getAuditory();
-    this.tags = TagConverter.convertTo( hack.getTags() ) ;
+    this.skillTags = TagConverter.convertTo(hack.getSkillTags());
+    this.scopeTags = TagConverter.convertTo(hack.getScopeTags());
+    this.company = hack.getCompany();
   }
 
   public HackDTO() {}
@@ -96,34 +99,36 @@ public class HackDTO {
   public void setAuditory(String auditory) {
     this.auditory = auditory;
   }
- 
-  public List<TagDTO> getTags() {
-    return tags;
+
+  public List<TagDTO> getSkillTags() {
+    return skillTags;
   }
 
-  public void setTags(List<TagDTO> tags) {
-    this.tags = tags;
+  public void setSkillTags(List<TagDTO> skillTags) {
+    this.skillTags = skillTags;
   }
 
-  @Override
-  public boolean equals(Object obj) {
+  public List<TagDTO> getScopeTags() {
+    return scopeTags;
+  }
 
-    if (obj == null || this.getClass() != obj.getClass()) {
-      return false;
-    }
+  public void setScopeTags(List<TagDTO> scopeTags) {
+    this.scopeTags = scopeTags;
+  }
 
-    HackDTO other = (HackDTO) obj;
+  public CompanyData getCompany() {
+    return company;
+  }
 
-    return this.uuid == other.uuid;
+  public void setCompany(CompanyData company) {
+    this.company = company;
   }
 
   @Override
   public String toString() {
-    return "hackDTO [uuid=" + uuid + ", title=" + title + ", startDate=" + startDate + ", duration="
+    return "HackDTO [uuid=" + uuid + ", title=" + title + ", startDate=" + startDate + ", duration="
         + duration + ", place=" + place + ", site=" + site + ", description=" + description
-        + ", auditory=" + auditory + "]";
+        + ", auditory=" + auditory + ", skillTags=" + skillTags + ", scopeTags=" + scopeTags + "]";
   }
-
-
 
 }

@@ -11,14 +11,12 @@ import org.mapstruct.factory.Mappers;
 public interface TagMapper {
     TagMapper INSTANCE = Mappers.getMapper(TagMapper.class);
     @Mappings({
-            @Mapping(target="tagName", source="tag"),
-            @Mapping(target="category", source="type")
+            @Mapping(target="tagName", source="tag")
     })
     TagDTO tagToTagDTO(Tag entity);
 
     @Mappings({
-            @Mapping(target="tag", source="tagName"),
-            @Mapping(target="type", source="category")
+            @Mapping(target="tag", source="tagName")
     })
     Tag tagDTOToTag(TagDTO dto);
 }
