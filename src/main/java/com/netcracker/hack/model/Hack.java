@@ -1,5 +1,6 @@
 package com.netcracker.hack.model;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -31,9 +32,9 @@ public class Hack {
   @ManyToOne(fetch = FetchType.EAGER)
   private CompanyData company;
 
-  @Column(name = "startDate")
-  private String startDate;
-
+  @Column(name = "date")
+  private Date startDate;
+  
   @Column(name = "countOfDays")
   private Integer countOfDays;
 
@@ -102,11 +103,11 @@ public class Hack {
   }
 
 
-  public String getStartDate() {
+  public Date getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(String startDate) {
+  public void setStartDate(Date startDate) {
     this.startDate = startDate;
   }
 

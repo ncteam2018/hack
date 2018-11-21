@@ -3,6 +3,7 @@ package com.netcracker.hack.dto;
 import com.netcracker.hack.dto.converter.TagConverter;
 import com.netcracker.hack.model.CompanyData;
 import com.netcracker.hack.model.Hack;
+import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,7 +11,7 @@ public class HackDTO {
 
   private UUID uuid;
   private String title;
-  private String startDate;
+  private Date startDate;
   private int duration;
   private String place;
   private String site;
@@ -52,11 +53,11 @@ public class HackDTO {
     this.title = title;
   }
 
-  public String getStartDate() {
+  public Date getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(String startDate) {
+  public void setStartDate(Date startDate) {
     this.startDate = startDate;
   }
 
