@@ -4,16 +4,14 @@ function getDefaultHeaders() {
 	return headers;
 }
 
-
 $(document).ready(function() {
-    $("#form1").keydown(function(event){
-      if(event.keyCode == 13) {
-        event.preventDefault();
-        return false;
-    }
- });
+	$("#form1").keydown(function(event) {
+		if (event.keyCode == 13) {
+			event.preventDefault();
+			return false;
+		}
+	});
 });
-
 
 var hackList;
 var hackPageParams;
@@ -140,13 +138,11 @@ var numberOfElements
 
 function loadData(isFirst) {
 
-	let query = "api/hack?size=5";
+	let query = "api/hack?size=2";
 	let hackPageParams;
 
 	if (filterQueryString != "")
 		query += "&" + filterQueryString;
-
-	alert(query)
 
 	fetch(query, {
 		method : 'GET',
@@ -155,47 +151,50 @@ function loadData(isFirst) {
 	}).then(function(response) {
 		return response.json();
 
-	}).then(function(hackPage) {
-		$("#hackList").html("");
-		hackList = hackPage.content;
-		hackList.forEach(function(hackItem, index, arr) {
-			hackItem.index = index;
-			$("#hackItem").tmpl(hackItem).appendTo("#hackList");
-		});
+	}).then(
+			function(hackPage) {
+				$("#hackList").html("");
+				hackList = hackPage.content;
 
-		totalPages = hackPage.totalPages
-		numberOfElements = hackPage.numberOfElements
+				let companyNames = new Array();
+				hackList.forEach(function(hackItem, index, arr) {
+					hackItem.index = index;
+					$("#hackItem").tmpl(hackItem).appendTo("#hackList");
 
-		window.pageHandler = new PageHandler();
+					if (isFirst) {
+						var objName = hackItem.company.companyName;
+						obj = companyNames.find(function(name, index, array) {
+							if (name == objName)
+								return true;
+							return false;
 
-	});
+						});
 
-	if (isFirst)
-		loadTags();
+						if (obj == null) {
+							companyNames.push(hackItem.company.companyName);
+
+							$('#compNameInput').append(
+									$("<option></option>").attr("value",
+											hackItem.company.companyName).text(
+											hackItem.company.companyName));
+
+						}
+
+					}
+
+				});
+
+				if (isFirst)
+					loadTags();
+
+				totalPages = hackPage.totalPages;
+				numberOfElements = hackPage.numberOfElements;
+
+				window.pageHandler = new PageHandler();
+
+			});
 
 }
-function showHackInformation(index) {
-
-	$("#full_hackName").html(hackList[index].title);
-	$("#full_description").html(hackList[index].description);
-	$("#full_place").html(hackList[index].place);
-	$("#full_date").html(hackList[index].startDate);
-	$("#full_dutarion").html(hackList[index].duration);
-	$("#full_site").html(hackList[index].site);
-	$("#full_auditory").html(hackList[index].auditory);
-
-	$("#hack-tags").html("");
-	hackList[index].tags.forEach(function(tag, index, arr) {
-		$("#tag-info").tmpl(tag).appendTo("#hack-tags");
-	});
-
-	$('#fullHackInfo').modal("show");
-
-	return false;
-}
-
-var tags = []
-var activeTags = []
 
 function loadTags() {
 
@@ -206,23 +205,82 @@ function loadTags() {
 	}).then(function(response) {
 		return response.json();
 
-	}).then(function(allTags) {
+	}).then(function(loadedTags) {
+		let hackTags;
+		hackTags = loadedTags[0];
+		hackTags.forEach(function(tag, index, arr) {
 
-		allTags.forEach(function(tag, index, arr) {
 			tags.push({
 				"id" : tag.id,
-				"tagName" : tag.tagName
+				"tagName" : tag.tagName,
+				"category" : "skill"
+			});
+			$("#tagItem").tmpl(tag).appendTo("#tag_skills");
+
+		})
+
+		hackTags = loadedTags[1];
+		hackTags.forEach(function(tag, index, arr) {
+
+			tags.push({
+				"id" : tag.id,
+				"tagName" : tag.tagName,
+				"category" : "scope"
 			});
 
-			if (tag.category.toLowerCase() == "skill")
-				$("#tagItem").tmpl(tag).appendTo("#tag_skills");
+			$("#tagItem").tmpl(tag).appendTo("#tag_scope");
 
-			if (tag.category.toLowerCase() == "scope")
-				$("#tagItem").tmpl(tag).appendTo("#tag_scope");
-		});
-
+		})
 	});
+
 }
+
+function showHackInformation(index) {
+
+	$("#full_hackName").html(hackList[index].title);
+	$("#full_description").html(hackList[index].description);
+	$("#full_place").html(hackList[index].place);
+	$("#full_date").html(hackList[index].startDate);
+	$("#full_dutarion").html(hackList[index].duration);
+	$("#full_site").html(hackList[index].site);
+	$("#full_auditory").html(hackList[index].auditory);
+	$("#companyStatus").html(hackList[index].company.status[0]);
+	if (hackList[index].company.status[0] == "LEGAL")
+		$("#companyStatus").removeClass("text-warning")
+				.addClass("text-success");
+
+	$("#companyName").html(hackList[index].company.companyName);
+	$("#companyAbout").html(hackList[index].company.about);
+	$("#showCompany").click(function() {
+		return showCompanyProfile();
+	});
+
+	$("#hack-tags").html("");
+	hackList[index].skillTags.forEach(function(tag, index, arr) {
+		$("#tag-info").tmpl(tag).appendTo("#hack-tags");
+	});
+
+	hackList[index].scopeTags.forEach(function(tag, index, arr) {
+		$("#tag-info").tmpl(tag).appendTo("#hack-tags");
+	});
+
+	$('#fullHackInfo').modal("show");
+
+	return false;
+}
+
+function shotInfo() {
+	$('#fullHackInfo').modal("show");
+}
+
+function showCompanyProfile() {
+	$('#fullHackInfo').modal("hide");
+	$('#companyProfile').modal("show");
+	return false;
+}
+
+var tags = []
+var activeTags = []
 
 function addTag(id) {
 
@@ -276,14 +334,15 @@ function findNewHackList() {
 	filterQueryString = "";
 
 	// --- Добавляем порядок сортировки
+	var sort = new Object();
 	let sortDirection = $('input[name=options]:checked', '#direction').val();
 
 	switch (sortDirection) {
 	case "1":
-		sortDirection = "direction=ASC_";
+		sort.direction = "ASC";
 		break;
 	case "2":
-		sortDirection = "direction=DESC_";
+		sort.direction = "DESC";
 	}
 
 	let sortParam = "";
@@ -293,29 +352,56 @@ function findNewHackList() {
 
 	switch (sortParam) {
 	case "1":
-		sortDirection += "name";
+		sort.property = "name";
 		break;
 	case "2":
-		sortDirection += "time";
+		sort.property = "time";
 	}
 
-	filterQueryString += sortDirection;
+	filterQueryString += "sort=" + JSON.stringify(sort);
 	// ---
 
 	// --- Добавляем теги поиска
-	let tagQuery = "";
+	var filters = new Array();
 
 	activeTags.forEach(function(tag, index, arr) {
-		tagQuery += "&tags=" + tag
 
+		var objID = tag;
+		obj = tags.find(function(tag, index, array) {
+			if (tag.id == objID)
+				return true;
+			return false;
+
+		});
+
+		if (obj.category == "skill")
+			filters.push({
+				"property" : "skill",
+				"value" : tag
+			});
+
+		if (obj.category == "scope")
+			filters.push({
+				"property" : "scope",
+				"value" : tag
+			});
 	});
-
-	filterQueryString += tagQuery;
-	// ---
 
 	// --- Добавляем имя
 
-	filterQueryString += "&hackName=" + $("#hackName").val();
+	if ($("#hackName").val() != "")
+		filters.push({
+			"property" : "name",
+			"value" : $("#hackName").val()
+		});
+
+	if ($("#compNameInput").val() != "")
+		filters.push({
+			"property" : "companyName",
+			"value" : $("#compNameInput").val()
+		});
+
+	filterQueryString += "&filter=" + JSON.stringify(filters);
 
 	// ---
 
@@ -323,10 +409,16 @@ function findNewHackList() {
 
 	alert(filterQueryString)
 
+	filterQueryString = encodeURI(filterQueryString);
 	loadData(false);
 
 	// --
 
 	return false;
 
+}
+
+function changeColor(newAct, oldAct) {
+	$("#" + newAct).css("color", "yellow");
+	$("#" + oldAct).css("color", "white");
 }
