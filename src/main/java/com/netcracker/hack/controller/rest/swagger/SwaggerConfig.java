@@ -22,7 +22,7 @@ public class SwaggerConfig {
 
     apiInfoBuilder.title("SearchHack API");
     apiInfoBuilder.description("SearchHack API for NetCracker project");
-    apiInfoBuilder.version("1.0");
+    apiInfoBuilder.version("0.2");
     apiInfoBuilder.contact(
         new Contact("SearchHack team", "https://hacksearch.herokuapp.com", "ncteam2018@gmail.com"));
     apiInfoBuilder.license("Apache License Version 2.0");
