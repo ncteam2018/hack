@@ -17,16 +17,11 @@ public class Tag {
 
   @Column(name = "tag")
   private String tag;
-
-  @Column(name = "type")
-  private String type;
-
   
   
-  public Tag(Integer id, String tag, String type) {
+  public Tag(Integer id, String tag) {
     this.id = id;
     this.tag = tag;
-    this.type = type;
   }
 
   public Tag() {}
@@ -46,15 +41,6 @@ public class Tag {
   public void setTag(String tag) {
     this.tag = tag;
   }
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
 
   @Override
   public boolean equals(Object obj) {
