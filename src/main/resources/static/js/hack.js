@@ -234,12 +234,21 @@ function loadTags() {
 	});
 
 }
+var mas;
 
 function showHackInformation(index) {
 
-	var mas = hackList[index].placeCoords.split(',')
-	//var coords= mas[1] + "," + mas[0]
-	myMap.setCenter(mas[0], mas[1]);
+	// -- Обновлеем отображение карты
+	if ((hackList[index].placeCoords != "")
+			&& (hackList[index].placeCoords != null)) {
+		mas = hackList[index].placeCoords.split(',').map(Number)
+		mark_X = mas[1];
+		mark_Y = mas[0];
+		hackathonPlace.geometry.setCoordinates([ mark_X, mark_Y ]);
+		myMap.setCenter([ mark_X, mark_Y ]);
+	}
+	// ------------
+
 	$("#full_hackName").html(hackList[index].title);
 	$("#full_description").html(hackList[index].description);
 	$("#full_place").html(hackList[index].place);
@@ -272,8 +281,11 @@ function showHackInformation(index) {
 	return false;
 }
 
-function shotInfo() {
+function showInfo() {
 	$('#fullHackInfo').modal("show");
+}
+function showMap() {
+	$('#hackMap').modal("show");
 }
 
 function showCompanyProfile() {
@@ -426,45 +438,43 @@ function changeColor(newAct, oldAct) {
 	$("#" + oldAct).css("color", "white");
 }
 
-/*ymaps.ready(function() {
-	var myMap = new ymaps.Map('map', {
-		center : [ 55.661574, 37.573856 ],
-		controls : [ 'geolocationControl' ],
+var myMap;
+var mark_X = 55.76;
+var mark_Y = 37.64;
+var hackathonPlace;
+
+ymaps.ready(init);
+function init() {
+	// Создание карты.
+	myMap = new ymaps.Map("map", {
+		center : [ mark_X, mark_Y ],
+		controls : [],
 		zoom : 16
+	});
+	// myMap.getCenter(),
+	hackathonPlace = new ymaps.Placemark([ mark_X, mark_Y ], {
+		hintContent : 'Место проведения хакатона'
 	}, {
-		searchControlProvider : 'yandex#search'
+		preset : "islands#circleDotIcon",
+		iconColor : '#ff0000'
 	});
 
-	// Моя метка
-	hackathonPlace = new ymaps.Placemark(myMap.getCenter(), {
-		hintContent : 'Место проведения хакатона'
-	}, {
-		preset : "islands#circleDotIcon",
-		iconColor : '#ff0000'
-	}
-	);
+	var focusOnHackButton = new ymaps.control.Button({
+		data : {
+			// Текст кнопки.
+			content : "<b>Фокус</b>",
+			title : "Центрирует карту на месте проведения"
+		},
+		options : {
+			maxWidth : [ 28, 150, 178 ]
+		}
+	});
 
-	myMap.geoObjects.add(hackathonPlace);
-});*/
+	focusOnHackButton.events.add('click', function(e) {
+		myMap.setCenter([ mark_X, mark_Y ]);
+		myMap.setZoom(16);
+	});
 
-
-var myMap;
-ymaps.ready(init);
-function init(){ 
-    // Создание карты.    
-    myMap = new ymaps.Map("map", {
-        center: [55.76, 37.64],
-        controls : [ ],
-        zoom: 16
-    });
-    
-   var hackathonPlace = new ymaps.Placemark(myMap.getCenter(), {
-		hintContent : 'Место проведения хакатона'
-	}, {
-		preset : "islands#circleDotIcon",
-		iconColor : '#ff0000'
-	}
-	);
-
+	myMap.controls.add(focusOnHackButton);
 	myMap.geoObjects.add(hackathonPlace)
 }
