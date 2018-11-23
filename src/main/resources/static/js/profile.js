@@ -34,5 +34,8 @@ function loadUserProfile() {
     
   });
 
-}	
+}
+
+$("#profile").addClass('text-warning');
+
 
