@@ -13,6 +13,8 @@ $(document).ready(function() {
 	});
 });
 
+$("#hacks").addClass('text-warning');
+
 var hackList;
 var hackPageParams;
 function PageHandler() {
@@ -136,6 +138,7 @@ var pageHandler
 var totalPages
 var numberOfElements
 
+
 function loadData(isFirst) {
 
 	let query = "api/hack?size=2";
@@ -157,6 +160,7 @@ function loadData(isFirst) {
 				hackList = hackPage.content;
 
 				let companyNames = new Array();
+				let cityNames = new Array();
 				hackList.forEach(function(hackItem, index, arr) {
 					hackItem.index = index;
 					$("#hackItem").tmpl(hackItem).appendTo("#hackList");
@@ -177,8 +181,14 @@ function loadData(isFirst) {
 									$("<option></option>").attr("value",
 											hackItem.company.companyName).text(
 											hackItem.company.companyName));
-
 						}
+
+						cityNames.push(hackItem.place);
+
+						$('#cityNameInput').append(
+								$("<option></option>").attr("value",
+										hackItem.place).text(
+												hackItem.place));
 
 					}
 
@@ -238,15 +248,18 @@ var mas;
 
 function showHackInformation(index) {
 
-	// -- Обновлеем отображение карты
+	// -- Обновляем отображение карты
 	if ((hackList[index].placeCoords != "")
 			&& (hackList[index].placeCoords != null)) {
+		$('#mapShowButton').prop('disabled', false);
 		mas = hackList[index].placeCoords.split(',').map(Number)
 		mark_X = mas[1];
 		mark_Y = mas[0];
 		hackathonPlace.geometry.setCoordinates([ mark_X, mark_Y ]);
 		myMap.setCenter([ mark_X, mark_Y ]);
-	}
+	} else
+		$('#mapShowButton').prop('disabled', true);
+
 	// ------------
 
 	$("#full_hackName").html(hackList[index].title);
@@ -402,20 +415,29 @@ function findNewHackList() {
 			});
 	});
 
-	// --- Добавляем имя
+	// --- Добавляем имя хакатона
 
 	if ($("#hackName").val() != "")
 		filters.push({
 			"property" : "name",
 			"value" : $("#hackName").val()
 		});
-
+	// --- Добавляем имя компании
 	if ($("#compNameInput").val() != "")
 		filters.push({
 			"property" : "companyName",
 			"value" : $("#compNameInput").val()
 		});
 
+	
+	// --- Добавляем имя города
+	if ($("#cityNameInput").val() != "")
+		filters.push({
+			"property" : "cityName",
+			"value" : $("#cityNameInput").val()
+		});
+	
+	
 	filterQueryString += "&filter=" + JSON.stringify(filters);
 
 	// ---

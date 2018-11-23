@@ -21,7 +21,10 @@ public class HackDTO {
   private List<TagDTO> skillTags;
   private List<TagDTO> scopeTags;
   private CompanyData company;
-
+  private Integer teamCountLimit;
+  private String status;
+  private Integer counterOfRegisteredTeams;
+  
   public HackDTO(Hack hack) {
     this.uuid = hack.getUuid();
     this.title = hack.getName();
@@ -35,6 +38,9 @@ public class HackDTO {
     this.skillTags = TagConverter.convertTo(hack.getSkillTags());
     this.scopeTags = TagConverter.convertTo(hack.getScopeTags());
     this.company = hack.getCompany();
+    this.status = hack.getStatus();
+    this.teamCountLimit = hack.getTeamCountLimit();
+    this.counterOfRegisteredTeams = hack.getCounterOfRegisteredTeams();
   }
 
   public HackDTO() {}
@@ -134,6 +140,30 @@ public class HackDTO {
 
   public void setCompany(CompanyData company) {
     this.company = company;
+  }
+
+  public Integer getTeamCountLimit() {
+    return teamCountLimit;
+  }
+
+  public void setTeamCountLimit(Integer teamCountLimit) {
+    this.teamCountLimit = teamCountLimit;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public Integer getCounterOfRegisteredTeams() {
+    return counterOfRegisteredTeams;
+  }
+
+  public void setCounterOfRegisteredTeams(Integer counterOfRegisteredTeams) {
+    this.counterOfRegisteredTeams = counterOfRegisteredTeams;
   }
 
   @Override

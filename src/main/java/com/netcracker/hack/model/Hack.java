@@ -53,13 +53,20 @@ public class Hack {
   @Column(name = "auditory")
   private String auditory;
 
-
+  @Column(name = "status")
+  private String status;
+  
+  @Column(name = "teamLimit")
+  private Integer teamCountLimit;
+  
+  @Column(name = "teamCounter")
+  private Integer counterOfRegisteredTeams ;
+  
   @ManyToMany
   private List<Tag> skillTags;
 
   @ManyToMany
   private List<Tag> scopeTags;
-
 
   public Hack() {}
 
@@ -78,6 +85,9 @@ public class Hack {
     this.site = hackDTO.getSite();
     this.description = hackDTO.getDescription();
     this.auditory = hackDTO.getAuditory();
+    this.status = "unverified";
+    this.counterOfRegisteredTeams = 0;
+    this.teamCountLimit = hackDTO.getTeamCountLimit();
   }
 
 
@@ -178,6 +188,30 @@ public class Hack {
 
   public void setScopeTags(List<Tag> scopeTags) {
     this.scopeTags = scopeTags;
+  }
+  
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public Integer getTeamCountLimit() {
+    return teamCountLimit;
+  }
+
+  public void setTeamCountLimit(Integer teamCountLimit) {
+    this.teamCountLimit = teamCountLimit;
+  }
+
+  public Integer getCounterOfRegisteredTeams() {
+    return counterOfRegisteredTeams;
+  }
+
+  public void setCounterOfRegisteredTeams(Integer counterOfRegisteredTeams) {
+    this.counterOfRegisteredTeams = counterOfRegisteredTeams;
   }
 
   @Override

@@ -9,7 +9,7 @@
 	crossorigin="anonymous">
 <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
 	rel="stylesheet">
-<link rel="stylesheet" th:href="@{/css/hack.css?12341}">
+<link rel="stylesheet" th:href="@{/css/hack.css?123241}">
 </head>
 <body onload="loadData(true)">
 	<div th:replace="fragments/profile_header :: header" />
@@ -39,31 +39,35 @@
 					</div>
 				</div>
 			</div>
-			<div class="tag-card ">
-				<div class="card">
-					<div class="card-header bg-dark text-light font-weight-bold">Место
-						проведения</div>
-					<div id="career" class="card-body">
-						<div class="row">
-							<div class=" tag-padding">
-								<a href="#" class="btn bg-dark text-light"> Москва</a>
+
+			<div class="card">
+				<div class="card-header bg-dark text-light font-weight-bold">Место
+					проведения</div>
+				<div id="career" class="card-body">
+					<div>
+						<form class="form  row">
+							<div class=" col-md-12 "
+								style="padding-left: 10%; padding-right: 10%;">
+								<div class="form-group">
+									<div class="row">
+										<label for="cityNameInput">Название города</label> <select
+											class="form-control col-md-8" id="cityNameInput"
+											name="cityNameInput">
+											<option value=""></option>
+										</select>
+
+									</div>
+								</div>
 							</div>
-							<div class=" tag-padding">
-								<a href="#" class="btn bg-dark text-light"> Санкт-Петербург</a>
-							</div>
-							<div class="tag-padding">
-								<a href="#" class="btn bg-dark text-light"> Омск</a>
-							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
-
 			<div class="card">
 				<div class="card-header bg-dark text-light font-weight-bold">Компания</div>
 				<div id="career" class="card-body">
 					<div>
-						<form class="form  row" name="loginForm">
+						<form class="form  row">
 							<div class=" col-md-12 "
 								style="padding-left: 10%; padding-right: 10%;">
 								<div class="form-group">
@@ -261,26 +265,36 @@
 					<div class="container-fluid card profile-card">
 
 						<div class="userInfo   row">
-							<div class="avatar col-md-2">
+							<div class="avatar col-md-3">
 								<img
 									src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
 									class="img-responsive rounded  profile-avatar" alt="Avatar">
 
 								<div class="profile-info-top">
 									<button onclick="" id="showCompany"
-										class="btn bg-dark text-light ">Организатор</button>
+										class="btn bg-dark text-light col-md-10">Организатор</button>
 								</div>
 								<br>
-								<div class="text-center border">
-									<label for="companyStatus" class="font-weight-bold ">Статус</label>
-									<div id="companyStatus" class="font-italic text-warning">Не
-										проверен</div>
+								<div class="row">
+									<label for="hackStatus" class="font-weight-bold col-md-5">Статус</label>
+									<div id="hackStatus"
+										class="font-italic text-warning col-md-7">Не проверен</div>
 								</div>
-								<br>
 								
+								<div class="row">
+									<label for="hackStatus" class="font-weight-bold col-md-5"><i class="far fa-address-card"></i></label>
+									<div id="hackStatus"
+										class="font-italic text-warning col-md-7">0</div>
+								</div>
+								<i class="fas fa-user-lock fa-4x"></i>
+								<div class="row">
+									<label for="hackStatus" class="col-md-5 font-weight-bold "><i class="far fa-address-card"></i></label>
+									<div id="hackStatus"
+										class="font-italic text-warning col-md-7">0</div>
+								</div>
 							</div>
 
-							<div class="userData col-md-10">
+							<div class="userData col-md-9">
 								<div>
 									<div id="full_hackName"
 										class=" text-center font-weight-bold profile-nick"></div>
@@ -312,7 +326,7 @@
 										</div>
 									</div>
 									<div>
-										<button class="btn btn-dark text-warning"
+										<button id="mapShowButton" class="btn btn-dark text-warning"
 											onclick="return showMap()">Карта</button>
 									</div>
 
@@ -322,23 +336,23 @@
 										<div id="hack-tags" class="card-body row "></div>
 									</div>
 									<div>
-									<div class="col-md-12">
-										<label for="full_description" class="font-weight-bold">Описание
-										</label>
-										<div id="full_description" class="font-italic"></div>
+										<div class="col-md-12">
+											<label for="full_description" class="font-weight-bold">Описание
+											</label>
+											<div id="full_description" class="font-italic"></div>
 
-									</div>
-								</div>
-								<br>
-
-								<div>
-									<div class="col-md-12">
-										<label for="full_auditory" class="font-weight-bold">Аудитория</label>
-										<div class="font-italic">
-											- <span id="full_auditory"></span>
 										</div>
 									</div>
-								</div>
+									<br>
+
+									<div>
+										<div class="col-md-12">
+											<label for="full_auditory" class="font-weight-bold">Аудитория</label>
+											<div class="font-italic">
+												- <span id="full_auditory"></span>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 							<br>
@@ -382,6 +396,12 @@
 										<div class="row">
 											<label for="companyName" class="font-weight-bold col-md-4">Название</label>
 											<span id="companyName" class="font-italic col-md-6"> </span>
+										</div>
+
+										<div class="row">
+											<label for="companyStatus" class="font-weight-bold col-md-4">Статус</label>
+											<div id="companyStatus"
+												class="font-italic text-warning col-md-6">Не проверен</div>
 										</div>
 									</div>
 								</div>
@@ -442,6 +462,6 @@
 	<script
 		src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=4fa6aa42-d9bb-4b62-9e6b-77d1ce2ff058"
 		type="text/javascript"></script>
-	<script src="/js/hack.js?refre53133"></script>
+	<script src="/js/hack.js?refre51221w332"></script>
 </body>
 </html>

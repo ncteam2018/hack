@@ -41,24 +41,26 @@ public class HackServiceImpl implements HackService {
     if (requestBuilder.isFiltered()) {
       if (requestBuilder.getSkillTags().size() > 0 && requestBuilder.getScopeTags().size() > 0)
         tagPage = hackRepository
-            .findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContains(
+            .findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContains(
                 requestBuilder.getPageRequest(), requestBuilder.getSkillTags(),
                 requestBuilder.getScopeTags(), requestBuilder.getSearchName(),
-                requestBuilder.getSearchCompanyName());
+                requestBuilder.getSearchCompanyName(), requestBuilder.getSearchCityName());
       else if (requestBuilder.getSkillTags().size() > 0)
         tagPage =
-            hackRepository.findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContains(
+            hackRepository.findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContains(
                 requestBuilder.getPageRequest(), requestBuilder.getSkillTags(),
-                requestBuilder.getSearchName(), requestBuilder.getSearchCompanyName());
+                requestBuilder.getSearchName(), requestBuilder.getSearchCompanyName(),
+                requestBuilder.getSearchCityName());
       else
         tagPage =
-            hackRepository.findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContains(
+            hackRepository.findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContains(
                 requestBuilder.getPageRequest(), requestBuilder.getScopeTags(),
-                requestBuilder.getSearchName(), requestBuilder.getSearchCompanyName());
+                requestBuilder.getSearchName(), requestBuilder.getSearchCompanyName(),
+                requestBuilder.getSearchCityName());
     } else
-      tagPage = hackRepository.findDistinctByNameContainsAndCompanyCompanyNameContains(
+      tagPage = hackRepository.findDistinctByNameContainsAndCompanyCompanyNameContainsAndPlaceContains(
           requestBuilder.getPageRequest(), requestBuilder.getSearchName(),
-          requestBuilder.getSearchCompanyName());
+          requestBuilder.getSearchCompanyName(), requestBuilder.getSearchCityName());
 
     PageImpl<HackDTO> tagDTOPage = new PageImpl<HackDTO>(makeListOfHackDTO(tagPage.getContent()),
         tagPage.getPageable(), tagPage.getTotalElements());

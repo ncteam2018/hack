@@ -13,18 +13,18 @@ public interface HackRepository extends PagingAndSortingRepository<Hack, UUID> {
 
   // public List<Hack> findByCompany_Uuid(UUID uuid);
 
-  public Page<Hack> findDistinctByNameContainsAndCompanyCompanyNameContains(Pageable pageable,
-      String hackName, String companyName);
+  public Page<Hack> findDistinctByNameContainsAndCompanyCompanyNameContainsAndPlaceContains(
+      Pageable pageable, String hackName, String companyName, String cityName);
 
-  public Page<Hack> findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContains(
+  public Page<Hack> findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContains(
       Pageable pageable, List<Tag> skillTags, List<Tag> scopeTags, String hackName,
-      String companyName);
+      String companyName, String cityName);
 
-  public Page<Hack> findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContains(
-      Pageable pageable, List<Tag> scopeTags, String hackName, String companyName);
+  public Page<Hack> findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContains(
+      Pageable pageable, List<Tag> scopeTags, String hackName, String companyName, String cityName);
 
-  public Page<Hack> findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContains(
-      Pageable pageable, List<Tag> skillTags, String hackName, String companyName);
+  public Page<Hack> findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContains(
+      Pageable pageable, List<Tag> skillTags, String hackName, String companyName, String cityName);
 
 
   @Query("SELECT DISTINCT skillTags FROM Hack")
