@@ -93,7 +93,7 @@ INSERT INTO dc4hb17n6gdggs.public.career VALUES
   (24, 'Bit', 'Уборщик'),
   (28, '', '');
 
-INSERT INTO nc.public.profile VALUES
+INSERT INTO dc4hb17n6gdggs.public.profile VALUES
   ('7eaf7c29-8914-4038-b6cf-7530a42bbead', 'Admin',
    '$2a$10$0/h06uwaoFNsjpBoNFb2oO9FYxlijVbKvVzG8.20HtfoWYEeWjgDG', 28,
    '65831511-063d-4558-adcd-3714cfde62c8', 29, 30, 31),
