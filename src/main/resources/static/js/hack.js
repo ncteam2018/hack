@@ -192,8 +192,11 @@ function loadData(isFirst) {
 
 					}
 
+					$('#loadingIcon').remove();
 				});
 
+				//$('#loadingIcon').remove();
+				
 				if (isFirst)
 					loadTags();
 
@@ -500,3 +503,7 @@ function init() {
 	myMap.controls.add(focusOnHackButton);
 	myMap.geoObjects.add(hackathonPlace)
 }
+
+
+
+

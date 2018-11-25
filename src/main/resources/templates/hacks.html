@@ -9,9 +9,13 @@
 	crossorigin="anonymous">
 <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
 	rel="stylesheet">
-<link rel="stylesheet" th:href="@{/css/hack.css?123241}">
+<link rel="stylesheet" th:href="@{/css/hack.css?12324212}">
+<link rel="stylesheet" th:href="@{/css/loadingAnimation.css?12232241}">
+<link href="https://fonts.googleapis.com/css?family=Poiret+One|Enriqueta"
+	rel="stylesheet">
+
 </head>
-<body onload="loadData(true)">
+<body onload="loadData(true)" class="body-font" >
 	<div th:replace="fragments/profile_header :: header" />
 
 	<br>
@@ -20,29 +24,61 @@
 
 	<div class="container-fluid  row">
 		<div class="col-lg-3 border-right">
-
-
-			<h1>Фильтры</h1>
 			<div class="tag-card ">
-				<div class="card  ">
-					<div class="card-header bg-dark text-light font-weight-bold">Интересы</div>
-					<div id="career" class="card-body">
-						<div id="tag_scope" class="row"></div>
+				<div id="accordion">
+					<div class="card  ">
+						<div class="card-header bg-dark text-center "
+							id="headingInterests">
+							<h5 class="mb-0 ">
+								<button
+									class="col-md-12 btn bg-dark text-light font-weight-bold"
+									data-toggle="collapse" data-target="#collapseInterests"
+									aria-expanded="true" aria-controls="collapseOne">
+									#Интересы <i class="fas fa-caret-down"></i>
+								</button>
+							</h5>
+						</div>
+
+						<div id="collapseInterests" class="collapse"
+							aria-labelledby="headingInterests" data-parent="#accordion">
+							<div class="card-body">
+								<div id="tag_scope" class="row"></div>
+							</div>
+						</div>
+
 					</div>
 				</div>
+
 			</div>
 			<div class="tag-card ">
-				<div class="card">
-					<div class="card-header bg-dark text-light font-weight-bold">Умения</div>
-					<div id="career" class="card-body">
-						<div id="tag_skills" class="row"></div>
+				<div id="accordion2">
+					<div class="card  ">
+						<div class="card-header bg-dark text-center" id="headingSkills">
+							<h5 class="mb-0 ">
+								<button
+									class="col-md-12  btn bg-dark text-light font-weight-bold"
+									data-toggle="collapse" data-target="#collapseSkills"
+									aria-expanded="true" aria-controls="collapseTwo">
+									#Умения <i class="fas fa-caret-down"></i>
+								</button>
+							</h5>
+						</div>
+
+						<div id="collapseSkills" class="collapse"
+							aria-labelledby="headingSkills" data-parent="#accordion2">
+							<div class="card-body">
+								<div id="tag_skills" class="row"></div>
+							</div>
+						</div>
 					</div>
 				</div>
+
 			</div>
 
 			<div class="card">
-				<div class="card-header bg-dark text-light font-weight-bold">Место
-					проведения</div>
+				<h5
+					class="card-header bg-dark text-center text-light font-weight-bold ">Место
+					проведения</h5>
 				<div id="career" class="card-body">
 					<div>
 						<form class="form  row">
@@ -64,7 +100,8 @@
 				</div>
 			</div>
 			<div class="card">
-				<div class="card-header bg-dark text-light font-weight-bold">Компания</div>
+				<h5
+					class="card-header bg-dark text-center text-light font-weight-bold">Компания</h5>
 				<div id="career" class="card-body">
 					<div>
 						<form class="form  row">
@@ -115,7 +152,9 @@
 								<i class="fas fa-search"></i> Поиск
 							</button>
 							<button onclick="return clearAllTags()"
-								class="btn bg-dark text-light">Очистить</button>
+								class="btn bg-dark text-light">
+								<i class="fas fa-trash-alt"></i> Очистить
+							</button>
 						</div>
 
 
@@ -162,8 +201,10 @@
 			<div class="container-fluid row">
 
 				<form action="/createHack" class="col-md-10 text-center">
-					<button class="btn-lg bg-success text-light col-md-12 ">Создать
-						хакатон</button>
+					<button class="shadow-lg btn-lg bg-dark text-light col-md-4 ">
+						<i class="far fa-calendar-plus text-success"
+							style="margin-right: 5%;"></i> Создать хакатон
+					</button>
 
 				</form>
 
@@ -174,6 +215,7 @@
 				<ul id="hackPagination" class="pagination"></ul>
 			</nav>
 			<br>
+			<div id="loadingIcon" class="loader">Loading...</div>
 			<div id="hackList"></div>
 			<br> <br>
 		</div>
@@ -234,7 +276,7 @@
 	 	</script>
 
 	<script id="tagItem" type="text/jquery-tmpl">
-				<div id ="tag_${id}" class=" tag-padding">
+				<div id ="tag_${id}" class="tag-padding" >
 				<button id="tag_${id}_button" onclick="return addTag(${id})" class="btn bg-dark text-light  btn-sm"> ${tagName}</button>
 				</div>
 		</script>
@@ -277,20 +319,20 @@
 								<br>
 								<div class="row">
 									<label for="hackStatus" class="font-weight-bold col-md-5">Статус</label>
-									<div id="hackStatus"
-										class="font-italic text-warning col-md-7">Не проверен</div>
+									<div id="hackStatus" class="font-italic text-warning col-md-7">Не
+										проверен</div>
 								</div>
-								
+
 								<div class="row">
-									<label for="hackStatus" class="font-weight-bold col-md-5"><i class="far fa-address-card"></i></label>
-									<div id="hackStatus"
-										class="font-italic text-warning col-md-7">0</div>
+									<label for="hackStatus" class="font-weight-bold col-md-3"><i
+										class="far fa-address-card"></i></label>
+									<div id="hackStatus" class="font-bold text-dark col-md-5">32</div>
 								</div>
-								<i class="fas fa-user-lock fa-4x"></i>
+								<i class="far fa-user-lock fa-4x"></i>
 								<div class="row">
-									<label for="hackStatus" class="col-md-5 font-weight-bold "><i class="far fa-address-card"></i></label>
-									<div id="hackStatus"
-										class="font-italic text-warning col-md-7">0</div>
+									<label for="hackStatus" class="col-md-3 font-weight-bold "><i
+										class="fas fa-users fa-2x"></i></label>
+									<div id="hackStatus" class="font-bold  text-dark col-md-5">7</div>
 								</div>
 							</div>
 
@@ -441,7 +483,6 @@
 		</div>
 	</div>
 
-
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -461,7 +502,7 @@
 	</script>
 	<script
 		src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=4fa6aa42-d9bb-4b62-9e6b-77d1ce2ff058"
-		type="text/javascript"></script>
-	<script src="/js/hack.js?refre51221w332"></script>
+		type="text/javascript"></script> 
+	<script src="/js/hack.js?re22f"></script>
 </body>
 </html>
