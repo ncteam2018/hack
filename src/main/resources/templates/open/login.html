@@ -1,64 +1,79 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Login</title>
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
-  <link rel="stylesheet" th:href="@{/css/hack.css}" href="/static/css/hack.css">
+<title>Login</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link
+	href="https://fonts.googleapis.com/css?family=Poiret+One|Enriqueta"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/hack.css}"
+	href="/static/css/hack.css">
 </head>
-<body onload="document.loginForm.username.focus();">
-<div th:replace="fragments/common_header :: header"/>
-<br> <br> <br>
-<div class="container">
-  <div class="col-md-10 login-col">
+<body class="body-font" onload="document.loginForm.username.focus();">
+	<div th:replace="fragments/common_header :: header" />
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<div class="col-md-10 login-col">
 
-    <p th:if="${loginError} != 'nope'" class="error login-error">Wrong user or
-      password</p>
+			<p th:if="${loginError} != 'nope'" class="error login-error">Wrong
+				user or password</p>
 
-    <form class="form card " name="loginForm" th:action="@{/login}" method="post">
-      <div class="card-header text-center bg-dark text-light">Авторизация</div>
-      <div class="card-body">
-        <div class="form-group row">
-          <label for="username" class="col-md-2 col-form-label form-right"> Username </label>
-          <div class="col-md-5">
-            <input type="text" class="form-control " name="username" id="username"
-                   placeholder="Enter username"/>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="password" class="col-md-2 col-form-label"> Password </label>
-          <div class="col-md-5">
-            <input class="form-control"
-                   type="password" name="password" id="password"
-                   placeholder="Enter password"/>
-          </div>
-        </div>
-        <br>
-        <hr/>
-        <div class="checkbox">
-          <label> <input type="checkbox" name="remember-me"
-                         id="remember-me"/> Remember me
-          </label>
-        </div>
-        <button type="submit" class="btn bg-dark text-light">Войти</button>
-        <a href="/registration" class="btn bg-dark text-light"> Регистрация</a>
-      </div>
-    </form>
-  </div>
-</div>
-<div th:replace="fragments/footer :: footer"/>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
+			<form class="form card " name="loginForm" th:action="@{/login}"
+				method="post">
+				<div class="card-header text-center bg-dark text-light">Авторизация</div>
+				<div class="card-body col-md-12">
+					<div class="form-group row">
+						<label for="username" class="col-md-4 col-form-label form-right">
+							Username </label>
+						<div class="col-md-5">
+							<input type="text" class="form-control " name="username"
+								id="username" placeholder="Enter username" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="password" class="col-md-4 col-form-label">
+							Password </label>
+						<div class="col-md-5">
+							<input class="form-control" type="password" name="password"
+								id="password" placeholder="Enter password" />
+						</div>
+					</div>
+					<br>
+					<hr />
+					<div class="checkbox">
+						<label> <input type="checkbox" name="remember-me"
+							id="remember-me" /> Remember me
+						</label>
+					</div>
+					<button type="submit" class="btn bg-dark text-light">Войти</button>
+					<a href="/registration" class="btn bg-dark text-light">
+						Регистрация</a>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div th:replace="fragments/footer :: footer" />
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+	<script>
+		$("#login").addClass('text-warning');
+	</script>
 </body>
 </html>

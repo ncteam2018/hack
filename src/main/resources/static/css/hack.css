@@ -2,6 +2,19 @@
 	padding-right: 5%;
 }
 
+.body-font {
+	font-family: 'Enriqueta', serif;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.header-font {
+	font-family: 'Poiret One', cursive;
+	font-size: 20px;
+	font-weight: bolder;
+}
+
+
 body {
 	overflow-y: scroll;
 }
@@ -12,6 +25,33 @@ body {
 
 .profile-avatar {
 	width: 90%;
+}
+
+.rounded {
+  border-radius: 20px !important;
+}
+
+.carousel-inner .item img {
+	height: 100%;
+	width: 100% !important;
+}
+
+.carousel-control-prev-icon {
+	background-image:
+		url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+	background-image:
+		url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+.carousel-indicators li {
+	background-color: #000;
+}
+
+.carousel-indicators .active {
+	background-color: #f00;
 }
 
 .profile-card {
