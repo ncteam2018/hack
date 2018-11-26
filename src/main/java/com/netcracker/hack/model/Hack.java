@@ -34,7 +34,7 @@ public class Hack {
 
   @Column(name = "date")
   private Date startDate;
-  
+
   @Column(name = "countOfDays")
   private Integer countOfDays;
 
@@ -43,7 +43,7 @@ public class Hack {
 
   @Column(name = "placeCoords")
   private String placeCoords;
-  
+
   @Column(name = "site")
   private String site;
 
@@ -55,13 +55,13 @@ public class Hack {
 
   @Column(name = "status")
   private String status;
-  
+
   @Column(name = "teamLimit")
   private Integer teamCountLimit;
-  
+
   @Column(name = "teamCounter")
-  private Integer counterOfRegisteredTeams ;
-  
+  private Integer counterOfRegisteredTeams;
+
   @ManyToMany
   private List<Tag> skillTags;
 
@@ -85,7 +85,10 @@ public class Hack {
     this.site = hackDTO.getSite();
     this.description = hackDTO.getDescription();
     this.auditory = hackDTO.getAuditory();
-    this.status = "unverified";
+    if (hackDTO.getStatus() != null)
+      this.status = hackDTO.getStatus();
+    else
+      this.status = "Processing";
     this.counterOfRegisteredTeams = 0;
     this.teamCountLimit = hackDTO.getTeamCountLimit();
   }
@@ -133,7 +136,7 @@ public class Hack {
     this.countOfDays = countOfDays;
   }
 
-  
+
   public String getPlaceCoords() {
     return placeCoords;
   }
@@ -189,7 +192,7 @@ public class Hack {
   public void setScopeTags(List<Tag> scopeTags) {
     this.scopeTags = scopeTags;
   }
-  
+
   public String getStatus() {
     return status;
   }

@@ -25,8 +25,8 @@ public class TagsServiceImpl implements TagsService {
 
     List<List<TagDTO>> allTags = new ArrayList<>();
 
-    allTags.add(TagConverter.convertTo(hackRepository.findDistinctSkillTagsAndStatus("Active")));
-    allTags.add(TagConverter.convertTo(hackRepository.findDistinctScopeTagsAndStatus("Active")));
+    allTags.add(TagConverter.convertTo(hackRepository.findDistinctSkillTags("Active")));
+    allTags.add(TagConverter.convertTo(hackRepository.findDistinctScopeTags("Active")));
 
     return allTags;
   }

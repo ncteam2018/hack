@@ -3,7 +3,7 @@ package com.netcracker.hack.controller.rest;
 import com.netcracker.hack.dto.HackDTO;
 import com.netcracker.hack.dto.builder.PageRequestBuilder;
 import com.netcracker.hack.model.Hack;
-import com.netcracker.hack.service.Impl.HackServiceImpl;
+import com.netcracker.hack.service.HackService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.security.Principal;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/hack")
 public class HackController {
   @Autowired
-  private HackServiceImpl service;
+  private HackService service;
 
   @ApiOperation("Returns all hacks")
   @GetMapping
@@ -68,8 +68,8 @@ public class HackController {
   @ApiOperation("Updates hack by uuid")
   @PutMapping("/{id}")
   public ResponseEntity<Object> updateHack(
-      @ApiParam(value = "new Hack", required = true) @RequestBody Hack hack,
+      @ApiParam(value = "new Hack", required = true) @RequestBody HackDTO hackDTO,
       @ApiParam(value = "Hack's uuid", required = true) @PathVariable UUID id) {
-    return service.updateHack(hack, id);
+    return service.updateHack(hackDTO, id);
   }
 }
