@@ -194,8 +194,6 @@ function loadData(isFirst) {
 
 					$('#loadingIcon').remove();
 				});
-
-				//$('#loadingIcon').remove();
 				
 				if (isFirst)
 					loadTags();

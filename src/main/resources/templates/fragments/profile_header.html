@@ -5,8 +5,7 @@
 </head>
 
 <body>
-	<div th:fragment="header"
-		class="header-font" >
+	<div th:fragment="header" class="header-font">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<a class="navbar-brand font-weight-bold" href="#">SearchHack</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -26,18 +25,19 @@
 					<li class="nav-item"><a class="nav-link" href="#"
 						id="notifications"><i class="far fa-comment-alt"></i>
 							Уведомления <span class="badge badge-pill badge-light text-dark"
-							id="newNotificationCounter">19 </span></a></li>
+							id="newNotificationCounter" style="visibility: hidden; width: 40px;"> 0</span></a></li>
 					<li>
 						<div class="btn-group">
 							<button type="button"
 								class="btn-lg  btn-dark dropdown-toggle border-0"
 								data-toggle="dropdown" aria-haspopup="true"
 								aria-expanded="false">
-								<img 
+								<img
 									src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
 									class="img-responsive rounded profile-image" />
 							</button>
-							<div class="dropdown-menu dropdown-menu-right" style="font-size: 20px;"> 
+							<div class="dropdown-menu dropdown-menu-right"
+								style="font-size: 20px;">
 								<a class="dropdown-item" href="#"><i class="fas fa-cogs">
 								</i> Настройки</a>
 								<div class="dropdown-divider"></div>
@@ -50,6 +50,39 @@
 				</ul>
 			</div>
 		</nav>
+
+		<script>
+			function getDefaultHeaders() {
+				var headers = new Headers();
+				headers.append("Content-Type", "application/json");
+				return headers;
+			}
+
+			fetch("/api/profile/me", {
+				method : 'GET',
+				headers : getDefaultHeaders(),
+				credentials : "same-origin"
+			}).then(function(response) {
+				return response.json();
+			}).then(function(myProfile) {
+
+				let query = " /api/event/count?ownerID=" + myProfile.uuid;
+				fetch(query, {
+					method : 'GET',
+					headers : getDefaultHeaders(),
+					credentials : "same-origin"
+				}).then(function(response) {
+					return response.json();
+				}).then(function(userEventCounter) {
+					$("#newNotificationCounter").html(userEventCounter);
+					if (userEventCounter > 0)
+						$('#newNotificationCounter').addClass('bg-danger');
+					$('#newNotificationCounter').css('visibility', 'visible');
+				});
+
+			});
+		</script>
+
 	</div>
 </body>
 </html>
