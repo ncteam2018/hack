@@ -3,6 +3,7 @@ package com.netcracker.hack.dto;
 import com.netcracker.hack.dto.converter.TagConverter;
 import com.netcracker.hack.model.CompanyData;
 import com.netcracker.hack.model.Hack;
+import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,28 +11,36 @@ public class HackDTO {
 
   private UUID uuid;
   private String title;
-  private String startDate;
+  private Date startDate;
   private int duration;
   private String place;
+  private String placeCoords;
   private String site;
   private String description;
   private String auditory;
   private List<TagDTO> skillTags;
   private List<TagDTO> scopeTags;
   private CompanyData company;
-
+  private Integer teamCountLimit;
+  private String status;
+  private Integer counterOfRegisteredTeams;
+  
   public HackDTO(Hack hack) {
     this.uuid = hack.getUuid();
     this.title = hack.getName();
     this.startDate = hack.getStartDate();
     this.duration = hack.getCountOfDays();
     this.place = hack.getPlace();
+    this.placeCoords = hack.getPlaceCoords();
     this.site = hack.getSite();
     this.description = hack.getDescription();
     this.auditory = hack.getAuditory();
     this.skillTags = TagConverter.convertTo(hack.getSkillTags());
     this.scopeTags = TagConverter.convertTo(hack.getScopeTags());
     this.company = hack.getCompany();
+    this.status = hack.getStatus();
+    this.teamCountLimit = hack.getTeamCountLimit();
+    this.counterOfRegisteredTeams = hack.getCounterOfRegisteredTeams();
   }
 
   public HackDTO() {}
@@ -52,11 +61,11 @@ public class HackDTO {
     this.title = title;
   }
 
-  public String getStartDate() {
+  public Date getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(String startDate) {
+  public void setStartDate(Date startDate) {
     this.startDate = startDate;
   }
 
@@ -82,6 +91,15 @@ public class HackDTO {
 
   public void setSite(String site) {
     this.site = site;
+  }
+
+  
+  public String getPlaceCoords() {
+    return placeCoords;
+  }
+
+  public void setPlaceCoords(String placeCoords) {
+    this.placeCoords = placeCoords;
   }
 
   public String getDescription() {
@@ -122,6 +140,30 @@ public class HackDTO {
 
   public void setCompany(CompanyData company) {
     this.company = company;
+  }
+
+  public Integer getTeamCountLimit() {
+    return teamCountLimit;
+  }
+
+  public void setTeamCountLimit(Integer teamCountLimit) {
+    this.teamCountLimit = teamCountLimit;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public Integer getCounterOfRegisteredTeams() {
+    return counterOfRegisteredTeams;
+  }
+
+  public void setCounterOfRegisteredTeams(Integer counterOfRegisteredTeams) {
+    this.counterOfRegisteredTeams = counterOfRegisteredTeams;
   }
 
   @Override

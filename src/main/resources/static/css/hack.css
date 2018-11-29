@@ -1,67 +1,113 @@
 .profile-navbar {
-  padding-right: 5%;
+	padding-right: 5%;
+}
+
+.body-font {
+	font-family: 'Enriqueta', serif;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.header-font {
+	font-family: 'Poiret One', cursive;
+	font-size: 15px;
+	font-weight: bolder;
+}
+
+#notificationIcon .dropdown-toggle::after {
+    display:none;
+}
+#notificationIcon .border-3 {
+    border-width:3px !important;
+}
+body {
+	overflow-y: scroll;
 }
 
 .profile-image {
-  width: 30px;
+	width: 30px;
 }
 
 .profile-avatar {
-  width: 90%;
-  
+	width: 90%;
+}
+
+.rounded {
+  border-radius: 20px !important;
+}
+
+.carousel-inner .item img {
+	height: 100%;
+	width: 100% !important;
+}
+
+.carousel-control-prev-icon {
+	background-image:
+		url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+	background-image:
+		url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+.carousel-indicators li {
+	background-color: #000;
+}
+
+.carousel-indicators .active {
+	background-color: #f00;
 }
 
 .profile-card {
-  padding: 10px;
+	padding: 10px;
 }
 
 .profile-nick {
-  font-size: 25px;
+	font-size: 25px;
 }
-.profile-info-top{
-  padding-top: 20px;
+
+.profile-info-top {
+	padding-top: 20px;
 }
-.profile-info-left{
-  padding-left: 15px;
+
+.profile-info-left {
+	padding-left: 15px;
 }
-.profile-info-right{
-  padding-right: 15px;
+
+.profile-info-right {
+	padding-right: 15px;
 }
 
 .login-error {
-  color: red;
+	color: red;
 }
 
 .login-col {
-  padding-left: 20%;
+	padding-left: 20%;
 }
 
 .reg-back {
-  background-color: gray;
+	background-color: gray;
 }
 
 .tag-padding {
-  padding-right: 10px;
-  padding-bottom: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
 }
 
 .tag-card {
-  padding-bottom: 10px;
+	padding-bottom: 10px;
 }
 
-
-
-@media (min-width: 768px) {
-  .modal-dialog {
-    width: 100%;
-    margin-left: 15%;
-    margin-top: 5%;
-    margin-right: 10%;
-  }
-  .modal-content{
-    width: 150%;
-  } 
-  
+@media ( min-width : 768px) {
+	.modal-dialog {
+		width: 100%;
+		margin-left: 15%;
+		margin-top: 5%;
+		margin-right: 10%;
+	}
+	.modal-content {
+		width: 150%;
+	}
 }
-
-

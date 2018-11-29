@@ -6,13 +6,21 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 	crossorigin="anonymous">
-<link rel="stylesheet" th:href="@{/css/hack.css}"
+<link rel="stylesheet" th:href="@{/css/hack.css?12}"
 	href="/static/css/hack.css">
 <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
 	rel="stylesheet">
 <title>Hackathon registration</title>
+<style>
+html, body, #map {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+</style>
 </head>
-<body class="reg-back">
+<body class="reg-back body-font">
 	<div th:replace="fragments/profile_header :: header" />
 	<br>
 	<br>
@@ -58,12 +66,17 @@
 								id="duration" placeholder="Введите кол-во дней" />
 						</div>
 					</div>
-					<div class="form-group row">
-						<label class="col-md-3 col-form-label form-right" for="place">Место
+					<div class="form-group ">
+						<label class="col-md-3 col-form-label form-right" for="map">Место
 							проведения</label>
-						<div class="col-md-7">
-							<textarea class="form-control" name="place" id="place" rows="3"></textarea>
-						</div>
+
+						<div id="map" class="col-md-6" style="width: 400px; height: 400px"></div>
+					</div>
+					<div class="form-group row">
+
+						<label class="col-md-4 col-form-label form-right" for="place">Выбранный адрес:</label> 
+						<span id="place"></span> 
+
 					</div>
 					<div class="form-group row">
 						<label for="site" class="col-md-3 col-form-label form-right">
@@ -167,6 +180,9 @@
 		src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
 		
 	</script>
-	<script src="/js/regHack.js?refresh4"></script>
+	<script
+		src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=4fa6aa42-d9bb-4b62-9e6b-77d1ce2ff058"
+		type="text/javascript"></script>
+	<script src="/js/regHack.js?refresh4212"></script>
 </body>
 </html>

@@ -13,6 +13,8 @@ $(document).ready(function() {
 	});
 });
 
+$("#hacks").addClass('text-warning');
+
 var hackList;
 var hackPageParams;
 function PageHandler() {
@@ -136,6 +138,7 @@ var pageHandler
 var totalPages
 var numberOfElements
 
+
 function loadData(isFirst) {
 
 	let query = "api/hack?size=2";
@@ -157,6 +160,7 @@ function loadData(isFirst) {
 				hackList = hackPage.content;
 
 				let companyNames = new Array();
+				let cityNames = new Array();
 				hackList.forEach(function(hackItem, index, arr) {
 					hackItem.index = index;
 					$("#hackItem").tmpl(hackItem).appendTo("#hackList");
@@ -177,13 +181,20 @@ function loadData(isFirst) {
 									$("<option></option>").attr("value",
 											hackItem.company.companyName).text(
 											hackItem.company.companyName));
-
 						}
+
+						cityNames.push(hackItem.place);
+
+						$('#cityNameInput').append(
+								$("<option></option>").attr("value",
+										hackItem.place).text(
+												hackItem.place));
 
 					}
 
+					$('#loadingIcon').remove();
 				});
-
+				
 				if (isFirst)
 					loadTags();
 
@@ -234,8 +245,23 @@ function loadTags() {
 	});
 
 }
+var mas;
 
 function showHackInformation(index) {
+
+	// -- Обновляем отображение карты
+	if ((hackList[index].placeCoords != "")
+			&& (hackList[index].placeCoords != null)) {
+		$('#mapShowButton').prop('disabled', false);
+		mas = hackList[index].placeCoords.split(',').map(Number)
+		mark_X = mas[1];
+		mark_Y = mas[0];
+		hackathonPlace.geometry.setCoordinates([ mark_X, mark_Y ]);
+		myMap.setCenter([ mark_X, mark_Y ]);
+	} else
+		$('#mapShowButton').prop('disabled', true);
+
+	// ------------
 
 	$("#full_hackName").html(hackList[index].title);
 	$("#full_description").html(hackList[index].description);
@@ -269,8 +295,11 @@ function showHackInformation(index) {
 	return false;
 }
 
-function shotInfo() {
+function showInfo() {
 	$('#fullHackInfo').modal("show");
+}
+function showMap() {
+	$('#hackMap').modal("show");
 }
 
 function showCompanyProfile() {
@@ -355,7 +384,7 @@ function findNewHackList() {
 		sort.property = "name";
 		break;
 	case "2":
-		sort.property = "time";
+		sort.property = "startDate";
 	}
 
 	filterQueryString += "sort=" + JSON.stringify(sort);
@@ -387,20 +416,29 @@ function findNewHackList() {
 			});
 	});
 
-	// --- Добавляем имя
+	// --- Добавляем имя хакатона
 
 	if ($("#hackName").val() != "")
 		filters.push({
 			"property" : "name",
 			"value" : $("#hackName").val()
 		});
-
+	// --- Добавляем имя компании
 	if ($("#compNameInput").val() != "")
 		filters.push({
 			"property" : "companyName",
 			"value" : $("#compNameInput").val()
 		});
 
+	
+	// --- Добавляем имя города
+	if ($("#cityNameInput").val() != "")
+		filters.push({
+			"property" : "cityName",
+			"value" : $("#cityNameInput").val()
+		});
+	
+	
 	filterQueryString += "&filter=" + JSON.stringify(filters);
 
 	// ---
@@ -422,3 +460,48 @@ function changeColor(newAct, oldAct) {
 	$("#" + newAct).css("color", "yellow");
 	$("#" + oldAct).css("color", "white");
 }
+
+var myMap;
+var mark_X = 55.76;
+var mark_Y = 37.64;
+var hackathonPlace;
+
+ymaps.ready(init);
+function init() {
+	// Создание карты.
+	myMap = new ymaps.Map("map", {
+		center : [ mark_X, mark_Y ],
+		controls : [],
+		zoom : 16
+	});
+	// myMap.getCenter(),
+	hackathonPlace = new ymaps.Placemark([ mark_X, mark_Y ], {
+		hintContent : 'Место проведения хакатона'
+	}, {
+		preset : "islands#circleDotIcon",
+		iconColor : '#ff0000'
+	});
+
+	var focusOnHackButton = new ymaps.control.Button({
+		data : {
+			// Текст кнопки.
+			content : "<b>Фокус</b>",
+			title : "Центрирует карту на месте проведения"
+		},
+		options : {
+			maxWidth : [ 28, 150, 178 ]
+		}
+	});
+
+	focusOnHackButton.events.add('click', function(e) {
+		myMap.setCenter([ mark_X, mark_Y ]);
+		myMap.setZoom(16);
+	});
+
+	myMap.controls.add(focusOnHackButton);
+	myMap.geoObjects.add(hackathonPlace)
+}
+
+
+
+

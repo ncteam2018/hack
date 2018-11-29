@@ -20,5 +20,5 @@ public interface HackService {
 
   ResponseEntity<Object> createHack(HackDTO hack, String creatorName);
 
-  ResponseEntity<Object> updateHack(Hack hack, UUID id);
+  ResponseEntity<Object> updateHack(HackDTO hackDTO, UUID id);
 }

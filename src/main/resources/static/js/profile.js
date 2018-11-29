@@ -32,7 +32,12 @@ function loadUserProfile() {
     $("#companyData").html(profile.companyData.companyName);
     $("#aboutCompany").html(profile.companyData.about);
     
+    $('#loadingIcon').remove();
+    $('#userProfile').css('visibility', 'visible');
   });
 
-}	
+}
+
+$("#profile").addClass('text-warning');
+
 

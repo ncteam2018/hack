@@ -10,6 +10,6 @@ public class MainController {
 
   @GetMapping
   public String getMainPage() {
-    return "index";
+    return "open/index";
   }
 }

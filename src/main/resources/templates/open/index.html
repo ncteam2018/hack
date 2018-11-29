@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>SearchHack</title>
+<link type="image/x-icon" rel="icon" href="../img/icon.png">
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link
+	href="https://fonts.googleapis.com/css?family=Poiret+One|Enriqueta"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Amatic+SC|Comfortaa|Marck+Script|Neucha|Pacifico|Play|Press+Start+2P"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/hack.css?12}">
+<link rel="stylesheet" th:href="@{/css/onepage-scroll.css?123}">
+</head>
+<body class="" style="font-family: 'Press Start 2P', cursive;">
+	<div th:replace="fragments/common_header :: header" />
+	<div class="main">
+		<section style="background-color: #F0E68C">
+			<br> <br>
+			<div class="container rounded border border-dark col-md-8 "
+				style="background-color: #ffffff;">
+				<div id="carouselTeam" class="carousel slide " data-ride="carousel"
+					data-interval="10000">
+					<ol class="carousel-indicators">
+						<li data-target="#carouselTeam" data-slide-to="0" class="active"></li>
+						<li data-target="#carouselTeam" data-slide-to="1"></li>
+					</ol>
+					<div class="carousel-inner " style="height: 450px; width: 100%;">
+						<div class="carousel-item  active">
+							<div class="container center-block">
+								<img class="d-block rounded  offset-md-2"
+									src="../img/mainStock2.jpg" alt="Second slide"
+									style="height: 450px;">
+
+								<div class="carousel-caption d-none d-md-block  text-dark center-block">
+									<h6>Хочешь учавствовать в хакатонах, но не можешь найти
+										команду?</h6>
+								</div>
+
+
+							</div>
+
+						</div>
+						<div class="carousel-item">
+							<div class="container ">
+								<img class="d-block rounded offset-md-1"
+									src="../img/mainStock.jpg" alt="First slide"
+									style="height: 450px;">
+
+								<div class="carousel-caption d-none d-md-block text-dark ">
+									<h4>Мы поможем найти команду твоей мечты</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+					<a class="carousel-control-prev text-dark" href="#carouselTeam"
+						role="button" data-slide="prev"> <span
+						class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+						class="sr-only bg-dark">Previous</span>
+					</a> <a class="carousel-control-next text-dark" href="#carouselTeam"
+						role="button" data-slide="next"> <span
+						class="carousel-control-next-icon" aria-hidden="true"></span> <span
+						class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
+			<br>
+			<form action="/registration?type=user">
+				<button class="shadow-lg btn-lg btn-success offset-md-4 col-md-4">Начать
+					поиск команды</button>
+			</form>
+
+		</section>
+		<section style="background-color: #D2B48C">
+			<br> <br>
+			<div class="container rounded col-md-8"
+				style="background-color: #ffffff;">
+				<div id="carouselCompany" class="carousel slide "
+					data-ride="carousel" data-interval="10000">
+					<ol class="carousel-indicators">
+						<li data-target="#carouselCompany" data-slide-to="0"
+							class="active"></li>
+						<li data-target="#carouselCompany" data-slide-to="1"></li>
+					</ol>
+					<div class="carousel-inner " style="height: 450px; width: 100%;">
+						<div class="carousel-item col-md-12 active">
+							<img class="d-block   rounded offset-md-1"
+								src="../img/mainStock3.jpg" alt="Third slide"
+								style="height: 450px;">
+
+							<div class="carousel-caption d-none d-md-block  text-dark">
+								<h4>Организовываешь хакатон и тебе нужны участники?</h4>
+							</div>
+						</div>
+						<div class="carousel-item col-md-12">
+							<img class="d-block   rounded offset-md-1"
+								src="../img/mainStock4.jpg" alt="Fourth slide"
+								style="height: 450px;">
+
+							<div class="carousel-caption d-none d-md-block text-dark">
+								<h5>Мы поможем командам услышать твой зов</h5>
+							</div>
+						</div>
+					</div>
+					<a class="carousel-control-prev text-dark" href="#carouselCompany"
+						role="button" data-slide="prev"> <span
+						class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+						class="sr-only bg-dark">Previous</span>
+					</a> <a class="carousel-control-next text-dark" href="#carouselCompany"
+						role="button" data-slide="next"> <span
+						class="carousel-control-next-icon" aria-hidden="true"></span> <span
+						class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
+			<br>
+			<form action="/registration?type=comp">
+				<button
+					class="shadow-lg btn offset-md-4 col-md-5 text-light btn-primary">Создать
+					объявление о хакатоне</button>
+			</form>
+		</section>
+	</div>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<div th:replace="fragments/footer :: footer" />
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+	<script src="/js/jquery.onepage-scroll.min.js"></script>
+
+	<script>
+		$("#main").addClass('text-warning');
+		$(".main").onepage_scroll({
+			sectionContainer : "section", // sectionContainer accepts any kind of selector in case you don't want to use section
+			easing : "ease", // Easing options accepts the CSS3 easing animation such "ease", "linear", "ease-in",
+			// "ease-out", "ease-in-out", or even cubic bezier value such as "cubic-bezier(0.175, 0.885, 0.420, 1.310)"
+			animationTime : 1000, // AnimationTime let you define how long each section takes to animate
+			pagination : true, // You can either show or hide the pagination. Toggle true for show, false for hide.
+			updateURL : false, // Toggle this true if you want the URL to be updated automatically when the user scroll to each page.
+			beforeMove : function(index) {
+			}, // This option accepts a callback function. The function will be called before the page moves.
+			afterMove : function(index) {
+			}, // This option accepts a callback function. The function will be called after the page moves.
+			loop : false, // You can have the page loop back to the top/bottom when the user navigates at up/down on the first/last page.
+			keyboard : true, // You can activate the keyboard controls
+			responsiveFallback : false, // You can fallback to normal page scroll by defining the width of the browser in which
+			// you want the responsive fallback to be triggered. For example, set this to 600 and whenever
+			// the browser's width is less than 600, the fallback will kick in.
+			direction : "vertical" // You can now define the direction of the One Page Scroll animation. Options available are "vertical" and "horizontal". The default value is "vertical".  
+		});
+	</script>
+</body>
+</html>
