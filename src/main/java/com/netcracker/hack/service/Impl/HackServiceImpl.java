@@ -108,7 +108,7 @@ public class HackServiceImpl implements HackService {
     // Hack savedHack = hackRepository.save(HackMapper.INSTANCE.hackDTOToHack(hackDTO));
 
     eventService.createEvent(1, 2, companyProfile.getUuid(),
-        UUID.fromString("6965c636-b957-44a7-b4fa-b6bd168bc760"), savedHack.getUuid(), null,
+        UUID.fromString("00000000-0000-0000-0000-000000000000"), savedHack.getUuid(), null,
         "Подтвердите мой хакатон!"); // -- Эвент создания нового хакатона
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
