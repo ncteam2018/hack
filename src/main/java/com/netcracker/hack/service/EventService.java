@@ -9,6 +9,8 @@ public interface EventService {
   public void createEvent(Integer typeID, Integer statusID, UUID sender_id, UUID receiver_id,
       UUID hack_id, UUID team_id, String message);
 
+  public void createHackNotifications(UUID hackID, String message);
+
   public List<List<EventDTO>> getEvents(Integer typeID, UUID ownerID);
 
   public void updateEventStatus(Integer eventID, Integer newStatusID);

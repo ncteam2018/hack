@@ -127,16 +127,18 @@ public class HackServiceImpl implements HackService {
     String hackStatus = hackDTO.getStatus();
     if (hackStatus.equals("Active")) {
       hackRepository.save(new Hack(hackDTO));
-      eventService.updateEventStatus(eventRepository.findByResourceHackReferenceUuid(id).getId(),
-          1);
-      eventService.createEvent(2, 1, UUID.fromString("00000000-0000-0000-0000-000000000000"),
-          UUID.fromString("00000000-0000-0000-0000-000000000000"), id, null,
-          "Объявлен новый хакатон, спешите принять участие!"); // -- Оповещения о новом хакатоне
+
+      // TODO: Сдалать нормальный поиск нужного события
+      eventService
+          .updateEventStatus(eventRepository.findByResourceHackReferenceUuid(id).get(0).getId(), 1);
+
+      eventService.createHackNotifications(hackDTO.getUuid(),
+          "Объявлен новый хакатон, спешите принять участие!");// -- Оповещения о новом хакатоне
     }
 
     if (hackStatus.equals("Canceled")) {
       hackRepository.delete(hackOptional.get());
-      eventService.updateEventStatus(eventRepository.findByResourceHackReferenceUuid(id).getId(),
+      eventService.updateEventStatus(eventRepository.findByResourceHackReferenceUuid(id).get(0).getId(),
           3);
     }
 
