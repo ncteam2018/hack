@@ -18,6 +18,7 @@ public class PageRequestBuilder {
   private String searchName;
   private String searchCompanyName;
   private boolean isFiltered;
+  private String searchCityName;
 
   public PageRequestBuilder(String sortJson, int page, int size, String filtersJson) {
 
@@ -43,6 +44,7 @@ public class PageRequestBuilder {
     scopeTags = new ArrayList<>();
     searchName = "";
     searchCompanyName = "";
+    searchCityName = "";
     isFiltered = false;
 
     if (filters != null)
@@ -54,6 +56,9 @@ public class PageRequestBuilder {
             break;
           case "companyName":
             searchCompanyName = filter.getValue();
+            break;
+          case "cityName":
+            searchCityName = filter.getValue();
             break;
           case "skill":
             isFiltered = true;
@@ -89,6 +94,10 @@ public class PageRequestBuilder {
 
   public String getSearchCompanyName() {
     return searchCompanyName;
+  }
+
+  public String getSearchCityName() {
+    return searchCityName;
   }
 
 }

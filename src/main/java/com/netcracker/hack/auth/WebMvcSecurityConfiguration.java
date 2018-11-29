@@ -39,12 +39,12 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .rememberMe().key("shvahyvadlydvhy").and().logout().logoutSuccessUrl("/")
         .deleteCookies("JSESSIONID")
 
-        .and().authorizeRequests().antMatchers("/", "/login", "/mainPage", "/registration")
+        .and().authorizeRequests().antMatchers("/", "/login", "/registration")
         .permitAll()
         .antMatchers("/api/profile").permitAll().antMatchers("/api/**").hasAnyRole("USER", "ADMIN", "ORGANIZATION")
-        //.antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
-        //    "/configuration/security",
-         //   "/swagger-ui.html", "/webjars/**").hasRole("ADMIN")
+        .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
+           "/configuration/security",
+           "/swagger-ui.html", "/webjars/**").hasRole("ADMIN")
         .antMatchers("/**").authenticated();
 
     // HTTPS
@@ -58,7 +58,7 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   public void configure(WebSecurity web) throws Exception {
 
-    web.ignoring().antMatchers("/js/**", "/css/**");
+    web.ignoring().antMatchers("/js/**", "/css/**","/img/**");
   }
 
 }

@@ -1,5 +1,6 @@
 package com.netcracker.hack.model;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -31,14 +32,17 @@ public class Hack {
   @ManyToOne(fetch = FetchType.EAGER)
   private CompanyData company;
 
-  @Column(name = "startDate")
-  private String startDate;
+  @Column(name = "date")
+  private Date startDate;
 
   @Column(name = "countOfDays")
   private Integer countOfDays;
 
   @Column(name = "place")
   private String place;
+
+  @Column(name = "placeCoords")
+  private String placeCoords;
 
   @Column(name = "site")
   private String site;
@@ -49,13 +53,20 @@ public class Hack {
   @Column(name = "auditory")
   private String auditory;
 
+  @Column(name = "status")
+  private String status;
+
+  @Column(name = "teamLimit")
+  private Integer teamCountLimit;
+
+  @Column(name = "teamCounter")
+  private Integer counterOfRegisteredTeams;
 
   @ManyToMany
   private List<Tag> skillTags;
 
   @ManyToMany
   private List<Tag> scopeTags;
-
 
   public Hack() {}
 
@@ -70,9 +81,16 @@ public class Hack {
     this.startDate = hackDTO.getStartDate();
     this.countOfDays = hackDTO.getDuration();
     this.place = hackDTO.getPlace();
+    this.placeCoords = hackDTO.getPlaceCoords();
     this.site = hackDTO.getSite();
     this.description = hackDTO.getDescription();
     this.auditory = hackDTO.getAuditory();
+    if (hackDTO.getStatus() != null)
+      this.status = hackDTO.getStatus();
+    else
+      this.status = "Processing";
+    this.counterOfRegisteredTeams = 0;
+    this.teamCountLimit = hackDTO.getTeamCountLimit();
   }
 
 
@@ -102,11 +120,11 @@ public class Hack {
   }
 
 
-  public String getStartDate() {
+  public Date getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(String startDate) {
+  public void setStartDate(Date startDate) {
     this.startDate = startDate;
   }
 
@@ -116,6 +134,15 @@ public class Hack {
 
   public void setCountOfDays(Integer countOfDays) {
     this.countOfDays = countOfDays;
+  }
+
+
+  public String getPlaceCoords() {
+    return placeCoords;
+  }
+
+  public void setPlaceCoords(String placeCoords) {
+    this.placeCoords = placeCoords;
   }
 
   public String getPlace() {
@@ -164,6 +191,30 @@ public class Hack {
 
   public void setScopeTags(List<Tag> scopeTags) {
     this.scopeTags = scopeTags;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public Integer getTeamCountLimit() {
+    return teamCountLimit;
+  }
+
+  public void setTeamCountLimit(Integer teamCountLimit) {
+    this.teamCountLimit = teamCountLimit;
+  }
+
+  public Integer getCounterOfRegisteredTeams() {
+    return counterOfRegisteredTeams;
+  }
+
+  public void setCounterOfRegisteredTeams(Integer counterOfRegisteredTeams) {
+    this.counterOfRegisteredTeams = counterOfRegisteredTeams;
   }
 
   @Override
