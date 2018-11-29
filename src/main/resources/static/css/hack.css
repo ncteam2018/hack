@@ -4,17 +4,22 @@
 
 .body-font {
 	font-family: 'Enriqueta', serif;
-	font-size: 20px;
+	font-size: 15px;
 	font-weight: bold;
 }
 
 .header-font {
 	font-family: 'Poiret One', cursive;
-	font-size: 20px;
+	font-size: 15px;
 	font-weight: bolder;
 }
 
-
+#notificationIcon .dropdown-toggle::after {
+    display:none;
+}
+#notificationIcon .border-3 {
+    border-width:3px !important;
+}
 body {
 	overflow-y: scroll;
 }

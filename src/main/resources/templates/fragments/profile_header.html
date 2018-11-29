@@ -15,6 +15,50 @@
 			</button>
 			<div class="collapse navbar-collapse profile-navbar" id="navbarNav">
 				<ul class="navbar-nav ml-auto ">
+					<li style="margin-right:25px;"><div class="btn-group " id="notificationIcon">
+							<button type="button"
+								class="btn btn-dark text-warning dropdown-toggle"
+								aria-haspopup="true" data-toggle="dropdown"
+								aria-expanded="false" onclick="showNotif()">
+								<i class="fas fa-bell "></i>
+							</button>
+							<div
+								class="card dropdown-menu dropdown-menu-right notifList  text-white bg-secondary border border-secondary border-3"
+								style="width: 400px; height: 400px; display: none; overflow-y: auto;"
+								id="notifList">
+								<div class="card-header text-warning"> <h3>Оповещения</h3></div>
+								<div class="card-body ">
+									<div id="item1">
+										<i class="fas fa-exclamation"></i> Объявлен новый хакатон
+										<button class="btn-sm btn-dark" style="margin-left:25px;">Ссылка</button>
+										<button onclick=" delNotif('item1')"
+											class="btn btn-danger float-right"><i class="fas fa-times"></i></button>
+									</div>
+									<div class="dropdown-divider" id="item1-divider"></div>
+									<div id="item2">
+										<i class="fas fa-envelope"></i> Объявлен новый хакатон
+										<button class="btn-sm btn-dark">Ссылка</button>
+										<button onclick=" delNotif('item2')"
+											class="btn btn-danger float-right">X</button>
+									</div>
+									<div class="dropdown-divider" id="item2-divider"></div>
+									<div id="item3">
+										<i class="fas fa-envelope"></i> Объявлен новый хакатон
+										<button class="btn-sm btn-dark">Ссылка</button>
+										<button onclick=" delNotif('item3')"
+											class="btn btn-danger float-right">X</button>
+									</div>
+									<div class="dropdown-divider" id="item3-divider"></div>
+									<div id="item4">
+										<i class="fas fa-envelope"></i> Объявлен новый хакатон 
+										<button class="btn-sm btn-dark">Ссылка</button>
+										<button onclick=" delNotif('item4')"
+											class="btn btn-danger float-right">X</button>
+									</div>
+									<div class="dropdown-divider" id="item4-divider"></div>
+								</div>
+							</div>
+						</div></li>
 					<li class="nav-item"><a class="nav-link" href="/profile"
 						id="profile"> <i class="far fa-address-card"></i> Профиль
 					</a></li>
@@ -25,11 +69,14 @@
 					<li class="nav-item"><a class="nav-link" href="#"
 						id="notifications"><i class="far fa-comment-alt"></i>
 							Уведомления <span class="badge badge-pill badge-light text-dark"
-							id="newNotificationCounter" style="visibility: hidden; width: 40px;"> 0</span></a></li>
+							id="newNotificationCounter"
+							style="visibility: hidden; width: 60px;"> 0</span></a></li>
+
+
 					<li>
 						<div class="btn-group">
 							<button type="button"
-								class="btn-lg  btn-dark dropdown-toggle border-0"
+								class="btn-sm  btn-dark dropdown-toggle border-0"
 								data-toggle="dropdown" aria-haspopup="true"
 								aria-expanded="false">
 								<img
@@ -51,38 +98,9 @@
 			</div>
 		</nav>
 
-		<script>
-			function getDefaultHeaders() {
-				var headers = new Headers();
-				headers.append("Content-Type", "application/json");
-				return headers;
-			}
-
-			fetch("/api/profile/me", {
-				method : 'GET',
-				headers : getDefaultHeaders(),
-				credentials : "same-origin"
-			}).then(function(response) {
-				return response.json();
-			}).then(function(myProfile) {
-
-				let query = " /api/event/count?ownerID=" + myProfile.uuid;
-				fetch(query, {
-					method : 'GET',
-					headers : getDefaultHeaders(),
-					credentials : "same-origin"
-				}).then(function(response) {
-					return response.json();
-				}).then(function(userEventCounter) {
-					$("#newNotificationCounter").html(userEventCounter);
-					if (userEventCounter > 0)
-						$('#newNotificationCounter').addClass('bg-danger');
-					$('#newNotificationCounter').css('visibility', 'visible');
-				});
-
-			});
-		</script>
-
-	</div>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"></script>
+		<script src="/js/profileMenu.js?1234"></script>
 </body>
 </html>
