@@ -137,5 +137,8 @@ public class EventServiceImpl implements EventService {
     Long a = eventRepository.countByReceiverUuidAndStatusIdNot(ownerID, newStatusID);
     return a;
   }
-  
+
+  public List<Event> getAllEvents(){
+    return (List<Event>) eventRepository.findAll();
+  }
 }

@@ -1,6 +1,7 @@
 package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.dto.EventDTO;
+import com.netcracker.hack.model.Event;
 import com.netcracker.hack.service.EventService;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/event")
+@RequestMapping("api/event")
 public class EventController {
 
   @Autowired
@@ -30,12 +31,19 @@ public class EventController {
     return service.getEvents(typeID, ownerID);
   }
 
+  @ApiOperation("Returns all events")
+  @GetMapping("/all")
+  public List<Event> getAllEvents(){
+    return service.getAllEvents();
+  }
+
+
   @ApiOperation("Update event status")
   @PutMapping("/{id}")
-  public void updateEventStatus(@PathVariable(name = "id") Integer eventID,
+  public void updateEventStatus(@PathVariable Integer id,
       @RequestBody Integer newStatus) {
 
-    service.updateEventStatus(eventID, newStatus);
+    service.updateEventStatus(id, newStatus);
   }
 
   @ApiOperation("Returns count of new events")

@@ -1,8 +1,7 @@
 spring:
   datasource:
     hikari:
-      minimum-idle: 10
-      maximumPoolSize: 20
+      maximumPoolSize: 10
       connectionTimeout: 15000
       dataSourceProperties:
         socketTimeout: 10

@@ -151,7 +151,4 @@ public class Event {
         + dateOfUpdate + ", resourceHackReference=" + resourceHackReference
         + ", resourceTeamReference=" + resourceTeamReference + ", message=" + message + "]";
   }
-
-
-
 }
