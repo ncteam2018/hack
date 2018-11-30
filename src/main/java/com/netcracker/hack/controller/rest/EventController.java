@@ -40,10 +40,10 @@ public class EventController {
 
   @ApiOperation("Update event status")
   @PutMapping("/{id}")
-  public void updateEventStatus(@PathVariable(name = "id") Integer eventID,
+  public void updateEventStatus(@PathVariable Integer id,
       @RequestBody Integer newStatus) {
 
-    service.updateEventStatus(eventID, newStatus);
+    service.updateEventStatus(id, newStatus);
   }
 
   @ApiOperation("Returns count of new events")
