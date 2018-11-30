@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Events</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css?123"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
+          rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/hack.css?123242162}">
+    <link rel="stylesheet" th:href="@{/css/loadingAnimation.css?122322341}">
+    <link href="https://fonts.googleapis.com/css?family=Poiret+One|Enriqueta"
+          rel="stylesheet">
+
+</head>
+<body onload="loadEventInformation()" class="body-font">
+<div th:replace="fragments/profile_header :: header" />
+
+<br>
+<br>
+
+
+<!--<div class="container-fluid  row">-->
+    <!--<div class="col">-->
+
+        <!--<hr />-->
+        <!--<br>-->
+
+        <!--<nav aria-label="Page navigation example">-->
+            <!--<ul id="eventPagination" class="pagination"></ul>-->
+            <!--&lt;!&ndash;новые странички &ndash;&gt;-->
+        <!--</nav>-->
+        <!--<br>-->
+        <!--<div id="loadingIcon" class="loader">Loading...</div>-->
+        <!--<div id="eventList"></div>-->
+        <!--<br> <br>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div class="container card profile-card" id="userProfile">
+    <div class=" row">
+        <div class="userInfo  col-md-8 row">
+            <div class="avatar col-md-4">
+                <img
+                        src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+                        class="img-responsive rounded float-left profile-avatar"
+                        alt="Avatar">
+            </div>
+            <div class="userData col-md-8">
+
+                <div class="text-left">
+                    <label for="message " class="font-weight-bold">Сообщение: </label> <span
+                        id="message" class="font-italic"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="extraInfo profile-info-top">-->
+        <!--<div class="card">-->
+            <!--<div class="card-header bg-dark text-light font-weight-bold">Компания</div>-->
+            <!--<div class="card-body">-->
+                <!--<div class="row">-->
+                    <!--<label for="companyData" class="font-weight-bold col-md-2">Название</label>-->
+                    <!--<span id="companyData" class="font-italic col-md-6"> </span>-->
+                <!--</div>-->
+                <!--<hr />-->
+                <!--<div class="col-md-10 text-center">-->
+                    <!--<label for="aboutCompany" class="font-weight-bold text-uppercase">О-->
+                        <!--компании</label>-->
+                    <!--<div id="aboutCompany"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="card profile-info-top">-->
+            <!--<div class="card-header bg-dark text-light font-weight-bold">О-->
+                <!--себе</div>-->
+            <!--<div id="about" class="card-body"></div>-->
+        <!--</div>-->
+        <!--<div class="row profile-info-top">-->
+            <!--<div class=" col-md-6 profile-info-left">-->
+                <!--<div class="card">-->
+                    <!--<div class="card-header bg-dark text-light font-weight-bold">Образование</div>-->
+                    <!--<div id="education" class="card-body">-->
+                        <!--<div>-->
+                            <!--<label for="institution" class="font-weight-bold">ВУЗ: </label>-->
+                            <!--<span id="institution" class="font-italic"> </span>-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--<label for="faculty " class="font-weight-bold">Факультет:-->
+                            <!--</label> <span id="faculty" class="font-italic"> </span>-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--<label for="course " class="font-weight-bold">Курс: </label> <span-->
+                                <!--id="course" class="font-italic"></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class=" col-md-6 profile-info-right">-->
+                <!--<div class="card">-->
+                    <!--<div class="card-header bg-dark text-light font-weight-bold">Работа</div>-->
+                    <!--<div id="career" class="card-body">-->
+                        <!--<div>-->
+                            <!--<label for="placeOfWork " class="font-weight-bold">Место-->
+                                <!--работы: </label> <span id="placeOfWork" class="font-italic"> </span>-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--<label for="placeOfWork " class="font-weight-bold">Позиция:-->
+                            <!--</label> <span id="position" class="font-italic"> </span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+
+<br>
+<br>
+<br>
+<div th:replace="fragments/footer :: footer" />
+
+<!--<script id="eventItem" type="text/jquery-tmpl">-->
+		<!--<div class="container card profile-card">-->
+		<!--<div class=" row">-->
+		<!--<div class=" UserInfo col-md-12 row">-->
+			<!--<div class="avatar col-md-3">-->
+				<!--<img-->
+					<!--src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"-->
+					<!--class="img-responsive rounded  profile-avatar"-->
+					<!--alt="Avatar">-->
+			<!--</div>-->
+
+			<!--<div class="userData col-md-9">-->
+				<!--<div>-->
+					<!--<div id="eventType" class=" text-center font-weight-bold profile-nick">${type}</div>-->
+				<!--</div>-->
+				<!--<br>-->
+				<!--<div>-->
+
+					<!--<div class="contacts row">-->
+						<!--<br>-->
+						<!--<div class="text-left col-md-7">-->
+							<!--<label for="place " class="font-weight-bold">Описание-->
+							<!--</label>-->
+							<!--<div id="place" class="font-italic">${message}</div>-->
+						<!--</div>-->
+
+						<!--&lt;!&ndash;<div class="text-left col-md-4">&ndash;&gt;-->
+							<!--&lt;!&ndash;<label for="place " class="font-weight-bold">Отправитель&ndash;&gt;-->
+							<!--&lt;!&ndash;</label>&ndash;&gt;-->
+							<!--&lt;!&ndash;<div id="place" class="font-italic">${sender}</div>&ndash;&gt;-->
+						<!--&lt;!&ndash;</div>&ndash;&gt;-->
+						<!--<div class=" col-md-1">-->
+							<!--<div id="plac2e" class="font-italic border"><i class="far fa-bell fa-3x" id="bell"></i></div>-->
+						<!--</div>-->
+						<!--<br><br><br><br>-->
+
+						<!--&lt;!&ndash;<div>&ndash;&gt;-->
+							<!--&lt;!&ndash;<button onclick="return showEventInformation(${index})" class="btn bg-dark text-light">Подробнее</button>&ndash;&gt;-->
+						<!--&lt;!&ndash;</div>&ndash;&gt;-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--</div>-->
+		<!--</div>-->
+		<!--<br>-->
+	 	<!--</script>-->
+
+
+
+
+
+<!--<script id="paginationItem" type="text/jquery-tmpl">-->
+			<!--<li class="page-item">-->
+				<!--<button id="page_${number}" class="page-link bg-dark text-light" onclick="return changePage(${number})">${number}</button>-->
+			<!--</li>-->
+<!--</script>-->
+
+
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+<script
+        src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+
+</script>
+<script src="/js/event.js?re2fddf3s226f"></script>
+</body>
+</html>
