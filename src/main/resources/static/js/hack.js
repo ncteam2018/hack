@@ -462,7 +462,7 @@ function findNewHackList() {	//При нажатии на кнопку 'Поис
 
 }
 //Перекращивает элемент по переданном id в жёлтый, а другой в белый (вроде используется в стрелочках сортировки)
-function changeColor(newAct, oldAct) {	)
+function changeColor(newAct, oldAct) {	
 	$("#" + newAct).css("color", "yellow");
 	$("#" + oldAct).css("color", "white");
 }
