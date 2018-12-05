@@ -9,13 +9,14 @@
 	crossorigin="anonymous">
 <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
 	rel="stylesheet">
-<link rel="stylesheet" th:href="@{/css/hack.css?12324212}">
+<link rel="stylesheet" th:href="@{/css/hack.css?1232421232}">
 <link rel="stylesheet" th:href="@{/css/loadingAnimation.css?12232241}">
-<link href="https://fonts.googleapis.com/css?family=Poiret+One|Enriqueta"
+<link
+	href="https://fonts.googleapis.com/css?family=Poiret+One|Enriqueta"
 	rel="stylesheet">
 
 </head>
-<body onload="loadData(true)" class="body-font" >
+<body onload="loadData(true)" class="body-font">
 	<div th:replace="fragments/profile_header :: header" />
 
 	<br>
@@ -85,8 +86,8 @@
 							<div class=" col-md-12 "
 								style="padding-left: 10%; padding-right: 10%;">
 								<div class="form-group">
-									<div class="row">
-										<label for="cityNameInput">Название города</label> <select
+									<div class="">
+										<label for="cityNameInput">Название города</label><br> <select
 											class="form-control col-md-8" id="cityNameInput"
 											name="cityNameInput">
 											<option value=""></option>
@@ -190,25 +191,25 @@
 
 							</div>
 						</div>
+						<a href="/createHack"
+							class="shadow-lg btn-lg bg-dark text-light col-md-4 text-center"
+							style="margin-left: 100px;"> <i
+							class="far fa-calendar-plus text-success"></i> Создать
+							хакатон
+						</a>
 
 					</div>
 
 				</div>
 
 
+
+
+
 			</form>
+
 			<hr />
-			<div class="container-fluid row">
 
-				<form action="/createHack" class="col-md-10 text-center">
-					<button class="shadow-lg btn-lg bg-dark text-light col-md-4 ">
-						<i class="far fa-calendar-plus text-success"
-							style="margin-right: 5%;"></i> Создать хакатон
-					</button>
-
-				</form>
-
-			</div>
 			<br>
 
 			<nav aria-label="Page navigation example">
@@ -502,7 +503,7 @@
 	</script>
 	<script
 		src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=4fa6aa42-d9bb-4b62-9e6b-77d1ce2ff058"
-		type="text/javascript"></script> 
+		type="text/javascript"></script>
 	<script src="/js/hack.js?re22f"></script>
 </body>
 </html>

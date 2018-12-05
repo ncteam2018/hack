@@ -9,7 +9,8 @@ public interface EventRepository extends CrudRepository<Event, Integer> {
   
   public List<Event> findByTypeIdAndReceiverUuid(Integer typeId, UUID profileUuid );
   public List<Event> findByTypeIdAndSenderUuid(Integer typeId, UUID profileUuid);
-  public List<Event>  findByResourceHackReferenceUuid(UUID profileUuid);
+  public List<Event>  findByHackUuid(UUID profileUuid);
   
-  public Long countByReceiverUuidAndStatusIdNot(UUID profileUuid, Integer statusID);
+  public Long countByReceiverUuidAndTypeIdNot(UUID profileUuid, Integer typeID);
+  public List<Event> findByTypeIdAndReceiverUuidAndStatusId(Integer typeId, UUID profileUuid, Integer statusId );
 }
