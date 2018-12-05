@@ -16,7 +16,18 @@ $(document).ready(function() {
 $("#events").addClass('text-warning');
 eventList = new Array();
 function loadEventInformation() {
-    fetch("api/event?eventType=1&ownerID=7eaf7c29-8914-4038-b6cf-7530a42bbead", {
+	
+	
+	fetch("/api/profile/me", {
+		method : 'GET',
+		headers : getDefaultHeaders(),
+		credentials : "same-origin"
+	}).then(function(response) {
+		return response.json();
+	}).then(function(myProfile) {
+		UserID = myProfile.uuid;
+		let query = "api/event?eventType=1&ownerID=" + UserID;
+		    fetch(query, {
                 method : 'GET',
                 headers : getDefaultHeaders(),
                 credentials : "same-origin"
@@ -41,6 +52,12 @@ function loadEventInformation() {
         })
     // $('#loadingIcon').remove();
     $('#userProfile').css('visibility', 'visible');
+		
+		
+		
+		
+	});
+
 }
 
 
