@@ -22,6 +22,34 @@ function getDefaultHeaders() {
 	return headers;
 }
 
+function updateNotifications() {
+	
+	fetch("/api/profile/me", {
+		method : 'GET',
+		headers : getDefaultHeaders(),
+		credentials : "same-origin"
+	}).then(function(response) {
+		return response.json();
+	}).then(function(myProfile) {
+
+		let query = " /api/event/count?ownerID=" + myProfile.uuid;
+		fetch(query, {
+			method : 'GET',
+			headers : getDefaultHeaders(),
+			credentials : "same-origin"
+		}).then(function(response) {
+			return response.json();
+		}).then(function(userEventCounter) {
+			$("#newNotificationCounter").html("<i class='fas fa-envelope'></i> " + userEventCounter);
+			if (userEventCounter > 0)
+				$('#newNotificationCounter').addClass('bg-danger');
+			$('#newNotificationCounter').css('visibility', 'visible');
+		});
+	});
+		
+}
+
+
 fetch("/api/profile/me", {
 	method : 'GET',
 	headers : getDefaultHeaders(),
@@ -45,3 +73,25 @@ fetch("/api/profile/me", {
 	});
 
 });
+
+var stompClient = null;
+
+
+var socket = new SockJS('/notificationStream');
+stompClient = Stomp.over(socket);
+stompClient.connect({}, function (frame) {
+    console.log('Connected: ' + frame);
+    stompClient.subscribe('/topic/notifications', function (greeting) {
+        alert('new message!');
+        updateNotifications();
+    });
+});
+
+
+function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+    }
+    setConnected(false);
+    console.log("Disconnected");
+}
