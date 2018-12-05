@@ -21,39 +21,64 @@
 <br>
 <br>
 
-
-<div class="container card profile-card" id="userProfile">
-    <div class=" row">
-        <div class="userInfo  col-md-8 row">
-            <div class="avatar col-md-4">
-                <img
-                        src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
-                        class="img-responsive rounded float-left profile-avatar"
-                        alt="Avatar">
-            </div>
-            <div class="userData col-md-8">
-
-                <div class="text-left">
-                    <label for="message " class="font-weight-bold">Сообщение: </label> <span
-                        id="message" class="font-italic"></span>
-                </div>
-                <div class="text-left">
-                    <label for="dateOfCreation " class="font-weight-bold">Дата создания: </label> <span
-                        id="dateOfCreation" class="font-italic"></span>
-                </div>
-                <div>
-                    <button onclick="changeState(1, 1)">Подтвердить</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="eventList"></div>
 
 <br>
 <br>
 <br>
 <div th:replace="fragments/footer :: footer" />
 
+<script id="eventItem" type="text/jquery-tmpl">
+<div class="container card profile-card">
+<div class=" row">
+<div class="userInfo  col-md-12 row">
+    <div class="avatar col-md-3">
+        <img
+            src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+            class="img-responsive rounded  profile-avatar"
+            alt="Avatar">
+    </div>
 
+    <div class="userData col-md-9">
+        <!--<div>-->
+            <!--<div id="eventName" class=" text-center font-weight-bold profile-nick">${message}</div>-->
+        <!--</div>-->
+        <br>
+        <div>
+
+            <div class="contacts row">
+                <br>
+                <div class="text-left col-md-7">
+                    <label for="place " class="font-weight-bold">Описание
+                    </label>
+                    <div id="message" class="font-italic">${message}</div>
+                </div>
+
+                <div class="text-left col-md-4">
+                    <label for="message " class="font-weight-bold">Дата создания
+                    </label>
+                    <div id="dateOfCreation" class="font-italic">${dateOfCreation}</div>
+                </div>
+                <!--<div class=" col-md-1">-->
+                    <!--<div id="plac2e" class="font-italic border"><i class="far fa-bell fa-3x" id="bell"></i></div>-->
+                <!--</div>-->
+                <br><br><br><br>
+
+                <div>
+                    <button onclick="return changeState(1, ${index})" class="btn bg-dark text-light">Подтвердить</button>
+                </div>
+                &nbsp
+                <div>
+                    <button onclick="return changeState(2, ${index})" class="btn bg-dark text-light">Отклонить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<br>
+</script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -71,6 +96,6 @@
         src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
 
 </script>
-<script src="/js/event.js?re2fddf3s226f"></script>
+<script src="/js/event.js?re2fddf3s2246f"></script>
 </body>
 </html>
