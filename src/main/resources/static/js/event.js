@@ -39,16 +39,11 @@ function loadEventInformation() {
                 // $("#id").html(value[0][0].id);
 
         })
+    // $('#loadingIcon').remove();
     $('#userProfile').css('visibility', 'visible');
 }
 
-function getInformationById(id) {
-    loadEventInformation();
-    $("#message").html(eventList[id].message);
-    $("#dateOfCreation").html(eventList[id].dateOfCreation);
-    // $("#id").html(eventList[id].id);
-    $('#userProfile').css('visibility', 'visible');
-}
+
 
 function changeState(eventId, state){
     var q = "api/event/" + eventId;
