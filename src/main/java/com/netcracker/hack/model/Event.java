@@ -37,10 +37,10 @@ public class Event {
   private Date dateOfUpdate;
 
   @ManyToOne
-  private Hack resourceHackReference;
+  private Hack hack;
 
   @ManyToOne
-  private Team resourceTeamReference;
+  private Team team;
 
   @Column(name = "message")
   private String message;
@@ -103,20 +103,20 @@ public class Event {
     this.dateOfUpdate = dateOfUpdate;
   }
 
-  public Hack getResourceHackReference() {
-    return resourceHackReference;
+  public Hack getHack() {
+    return hack;
   }
 
-  public void setResourceHackReference(Hack resourceHackReference) {
-    this.resourceHackReference = resourceHackReference;
+  public void setHack(Hack resourceHackReference) {
+    this.hack = resourceHackReference;
   }
 
-  public Team getResourceTeamReference() {
-    return resourceTeamReference;
+  public Team getTeam() {
+    return team;
   }
 
-  public void setResourceTeamReference(Team resourceTeamReference) {
-    this.resourceTeamReference = resourceTeamReference;
+  public void setTeam(Team resourceTeamReference) {
+    this.team = resourceTeamReference;
   }
 
   public String getMessage() {
@@ -148,7 +148,7 @@ public class Event {
   public String toString() {
     return "Event [id=" + id + ", sender=" + sender + ", receiver=" + receiver + ", type=" + type
         + ", status=" + status + ", dateOfCreation=" + dateOfCreation + ", dateOfUpdate="
-        + dateOfUpdate + ", resourceHackReference=" + resourceHackReference
-        + ", resourceTeamReference=" + resourceTeamReference + ", message=" + message + "]";
+        + dateOfUpdate + ", resourceHackReference=" + hack
+        + ", resourceTeamReference=" + team + ", message=" + message + "]";
   }
 }

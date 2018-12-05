@@ -25,8 +25,8 @@ public class EventDTO {
     this.status = event.getStatus().getStatus();
     this.dateOfCreation = event.getDateOfCreation();
     this.dateOfUpdate = event.getDateOfUpdate();
-    this.resourceHackReference = new HackDTO(event.getResourceHackReference());
-    this.resourceTeamReference = event.getResourceTeamReference();
+    this.resourceHackReference = new HackDTO(event.getHack());
+    this.resourceTeamReference = event.getTeam();
     this.message = event.getMessage();
   }
 

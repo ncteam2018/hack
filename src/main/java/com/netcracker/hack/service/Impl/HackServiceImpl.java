@@ -130,7 +130,7 @@ public class HackServiceImpl implements HackService {
 
       // TODO: Сдалать нормальный поиск нужного события
       eventService
-          .updateEventStatus(eventRepository.findByResourceHackReferenceUuid(id).get(0).getId(), 1);
+          .updateEventStatus(eventRepository.findByHackUuid(id).get(0).getId(), 1);
 
       eventService.createHackNotifications(hackDTO.getUuid(),
           "Объявлен новый хакатон, спешите принять участие!");// -- Оповещения о новом хакатоне
@@ -138,7 +138,7 @@ public class HackServiceImpl implements HackService {
 
     if (hackStatus.equals("Canceled")) {
       hackRepository.delete(hackOptional.get());
-      eventService.updateEventStatus(eventRepository.findByResourceHackReferenceUuid(id).get(0).getId(),
+      eventService.updateEventStatus(eventRepository.findByHackUuid(id).get(0).getId(),
           3);
     }
 

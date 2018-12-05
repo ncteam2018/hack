@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import com.netcracker.hack.dto.EventDTO;
+import com.netcracker.hack.dto.NotificationDTO;
 import com.netcracker.hack.dto.converter.EventConverter;
 import com.netcracker.hack.model.Event;
 import com.netcracker.hack.model.Hack;
@@ -59,10 +60,10 @@ public class EventServiceImpl implements EventService {
     newEvent.setStatus(eventStatusRepository.findById(statusID).get());
 
     if (hackID != null)
-      newEvent.setResourceHackReference(hackRepository.findById(hackID).get());
+      newEvent.setHack(hackRepository.findById(hackID).get());
 
     if (teamID != null)
-      newEvent.setResourceTeamReference(teamRepository.findById(teamID).get());
+      newEvent.setTeam(teamRepository.findById(teamID).get());
 
     newEvent.setMessage(message);
 
@@ -103,7 +104,7 @@ public class EventServiceImpl implements EventService {
       notification.setStatus(eventStatusRepository.findById(1).get());
       notification.setDateOfCreation(currentDate);
       notification.setDateOfUpdate(currentDate);
-      notification.setResourceHackReference(resourceHack);
+      notification.setHack(resourceHack);
       notification.setMessage(message);
 
       newNotifications.add(notification);
@@ -134,11 +135,39 @@ public class EventServiceImpl implements EventService {
 
   public Long countNewEvents(Integer newStatusID, UUID ownerID) {
 
-    Long a = eventRepository.countByReceiverUuidAndStatusIdNot(ownerID, newStatusID);
+    Long a = eventRepository.countByReceiverUuidAndTypeIdNot(ownerID, newStatusID);
     return a;
   }
 
   public List<Event> getAllEvents(){
     return (List<Event>) eventRepository.findAll();
   }
+  
+  
+  
+  public List<NotificationDTO> getUserNotifications(UUID ownerID) {
+    
+    List<Event> s = eventRepository.findByTypeIdAndReceiverUuidAndStatusId(2, ownerID, 1 );
+    
+    return convertToNotificationDTO(s);
+  }
+  
+  public void updateUserNotifications(NotificationDTO notification) {
+
+    
+  }
+  
+  private List<NotificationDTO> convertToNotificationDTO(List<Event> events) {
+    
+    ArrayList<NotificationDTO> notificationDTOList = new ArrayList<>();
+
+    events.forEach((Event event) -> {
+      notificationDTOList.add(new NotificationDTO(event));
+      // hackDTOList.add(HackMapper.INSTANCE.hackToHackDTO(hack));
+    });
+
+    return notificationDTOList;
+  }
+  
+  
 }

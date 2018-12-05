@@ -1,6 +1,7 @@
 package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.dto.EventDTO;
+import com.netcracker.hack.dto.NotificationDTO;
 import com.netcracker.hack.model.Event;
 import com.netcracker.hack.service.EventService;
 import io.swagger.annotations.ApiOperation;
@@ -33,23 +34,33 @@ public class EventController {
 
   @ApiOperation("Returns all events")
   @GetMapping("/all")
-  public List<Event> getAllEvents(){
+  public List<Event> getAllEvents() {
     return service.getAllEvents();
   }
 
+  @ApiOperation("Returns all user notifications")
+  @GetMapping("/notifications")
+  public List<NotificationDTO> getUserNotifications(
+      @RequestParam(name = "ownerID", required = true) UUID ownerID) {
+    return service.getUserNotifications(ownerID);
+  }
+
+  @ApiOperation("Returns all user notifications")
+  @PutMapping("/notifications")
+  public void updateUserNotification(@RequestBody NotificationDTO notification) {
+    service.updateUserNotifications(notification);
+  }
 
   @ApiOperation("Update event status")
   @PutMapping("/{id}")
-  public void updateEventStatus(@PathVariable Integer id,
-      @RequestBody Integer newStatus) {
+  public void updateEventStatus(@PathVariable Integer id, @RequestBody Integer newStatus) {
 
     service.updateEventStatus(id, newStatus);
   }
 
   @ApiOperation("Returns count of new events")
   @GetMapping("/count")
-  public Long getNewEventCounter(
-      @RequestParam(name = "ownerID", required = true) UUID ownerID) {
+  public Long getNewEventCounter(@RequestParam(name = "ownerID", required = true) UUID ownerID) {
 
     return service.countNewEvents(2, ownerID);
   }
