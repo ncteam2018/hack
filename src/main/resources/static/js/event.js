@@ -39,17 +39,22 @@ function loadEventInformation() {
                         eventList.push(value[i][j]);
                     }
                 }
-        $("#eventList").html("");
-        eventList.forEach(function(eventItem, index, arr) {
-            eventItem.index = index;
-            $("#eventItem").tmpl(eventItem).appendTo("#eventList");
-        });
-                // $("#message").html(value[0][0].message);
-                // $("#dateOfCreation").html(value[0][0].dateOfCreation);
-                //
-                // $("#id").html(value[0][0].id);
+            }
+            $("#eventList").html("");
+            eventList.forEach(function(eventItem, index, arr) {
+                eventItem.index = index;
+                $("#eventItem").tmpl(eventItem).appendTo("#eventList");
+            });
+            // $("#message").html(value[0][0].message);
+            // $("#dateOfCreation").html(value[0][0].dateOfCreation);
+            //
+            // $("#id").html(value[0][0].id);
 
         })
+
+
+    });
+
     // $('#loadingIcon').remove();
     $('#userProfile').css('visibility', 'visible');
 		
@@ -57,7 +62,6 @@ function loadEventInformation() {
 		
 		
 	});
-
 }
 
 
@@ -65,9 +69,8 @@ function loadEventInformation() {
 function changeState(eventId, state){
     var q = "api/event/" + eventId;
     fetch(q, {
-            method : 'PUT',
-            headers : getDefaultHeaders(),
-            body: JSON.stringify(state)
-        })
+        method : 'PUT',
+        headers : getDefaultHeaders(),
+        body: JSON.stringify(state)
+    })
 }
-
