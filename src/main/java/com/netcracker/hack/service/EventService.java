@@ -3,6 +3,7 @@ package com.netcracker.hack.service;
 import java.util.List;
 import java.util.UUID;
 import com.netcracker.hack.dto.EventDTO;
+import com.netcracker.hack.dto.NotificationDTO;
 import com.netcracker.hack.model.Event;
 
 public interface EventService {
@@ -20,4 +21,10 @@ public interface EventService {
 
   public Long countNewEvents(Integer newStatusID, UUID ownerID);
 
+  public List<NotificationDTO> getUserNotifications(UUID ownerID);
+  
+  public void updateUserNotifications(NotificationDTO notification); 
+  
+  
+  
 }
