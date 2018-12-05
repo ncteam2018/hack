@@ -20,7 +20,7 @@
 
 <br>
 <br>
-
+<!--<div id="loadingIcon" class="loader">Loading...</div>-->
 <div id="eventList"></div>
 
 <br>
@@ -34,7 +34,7 @@
 <div class="userInfo  col-md-12 row">
     <div class="avatar col-md-3">
         <img
-            src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+            src="https://www.detailquebec.com/wp-content/uploads/2018/08/Mail-de-confirmation-exemple-de-logo.png"
             class="img-responsive rounded  profile-avatar"
             alt="Avatar">
     </div>
@@ -49,15 +49,20 @@
             <div class="contacts row">
                 <br>
                 <div class="text-left col-md-7">
-                    <label for="place " class="font-weight-bold">Описание
+                    <label for="message " class="font-weight-bold">Описание
                     </label>
                     <div id="message" class="font-italic">${message}</div>
                 </div>
 
                 <div class="text-left col-md-4">
-                    <label for="message " class="font-weight-bold">Дата создания
+                    <label for="dateOfCreation " class="font-weight-bold">Дата создания
                     </label>
-                    <div id="dateOfCreation" class="font-italic">${dateOfCreation}</div>
+                    <div id="dateOfUpdate" class="font-italic">${dateOfCreation}</div>
+                    <br>
+                    <label for="status " class="font-weight-bold">Статус
+                    </label>
+                    <div id="status" class="font-italic">${status}</div>
+
                 </div>
                 <!--<div class=" col-md-1">-->
                     <!--<div id="plac2e" class="font-italic border"><i class="far fa-bell fa-3x" id="bell"></i></div>-->
@@ -65,11 +70,11 @@
                 <br><br><br><br>
 
                 <div>
-                    <button onclick="return changeState(1, ${index})" class="btn bg-dark text-light">Подтвердить</button>
+                    <button onclick="return changeState(${id}, 1)" class="btn bg-dark text-light">Подтвердить</button>
                 </div>
                 &nbsp
                 <div>
-                    <button onclick="return changeState(2, ${index})" class="btn bg-dark text-light">Отклонить</button>
+                    <button onclick="return changeState(${id}, 3)" class="btn bg-dark text-light">Отклонить</button>
                 </div>
             </div>
         </div>
