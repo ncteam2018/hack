@@ -6,11 +6,14 @@ function getDefaultHeaders() {
 
 function createUserProfile() {
 
-  var userData = new function () {
-    this.login = document.getElementById("username").value;
-    this.password = document.getElementById("password").value;
+	var userAuth  = new function () {
+	    this.login = document.getElementById("username").value;
+	    this.password = document.getElementById("password").value;
+	}
+	
+	var userData = new function () {
+    this.userAuth = userAuth;
     this.email = document.getElementById("email").value;
-    this.roles = ["USER"];
 
     this.about = document.getElementById("about").value;
     this.active = true;
@@ -37,12 +40,16 @@ function createUserProfile() {
     this.phone = document.getElementById("phone").value;
     this.skype = document.getElementById("skype").value;
     
-    var companyData = new Object();
+    this.companyData = null;
+    if(document.getElementById("orgCheck").checked){
+    	    var companyData = new Object();
+  
+    	    companyData.companyName = document.getElementById("companyName").value;
+    	    companyData.about = document.getElementById("aboutCompany").value;
     
-    companyData.companyName = document.getElementById("companyName").value;
-    companyData.about = document.getElementById("aboutCompany").value;
-    
-    this.companyData = companyData;
+    	    this.companyData = companyData;		
+    }
+
   };
 
   fetch("api/profile", {
