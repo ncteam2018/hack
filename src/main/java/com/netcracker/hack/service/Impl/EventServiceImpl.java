@@ -22,6 +22,7 @@ import com.netcracker.hack.repository.ProfileRepository;
 import com.netcracker.hack.repository.SubscriptionRepository;
 import com.netcracker.hack.repository.TeamRepository;
 import com.netcracker.hack.service.EventService;
+import com.netcracker.hack.sockets.SocketController;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -46,6 +47,10 @@ public class EventServiceImpl implements EventService {
 
   @Autowired
   private EventStatusRepository eventStatusRepository;
+  
+  @Autowired
+  private SocketController socketController; 
+  
 
   public void createEvent(Integer typeID, Integer statusID, UUID senderID, UUID receiverID,
       UUID hackID, UUID teamID, String message) {
@@ -53,8 +58,8 @@ public class EventServiceImpl implements EventService {
     Event newEvent = new Event();
 
 
-    newEvent.setSender(profileRepository.findById(senderID).get());
-    newEvent.setReceiver(profileRepository.findById(receiverID).get());
+    newEvent.setSender(profileRepository.findByUuid(senderID));
+    newEvent.setReceiver(profileRepository.findByUuid(receiverID));
 
     newEvent.setType(eventTypeRepository.findById(typeID).get());
     newEvent.setStatus(eventStatusRepository.findById(statusID).get());
@@ -108,6 +113,8 @@ public class EventServiceImpl implements EventService {
       notification.setMessage(message);
 
       newNotifications.add(notification);
+      
+      socketController.sendNotification(user.getUuid());//, new NotificationDTO(notification));
     }
 
     eventRepository.saveAll(newNotifications);
