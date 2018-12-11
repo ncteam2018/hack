@@ -9,21 +9,21 @@
 	crossorigin="anonymous">
 <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
 	rel="stylesheet">
-<link rel="stylesheet" th:href="@{/css/hack.css?1232421232}">
+<link rel="stylesheet" th:href="@{/css/hack.css?12324212232}">
 <link rel="stylesheet" th:href="@{/css/loadingAnimation.css?12232241}">
 <link
 	href="https://fonts.googleapis.com/css?family=Poiret+One|Enriqueta"
 	rel="stylesheet">
 
 </head>
-<body onload="loadData(true)" class="body-font">
+<body onload="loadData(true)" class="body-font" style="background-color: #edeef0">
 	<div th:replace="fragments/profile_header :: header" />
 
 	<br>
 	<br>
 
 
-	<div class="container-fluid  row">
+	<div class="container-fluid  row" >
 		<div class="col-lg-3 border-right">
 			<div class="tag-card ">
 				<div id="accordion">
@@ -260,7 +260,7 @@
 						</div>
 
 						<div class=" col-md-1">
-							<div id="plac2e" class="font-italic border"><i class="far fa-bell fa-3x" id="bell"></i></div>
+							<div id="plac2e" class="font-italic border"></div>
 						</div>
 						<br><br><br><br>
 						
@@ -405,8 +405,7 @@
 						<br>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success">Поиск команды</button>
-						<button class="btn btn-success">Вкл. уведомления</button>
+						<a href="" id="findTeamRef" class="btn btn-success">Поиск команды</a>
 						<button class="btn btn-danger" data-dismiss="modal">Закрыть</button>
 					</div>
 				</div>
@@ -504,6 +503,6 @@
 	<script
 		src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=4fa6aa42-d9bb-4b62-9e6b-77d1ce2ff058"
 		type="text/javascript"></script>
-	<script src="/js/hack.js?re22f"></script>
+	<script src="/js/hack.js?re222f"></script>
 </body>
 </html>

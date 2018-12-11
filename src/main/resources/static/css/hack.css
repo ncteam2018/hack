@@ -6,6 +6,7 @@
 	font-family: 'Enriqueta', serif;
 	font-size: 15px;
 	font-weight: bold;
+	background-color: #edeef0;
 }
 
 .header-font {
@@ -14,12 +15,15 @@
 	font-weight: bolder;
 }
 
+
 #notificationIcon .dropdown-toggle::after {
-    display:none;
+	display: none;
 }
+
 #notificationIcon .border-3 {
-    border-width:3px !important;
+	border-width: 3px !important;
 }
+
 body {
 	overflow-y: scroll;
 }
@@ -33,7 +37,7 @@ body {
 }
 
 .rounded {
-  border-radius: 20px !important;
+	border-radius: 20px !important;
 }
 
 .carousel-inner .item img {
