@@ -4,6 +4,7 @@ import com.netcracker.hack.dto.HackDTO;
 import com.netcracker.hack.dto.UserDTO;
 import com.netcracker.hack.dto.builder.PageRequestBuilder;
 import com.netcracker.hack.model.Hack;
+import com.netcracker.hack.repository.CompanyRepository;
 import com.netcracker.hack.repository.EventRepository;
 import com.netcracker.hack.repository.HackRepository;
 import com.netcracker.hack.service.EventService;
@@ -12,12 +13,16 @@ import com.netcracker.hack.service.ProfileService;
 import com.netcracker.hack.service.TagsService;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import javax.persistence.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -27,6 +32,9 @@ public class HackServiceImpl implements HackService {
 
   @Autowired
   private HackRepository hackRepository;
+  
+  @Autowired
+  private CompanyRepository companyRepository;
 
   @Autowired
   private ProfileService profileService;
@@ -41,50 +49,75 @@ public class HackServiceImpl implements HackService {
   private EventService eventService;
 
 
+  @Override
+  public Set<String> getAllHackPlaces() {
+    
+    Set<String> cities = new HashSet<>();
+    for(String city : hackRepository.findAllCities())
+      cities.add(city.split(",")[1]);
+    
+    return cities;
+  }
+
+  @Override
+  public Set<String> getAllCompNames() {
+    
+    return companyRepository.findDistinctCompNames();
+  }
+  
+  @Override
+  public List<Pair<Object, Object>>  getAllHackNames() {
+    
+    List<Tuple>  resultTuple = hackRepository.findAllName();
+    List<Pair<Object, Object>> nameUuidPairs = new ArrayList<>();
+    
+    for(Tuple pair: resultTuple)
+      nameUuidPairs.add(Pair.of(pair.get(0), pair.get(1)) );
+    
+    
+    
+    return nameUuidPairs;
+  }
 
   public Page<HackDTO> getFilteredHacks(PageRequestBuilder requestBuilder) {
-    Page<Hack> tagPage;
+    Page<Hack> hackPage;
 
     if (requestBuilder.isFiltered()) {
       if (requestBuilder.getSkillTags().size() > 0 && requestBuilder.getScopeTags().size() > 0)
-        tagPage = hackRepository
-            .findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+        hackPage = hackRepository
+            .findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
                 requestBuilder.getPageRequest(), requestBuilder.getSkillTags(),
                 requestBuilder.getScopeTags(), requestBuilder.getSearchName(),
                 requestBuilder.getSearchCompanyName(), requestBuilder.getSearchCityName(),
                 "Active");
       else if (requestBuilder.getSkillTags().size() > 0)
-        tagPage = hackRepository
-            .findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+        hackPage = hackRepository
+            .findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
                 requestBuilder.getPageRequest(), requestBuilder.getSkillTags(),
                 requestBuilder.getSearchName(), requestBuilder.getSearchCompanyName(),
                 requestBuilder.getSearchCityName(), "Active");
       else
-        tagPage = hackRepository
-            .findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+        hackPage = hackRepository
+            .findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
                 requestBuilder.getPageRequest(), requestBuilder.getScopeTags(),
                 requestBuilder.getSearchName(), requestBuilder.getSearchCompanyName(),
                 requestBuilder.getSearchCityName(), "Active");
     } else
-      tagPage = hackRepository
-          .findDistinctByNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+      hackPage = hackRepository
+          .findDistinctByNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
               requestBuilder.getPageRequest(), requestBuilder.getSearchName(),
               requestBuilder.getSearchCompanyName(), requestBuilder.getSearchCityName(), "Active");
 
-    PageImpl<HackDTO> tagDTOPage = new PageImpl<HackDTO>(makeListOfHackDTO(tagPage.getContent()),
-        tagPage.getPageable(), tagPage.getTotalElements());
+    PageImpl<HackDTO> hackDTOPage = new PageImpl<HackDTO>(makeListOfHackDTO(hackPage.getContent()),
+        hackPage.getPageable(), hackPage.getTotalElements());
 
-    return tagDTOPage;
+    return hackDTOPage;
   }
 
   public HackDTO getHack(UUID id) {
-    Optional<Hack> hack = hackRepository.findById(id);
-    if (!hack.isPresent()) {
-      return new HackDTO();
-    }
-
-    // return new HackDTO(hack.get());
-    return null; // HackMapper.INSTANCE.hackToHackDTO( hack.get() );
+    Hack hack = hackRepository.findByUuid(id);
+  
+    return new HackDTO(hack); 
   }
 
   public List<Hack> getHackByCompany(UUID id) {
@@ -101,9 +134,9 @@ public class HackServiceImpl implements HackService {
     hackDTO.setSkillTags(tagService.verifyTags(hackDTO.getSkillTags()));
     hackDTO.setScopeTags(tagService.verifyTags(hackDTO.getScopeTags()));
 
-    UserDTO companyProfile = profileService.getProfileByLogin(creatorName);
+    UserDTO companyProfile = profileService.getUserDTOByLogin(creatorName);
     hackDTO.setCompany(companyProfile.getCompanyData());
-    hackDTO.setStatus("Processing");
+    hackDTO.setStatus("Active");
     Hack savedHack = hackRepository.save(new Hack(hackDTO));
     // Hack savedHack = hackRepository.save(HackMapper.INSTANCE.hackDTOToHack(hackDTO));
 

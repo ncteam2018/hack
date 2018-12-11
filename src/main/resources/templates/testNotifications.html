@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Hackathons</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css?123"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
+	rel="stylesheet">
+
+</head>
+<body style="background-color:" onload="loadNotifications()">
+
+
+	<div class="container-fluid  row">
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Тип</th>
+					<th scope="col">Статус</th>
+					<th scope="col">Контент</th>
+					<th scope="col">От кого</th>
+					<th scope="col">Кому</th>
+					<th scope="col">Сообщение</th>
+					<th scope="col">Дата создания</th>
+					<th scope="col">Дата изменения</th>
+					<th scope="col">Имя ресурса</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody id="events">
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<br>
+	<br>
+	<div th:replace="fragments/footer :: footer"></div>
+
+	<script id="event" type="text/jquery-tmpl">
+				<tr>
+					<th scope="row" id="number">${number}</th>
+					<td id="type">${type}</td>
+					<td id="status">${status}</td>
+					<td id="content">${content}</td>
+					<td id="sender">${sender}</td>
+					<td id="sender">${receiver}</td>
+					<td id="message">${message}</td>
+					<td id="message">${creationDate}</td>
+					<td id="message">${updateDate}</td>
+					<td id="message">${resourceName}</td>hack
+					<td>
+						<button onclick="return processEvent('1', ${opt})">OK</button>
+						<button onclick="return processEvent('3', ${opt})">Cancel</button>
+					</td>
+				</tr>
+	</script>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+		
+	</script>
+
+	<script src="/js/testNotification.js?23"></script>
+</body>
+</html>

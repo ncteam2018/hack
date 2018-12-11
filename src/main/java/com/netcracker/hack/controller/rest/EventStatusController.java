@@ -1,6 +1,5 @@
 package com.netcracker.hack.controller.rest;
 
-import com.netcracker.hack.dto.UserDTO;
 import com.netcracker.hack.model.EventStatus;
 import com.netcracker.hack.service.Impl.EventStatusServiceImpl;
 import io.swagger.annotations.ApiOperation;

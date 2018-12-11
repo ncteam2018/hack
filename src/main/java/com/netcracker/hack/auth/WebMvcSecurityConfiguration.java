@@ -1,6 +1,6 @@
 package com.netcracker.hack.auth;
 
-import com.netcracker.hack.repository.ProfileRepository;
+import com.netcracker.hack.repository.UserAuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  ProfileRepository profileRepository;
+  UserAuthRepository userAuthRepository;
 
   PasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -24,7 +24,7 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-    auth.userDetailsService(new UserAuthenticationService(profileRepository))
+    auth.userDetailsService(new UserAuthenticationService(userAuthRepository))
         .passwordEncoder(encoder);
   }
 

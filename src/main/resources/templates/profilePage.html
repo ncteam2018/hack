@@ -11,154 +11,224 @@
 <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
 	rel="stylesheet">
 <link rel="stylesheet" th:href="@{/css/loadingAnimation.css?12232241}">
-<link rel="stylesheet" th:href="@{/css/hack.css?12}"
+<link rel="stylesheet" th:href="@{/css/hack.css?1222}"
 	href="../static/css/hack.css">
 
 <link href="https://fonts.googleapis.com/css?family=Poiret+One"
 	rel="stylesheet">
 <title>Profile</title>
 </head>
-<body onload="loadUserProfile()" class="body-font">
+<body onload="loadUserProfile()" class="body-font" >
 	<div th:replace="fragments/profile_header :: header" />
 	<br>
 	<br>
 	<br>
 
-	<div id="loadingIcon" class="loader">Loading...</div>
-
-
-	<div class="container card profile-card" id="userProfile"
-		style="visibility: hidden;">
-		<div class=" row">
-			<div class="userInfo  col-md-8 row">
-				<div class="avatar col-md-4">
-					<img
-						src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
-						class="img-responsive rounded float-left profile-avatar"
-						alt="Avatar">
-				</div>
-				<div class="userData col-md-8">
-					<div id="nickname"
-						class=" text-center font-weight-bold profile-nick"></div>
-					<br>
-					<div class="text-left">
-						<label for="fio " class="font-weight-bold">ФИО: </label> <span
-							id="fio" class="font-italic"> </span>
-					</div>
-					<div class="text-left">
-						<label for="gender " class="font-weight-bold">Пол: </label> <span
-							id="gender" class="font-italic"></span>
-					</div>
-					<div class="text-left">
-						<label for="birth " class="font-weight-bold">Дата
-							рождения: </label> <span id="birth" class="font-italic"></span>
-					</div>
-					<div class="text-left">
-						<label for="place " class="font-weight-bold">Расположение:
-						</label> <span id="place" class="font-italic">г</span>
-					</div>
-				</div>
+	<div class="container-fluid row" >
+		<div class="border-right col-md-2 text-right">
+			<div>
+				<button class="btn btn-dark btn-block" onclick="showProfile()">Мой Профиль</button>
 			</div>
-			<div class="contacts col-md-4">
-				<br> <br>
-				<div>
-					<label for="email " class="font-weight-bold">Email: </label> <span
-						id="email" class="font-italic"> </span>
-				</div>
-				<div>
-					<label for="phone " class="font-weight-bold">Телефон: </label> <span
-						id="phone" class="font-italic"> </span>
-				</div>
-				<div>
-					<label for="skype " class="font-weight-bold">Skype: </label> <span
-						id="skype" class="font-italic"> </span>
-				</div>
+			<br>
+			<div>
+				<button class="btn btn-dark btn-block" onclick="showTeams()" >Мои команды</button>
 			</div>
 		</div>
-		<div class="extraInfo profile-info-top">
-			<div class="card">
-				<div class="card-header bg-dark text-light font-weight-bold">Компания</div>
-				<div class="card-body">
-					<div class="row">
-						<label for="companyData" class="font-weight-bold col-md-2">Название</label>
-						<span id="companyData" class="font-italic col-md-6"> </span>
+		<div class="container card profile-card col-md-9" id="userProfile"
+			style="display: none; background-color: #edeef0" >
+			<div class=" row">
+				<div class="userInfo  col-md-8 row">
+					<div class="avatar col-md-4">
+						<img
+							src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+							class="img-responsive rounded float-left profile-avatar"
+							alt="Avatar">
 					</div>
-					<hr />
-					<div class="col-md-10 text-center">
-						<label for="aboutCompany" class="font-weight-bold text-uppercase">О
-							компании</label>
-						<div id="aboutCompany"></div>
+					<div class="userData col-md-8">
+						<div id="nickname"
+							class=" text-center font-weight-bold profile-nick"></div>
+						<br>
+						<div class="text-left">
+							<label for="fio " class="font-weight-bold">ФИО: </label> <span
+								id="fio" class="font-italic"> </span>
+						</div>
+						<div class="text-left">
+							<label for="gender " class="font-weight-bold">Пол: </label> <span
+								id="gender" class="font-italic"></span>
+						</div>
+						<div class="text-left">
+							<label for="birth " class="font-weight-bold">Дата
+								рождения: </label> <span id="birth" class="font-italic"></span>
+						</div>
+						<div class="text-left">
+							<label for="place " class="font-weight-bold">Расположение:
+							</label> <span id="place" class="font-italic">г</span>
+						</div>
+					</div>
+				</div>
+				<div class="contacts col-md-4">
+					<br> <br>
+					<div>
+						<label for="email " class="font-weight-bold">Email: </label> <span
+							id="email" class="font-italic"> </span>
+					</div>
+					<div>
+						<label for="phone " class="font-weight-bold">Телефон: </label> <span
+							id="phone" class="font-italic"> </span>
+					</div>
+					<div>
+						<label for="skype " class="font-weight-bold">Skype: </label> <span
+							id="skype" class="font-italic"> </span>
 					</div>
 				</div>
 			</div>
-			<div class="card profile-info-top">
-				<div class="card-header bg-dark text-light font-weight-bold">О
-					себе</div>
-				<div id="about" class="card-body"></div>
-			</div>
-			<div class="row profile-info-top">
-				<div class=" col-md-6 profile-info-left">
-					<div class="card">
-						<div class="card-header bg-dark text-light font-weight-bold">Образование</div>
-						<div id="education" class="card-body">
-							<div>
-								<label for="institution" class="font-weight-bold">ВУЗ: </label>
-								<span id="institution" class="font-italic"> </span>
+			<div class="extraInfo profile-info-top">
+				<div class="card">
+					<div class="card-header bg-dark text-light font-weight-bold">Компания</div>
+					<div class="card-body">
+						<div class="row">
+							<label for="companyData" class="font-weight-bold col-md-2">Название</label>
+							<span id="companyData" class="font-italic col-md-6"> </span>
+						</div>
+						<hr />
+						<div class="col-md-10 text-center">
+							<label for="aboutCompany" class="font-weight-bold text-uppercase">О
+								компании</label>
+							<div id="aboutCompany"></div>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="card ">
+					<div class="card-header bg-dark text-light font-weight-bold">О
+						себе</div>
+					<div id="about" class="card-body"></div>
+					
+				</div>
+				<div class="row profile-info-top">
+					<div class=" col-md-6 profile-info-left">
+						<div class="card">
+							<div class="card-header bg-dark text-light font-weight-bold">Образование</div>
+							<div id="education" class="card-body">
+								<div>
+									<label for="institution" class="font-weight-bold">ВУЗ:
+									</label> <span id="institution" class="font-italic"> </span>
+								</div>
+								<div>
+									<label for="faculty " class="font-weight-bold">Факультет:
+									</label> <span id="faculty" class="font-italic"> </span>
+								</div>
+								<div>
+									<label for="course " class="font-weight-bold">Курс: </label> <span
+										id="course" class="font-italic"></span>
+								</div>
 							</div>
-							<div>
-								<label for="faculty " class="font-weight-bold">Факультет:
-								</label> <span id="faculty" class="font-italic"> </span>
-							</div>
-							<div>
-								<label for="course " class="font-weight-bold">Курс: </label> <span
-									id="course" class="font-italic"></span>
+						</div>
+					</div>
+					<div class=" col-md-6 profile-info-right">
+						<div class="card">
+							<div class="card-header bg-dark text-light font-weight-bold">Работа</div>
+							<div id="career" class="card-body">
+								<div>
+									<label for="placeOfWork " class="font-weight-bold">Место
+										работы: </label> <span id="placeOfWork" class="font-italic"> </span>
+								</div>
+								<div>
+									<label for="placeOfWork " class="font-weight-bold">Позиция:
+									</label> <span id="position" class="font-italic"> </span>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class=" col-md-6 profile-info-right">
-					<div class="card">
-						<div class="card-header bg-dark text-light font-weight-bold">Работа</div>
-						<div id="career" class="card-body">
-							<div>
-								<label for="placeOfWork " class="font-weight-bold">Место
-									работы: </label> <span id="placeOfWork" class="font-italic"> </span>
-							</div>
-							<div>
-								<label for="placeOfWork " class="font-weight-bold">Позиция:
-								</label> <span id="position" class="font-italic"> </span>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
+		<div class="container card profile-card col-md-9" id="userTeam"
+			style="display: none;"></div>	
+
 	</div>
 	<br>
 	<br>
 	<br>
 	<br>
 	<div th:replace="fragments/footer :: footer" />
-	<!-- Optional JavaScript -->
+	
+	
+	
+	<script id="teamItem" type="text/jquery-tmpl">
+		<div class="container card profile-card" id="team_${id}">
+		<div class=" row"> 
+		<div class="userInfo  col-md-12 row">
+			<div class="avatar col-md-3">
+				<img
+					src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+					class="img-responsive rounded  profile-avatar"
+					alt="Avatar">
+			</div>
+		
+			<div class="userData col-md-9">
+				<div>
+					<div id="teamName" class=" text-center font-weight-bold profile-nick">${name}</div>
+				</div>
+				<br>
+				<div>
+		
+					<div class="contacts row">
+						<br>
+						<div class="text-left col-md">
+							<label for="place " class="font-weight-bold">Описание
+							</label>
+							<div id="place" class="font-italic">${about}</div>
+						</div>
+						<div class="text-left col-md">
+							<label for="place " class="font-weight-bold">Хакатон
+							</label>
+							<div id="place" class="font-italic">${hack.title}</div>
+						</div>
+						<div class="text-left col-md">
+							<label for="place " class="font-weight-bold">Расположение
+							</label>
+							<div id="place" class="font-italic">${hack.place}</div>
+						</div>
+					</div>	
+						<br><br>
+						
+						<div>
+							<a href="/teamProfile?uuid=${uuid}" class="btn bg-dark text-light">Страница команды</a>
+							<a href="#" class="btn bg-dark text-light">Хакатон</a>
+							<button onclick="sendRemoveMemberRequest('${uuid}', '${userID}',${id})" class="btn bg-danger text-light text-right">Покинуть команду</button>
+
+						</div>
+					
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<br>
+	 	</script>
+	
+
+		<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+			src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"></script>
 	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-		crossorigin="anonymous"></script>
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+			integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+			crossorigin="anonymous"></script>
 	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-		crossorigin="anonymous"></script>
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+			crossorigin="anonymous"></script>
 	<script
-		src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+			src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
 		
 	</script>
-	<script src="/js/profile.js?refresh223"></script>
+	<script src="/js/profile.js?refresh2233223"></script>
 </body>
 </html>
 

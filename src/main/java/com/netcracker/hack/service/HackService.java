@@ -4,8 +4,10 @@ import com.netcracker.hack.dto.HackDTO;
 import com.netcracker.hack.dto.builder.PageRequestBuilder;
 import com.netcracker.hack.model.Hack;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 
 public interface HackService {
@@ -21,4 +23,10 @@ public interface HackService {
   ResponseEntity<Object> createHack(HackDTO hack, String creatorName);
 
   ResponseEntity<Object> updateHack(HackDTO hackDTO, UUID id);
+  
+  List<Pair<Object, Object>>  getAllHackNames();
+  
+  Set<String>  getAllHackPlaces();
+
+  Set<String> getAllCompNames();
 }

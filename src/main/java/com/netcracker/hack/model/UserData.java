@@ -1,6 +1,5 @@
 package com.netcracker.hack.model;
 
-import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;

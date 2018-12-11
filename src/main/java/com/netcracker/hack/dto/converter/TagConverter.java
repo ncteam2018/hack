@@ -1,7 +1,6 @@
 package com.netcracker.hack.dto.converter;
 
 import com.netcracker.hack.dto.TagDTO;
-import com.netcracker.hack.mapper.TagMapper;
 import com.netcracker.hack.model.Tag;
 import java.util.ArrayList;
 import java.util.List;

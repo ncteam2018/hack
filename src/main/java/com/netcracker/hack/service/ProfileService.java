@@ -10,9 +10,13 @@ public interface ProfileService {
 
   List<UserDTO> getAllProfile();
 
-  UserDTO getProfile(UUID id);
+  UserDTO getUserDTO(UUID id);
+  
+  Profile getProfile(UUID id);
 
-  UserDTO getProfileByLogin(String login);
+  UserDTO getUserDTOByLogin(String login);
+  
+  Profile getProfileByLogin(String login);
 
   void deleteProfile(UUID id);
 
