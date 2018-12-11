@@ -14,18 +14,18 @@ public interface HackRepository extends PagingAndSortingRepository<Hack, UUID> {
 
   public Hack findByUuid(UUID id);
 
-  public Page<Hack> findDistinctByNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+  public Page<Hack> findDistinctByNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
       Pageable pageable, String hackName, String companyName, String cityName, String status);
 
-  public Page<Hack> findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+  public Page<Hack> findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
       Pageable pageable, List<Tag> skillTags, List<Tag> scopeTags, String hackName,
       String companyName, String cityName, String status);
 
-  public Page<Hack> findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+  public Page<Hack> findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
       Pageable pageable, List<Tag> scopeTags, String hackName, String companyName, String cityName,
       String status);
 
-  public Page<Hack> findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+  public Page<Hack> findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
       Pageable pageable, List<Tag> skillTags, String hackName, String companyName, String cityName,
       String status);
 

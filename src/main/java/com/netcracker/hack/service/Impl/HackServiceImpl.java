@@ -85,26 +85,26 @@ public class HackServiceImpl implements HackService {
     if (requestBuilder.isFiltered()) {
       if (requestBuilder.getSkillTags().size() > 0 && requestBuilder.getScopeTags().size() > 0)
         hackPage = hackRepository
-            .findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+            .findDistinctBySkillTagsInAndScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
                 requestBuilder.getPageRequest(), requestBuilder.getSkillTags(),
                 requestBuilder.getScopeTags(), requestBuilder.getSearchName(),
                 requestBuilder.getSearchCompanyName(), requestBuilder.getSearchCityName(),
                 "Active");
       else if (requestBuilder.getSkillTags().size() > 0)
         hackPage = hackRepository
-            .findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+            .findDistinctBySkillTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
                 requestBuilder.getPageRequest(), requestBuilder.getSkillTags(),
                 requestBuilder.getSearchName(), requestBuilder.getSearchCompanyName(),
                 requestBuilder.getSearchCityName(), "Active");
       else
         hackPage = hackRepository
-            .findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+            .findDistinctByScopeTagsInAndNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
                 requestBuilder.getPageRequest(), requestBuilder.getScopeTags(),
                 requestBuilder.getSearchName(), requestBuilder.getSearchCompanyName(),
                 requestBuilder.getSearchCityName(), "Active");
     } else
       hackPage = hackRepository
-          .findDistinctByNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatus(
+          .findDistinctByNameContainsAndCompanyCompanyNameContainsAndPlaceContainsAndStatusContains(
               requestBuilder.getPageRequest(), requestBuilder.getSearchName(),
               requestBuilder.getSearchCompanyName(), requestBuilder.getSearchCityName(), "Active");
 
@@ -136,7 +136,7 @@ public class HackServiceImpl implements HackService {
 
     UserDTO companyProfile = profileService.getUserDTOByLogin(creatorName);
     hackDTO.setCompany(companyProfile.getCompanyData());
-    hackDTO.setStatus("Processing");
+    hackDTO.setStatus("Active");
     Hack savedHack = hackRepository.save(new Hack(hackDTO));
     // Hack savedHack = hackRepository.save(HackMapper.INSTANCE.hackDTOToHack(hackDTO));
 
