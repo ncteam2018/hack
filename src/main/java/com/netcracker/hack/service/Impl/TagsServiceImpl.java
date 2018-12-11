@@ -16,7 +16,7 @@ public class TagsServiceImpl implements TagsService {
 
   @Autowired
   private HackRepository hackRepository;
-  
+
   @Autowired
   private TagRepository tagRepository;
 
@@ -25,12 +25,12 @@ public class TagsServiceImpl implements TagsService {
 
     List<List<TagDTO>> allTags = new ArrayList<>();
 
-    allTags.add(TagConverter.convertTo(hackRepository.findDistinctSkillTags("Active")));
-    allTags.add(TagConverter.convertTo(hackRepository.findDistinctScopeTags("Active")));
+    allTags.add(TagConverter.convertTo(hackRepository.findDistinctSkillTags()));
+    allTags.add(TagConverter.convertTo(hackRepository.findDistinctScopeTags()));
 
     return allTags;
   }
-  
+
   @Override
   public List<TagDTO> verifyTags(List<TagDTO> untrustedTags) {
 

@@ -22,14 +22,10 @@ public class Subscription {
   @Column(name = "cityName")
   private String cityName;
 
-  @Column(name = "companyName")
-  private String companyName;
-
   public Subscription(Integer id, Profile user, String cityName, String companyName) {
     this.id = id;
     this.user = user;
     this.cityName = cityName;
-    this.companyName = companyName;
   }
 
   public Subscription() {}
@@ -58,18 +54,9 @@ public class Subscription {
     this.cityName = cityName;
   }
 
-  public String getCompanyName() {
-    return companyName;
-  }
-
-  public void setCompanyName(String companyName) {
-    this.companyName = companyName;
-  }
-
   @Override
   public String toString() {
-    return "Subscription [id=" + id + ", user=" + user + ", cityName=" + cityName + ", companyName="
-        + companyName + "]";
+    return "Subscription [id=" + id + ", user=" + user + ", cityName=" + cityName + "]";
   }
 
   @Override
