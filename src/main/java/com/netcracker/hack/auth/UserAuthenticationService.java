@@ -1,8 +1,8 @@
 package com.netcracker.hack.auth;
 
-import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.model.Role;
-import com.netcracker.hack.repository.ProfileRepository;
+import com.netcracker.hack.model.UserAuthData;
+import com.netcracker.hack.repository.UserAuthRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,27 +14,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class UserAuthenticationService implements UserDetailsService {
 
-  private ProfileRepository profileRepository;
+  private UserAuthRepository userAuthRepository;
 
-  public UserAuthenticationService(ProfileRepository profileRepository) {
-    this.profileRepository = profileRepository;
+  public UserAuthenticationService(UserAuthRepository userAuthRepository) {
+    this.userAuthRepository = userAuthRepository;
   }
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    Profile profile = profileRepository.findByLogin(username);
+    UserAuthData userAuth = userAuthRepository.findByLogin(username);
 
-    if (profile != null) {
+    if (userAuth != null) {
       List<GrantedAuthority> authorities = new ArrayList<>();
 
-      for (Role role : profile.getRoles()) {
+      for (Role role : userAuth.getRoles()) {
         authorities.add(new SimpleGrantedAuthority("ROLE_" + role.toString().toUpperCase()));
       }
 
       return new User(
-          profile.getLogin(),
-          profile.getPassword(),
+          userAuth.getLogin(),
+          userAuth.getPassword(),
           authorities);
     }
 

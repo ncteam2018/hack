@@ -4,16 +4,15 @@ import com.netcracker.hack.model.CompanyData;
 import com.netcracker.hack.model.EducationLvl;
 import com.netcracker.hack.model.Gender;
 import com.netcracker.hack.model.Profile;
-import com.netcracker.hack.model.Role;
+import com.netcracker.hack.model.UserAuthData;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 public class UserDTO {
 
   private UUID uuid;
-  private String login;
-  private String password;
-  private Set<Role> roles;
+  private UserAuthData userAuth;
 
   private String firstName;
   private String middleName;
@@ -38,12 +37,11 @@ public class UserDTO {
   private String position;
 
   private CompanyData companyData;
+  private Set<TeamDTO> teams;
 
-  public UserDTO(Profile profile) {
+  public UserDTO(Profile profile, boolean isRec) {
     this.uuid = profile.getUuid();
-    this.login = profile.getLogin();
-    this.password = "";
-    this.roles = profile.getRoles();
+    this.userAuth = null;
 
     if (profile.getUserData() != null) {
       this.firstName = profile.getUserData().getfName();
@@ -74,9 +72,12 @@ public class UserDTO {
       this.position = profile.getCareer().getPosition();
     }
 
-    if (profile.getCompanyProfile() != null) 
+    if (profile.getCompanyProfile() != null)
       this.companyData = profile.getCompanyProfile();
-   
+
+    if ((!isRec) && profile.getTeams() != null)
+      this.teams = TeamDTO.makeSetOfTeamDTO(profile.getTeams());
+
   }
 
   public UserDTO() {}
@@ -89,28 +90,12 @@ public class UserDTO {
     this.uuid = uuid;
   }
 
-  public String getLogin() {
-    return login;
+  public UserAuthData getUserAuth() {
+    return userAuth;
   }
 
-  public void setLogin(String login) {
-    this.login = login;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public Set<Role> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
+  public void setUserAuth(UserAuthData userAuth) {
+    this.userAuth = userAuth;
   }
 
   public String getFirstName() {
@@ -135,6 +120,14 @@ public class UserDTO {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public Set<TeamDTO> getTeams() {
+    return teams;
+  }
+
+  public void setTeams(Set<TeamDTO> teams) {
+    this.teams = teams;
   }
 
   public Set<Gender> getGender() {
@@ -270,18 +263,18 @@ public class UserDTO {
   }
 
   @Override
-  public String toString() {
-    return "UserDTO [uuid=" + uuid + ", login=" + login + ", password=" + password + ", roles="
-        + roles + ", fisrtName=" + firstName + ", middleName=" + middleName + ", lastName="
-        + lastName + ", gender=" + gender + ", city=" + city + ", dateOfBirth=" + dateOfBirth
-        + ", active=" + active + ", about=" + about + ", phone=" + phone + ", email=" + email
-        + ", skype=" + skype + ", level=" + level + ", institution=" + institution + ", faculty="
-        + faculty + ", course=" + course + ", placeOfWork=" + placeOfWork + ", position=" + position
-        + "]";
+  public int hashCode() {
+
+    return Objects.hash(uuid, firstName, middleName, lastName);
   }
 
-
-
-  // private List<Skill> skills;
-  // private List<Interest> interests;
+  @Override
+  public String toString() {
+    return "UserDTO [uuid=" + uuid + ", fisrtName=" + firstName + ", middleName=" + middleName
+        + ", lastName=" + lastName + ", gender=" + gender + ", city=" + city + ", dateOfBirth="
+        + dateOfBirth + ", active=" + active + ", about=" + about + ", phone=" + phone + ", email="
+        + email + ", skype=" + skype + ", level=" + level + ", institution=" + institution
+        + ", faculty=" + faculty + ", course=" + course + ", placeOfWork=" + placeOfWork
+        + ", position=" + position + "]";
+  }
 }

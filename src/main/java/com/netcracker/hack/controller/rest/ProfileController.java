@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/profile")
-public class ProfileRestController {
+public class ProfileController {
 
   private ProfileServiceImpl service;
 
   @Autowired
-  public ProfileRestController(ProfileServiceImpl service) {
+  public ProfileController(ProfileServiceImpl service) {
     this.service = service;
   }
 
@@ -40,20 +40,20 @@ public class ProfileRestController {
   @GetMapping("/me")
   public UserDTO getAuthorizedUserProfile(Principal principal) {
 
-    return service.getProfileByLogin(principal.getName());
+    return service.getUserDTOByLogin(principal.getName());
   }
 
   @ApiOperation("Returns user by uuid")
   @GetMapping("/{id}")
   public UserDTO getProfile(
       @ApiParam(value = "User's uuid", required = true) @PathVariable UUID id) {
-    return service.getProfile(id);
+    return service.getUserDTO(id);
   }
 
   @ApiOperation("Returns user by login")
   @GetMapping("login/{login}")
   public UserDTO getProfileByLogin(@PathVariable String login) {
-    return service.getProfileByLogin(login);
+    return service.getUserDTOByLogin(login);
   }
 
   @ApiOperation("Deletes user profile by uuid")
