@@ -29,13 +29,13 @@ public class WebController {
 
   @RequestMapping(path = "/login", method = RequestMethod.GET)
   public String login(Model model,
-      @RequestParam(name = "loginError", defaultValue = "nope") String loginError) {
+      @RequestParam(name = "loginError", required = false) String loginError) {
 
-    model.addAttribute("loginError", loginError);
+    if(loginError != null)
+      model.addAttribute("loginError", loginError);
     return "open/login";
   }
-
-
+  
   @RequestMapping(path = "/", method = RequestMethod.GET)
   public String getMainPage() {
     return "open/index";
