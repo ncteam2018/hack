@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Teams</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css?123"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/hack.css?21}">
+<link rel="stylesheet" th:href="@{/css/loadingAnimation.css?1}">
+<link
+	href="https://fonts.googleapis.com/css?family=Poiret+One|Enriqueta"
+	rel="stylesheet">
+
+</head>
+<body onload="loadData(true)" class="body-font">
+	<div th:replace="fragments/profile_header :: header" />
+
+	<br>
+	<span id="setHackName" style="display: none;" th:text="${hackName}"></span>
+	<br>
+	<div class="container-fluid  row">
+		<div class="col-lg-3 border-right">
+			<div class="tag-card ">
+				<div id="accordion">
+					<div class="card  ">
+						<div class="card-header bg-dark text-center "
+							id="headingInterests">
+							<h5 class="mb-0 ">
+								<button
+									class="col-md-12 btn bg-dark text-light font-weight-bold"
+									data-toggle="collapse" data-target="#collapseInterests"
+									aria-expanded="true" aria-controls="collapseOne">
+									#Интересы <i class="fas fa-caret-down"></i>
+								</button>
+							</h5>
+						</div>
+
+						<div id="collapseInterests" class="collapse"
+							aria-labelledby="headingInterests" data-parent="#accordion">
+							<div class="card-body">
+								<div id="tag_scope" class="row"></div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="tag-card ">
+				<div id="accordion2">
+					<div class="card  ">
+						<div class="card-header bg-dark text-center" id="headingSkills">
+							<h5 class="mb-0 ">
+								<button
+									class="col-md-12  btn bg-dark text-light font-weight-bold"
+									data-toggle="collapse" data-target="#collapseSkills"
+									aria-expanded="true" aria-controls="collapseTwo">
+									#Умения <i class="fas fa-caret-down"></i>
+								</button>
+							</h5>
+						</div>
+
+						<div id="collapseSkills" class="collapse"
+							aria-labelledby="headingSkills" data-parent="#accordion2">
+							<div class="card-body">
+								<div id="tag_skills" class="row"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="card">
+				<h5
+					class="card-header bg-dark text-center text-light font-weight-bold ">Место
+					проведения</h5>
+				<div id="career" class="card-body">
+					<div>
+						<form class="form  row">
+							<div class=" col-md-12 "
+								style="padding-left: 10%; padding-right: 10%;">
+								<div class="form-group">
+									<div class="">
+										<label for="cityNameInput">Название города</label><br> <select
+											class="form-control col-md-8" id="cityNameInput"
+											name="cityNameInput">
+											<option value=""></option>
+										</select>
+
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+
+			<form id="form1" class="form  row" name="loginForm">
+				<div class=" col-md-12 "
+					style="padding-left: 10%; padding-right: 10%;">
+
+					<div>
+						<input type="text" class="form-control col-md-8" name="hackName"
+							id="hackName" placeholder="Название хакатона" />
+
+					</div>
+					<div class="col-md-8" style="padding-left: 0px;">
+						<div id="career" class="card-body">
+							<div id="filterTags" class="row"></div>
+						</div>
+					</div>
+
+
+					<div class="input-group mb-3  row ">
+						<div class="profile-info-left">
+							<button onclick="return findNewHackList()"
+								class="btn bg-dark text-light">
+								<i class="fas fa-search"></i> Поиск
+							</button>
+							<button onclick="return clearAllTags()"
+								class="btn bg-dark text-light">
+								<i class="fas fa-trash-alt"></i> Очистить
+							</button>
+						</div>
+
+
+						<div class="input-group mb-3 col-md-4">
+							<div class="input-group-prepend">
+								<label class="input-group-text" for="inputGroupSelect01">Sort
+									by</label>
+							</div>
+							<select class="custom-select" id="sortDirection">
+								<option value="1" selected>По имени</option>
+								<option value="2">По дате</option>
+
+							</select>
+						</div>
+
+						<div id="direction" class="btn-group btn-group-toggle"
+							data-toggle="buttons">
+							<div>
+								<label class="btn btn-secondary active"><i
+									class="fas fa-arrow-down" id="arrow_down"
+									style="color: yellow;"></i> <input type="radio" name="options"
+									id="option2" value="1" autocomplete="off" checked
+									style="display: none;"
+									onchange="changeColor('arrow_down','arrow_up')"> </label>
+							</div>
+							<div>
+								<label class="btn btn-secondary"> <input type="radio"
+									name="options" id="option3" value="2" autocomplete="off"
+									onchange="changeColor('arrow_up','arrow_down')"
+									style="display: none;"> <i class="fas fa-arrow-up"
+									id="arrow_up"></i>
+								</label>
+
+							</div>
+						</div>
+						<a href="/createTeam"
+							class="shadow-lg btn-lg bg-dark text-light col-md-4 text-center"
+							style="margin-left: 100px;"> <i
+							class="far fa-calendar-plus text-success"></i> Создать команду
+						</a>
+					</div>
+				</div>
+			</form>
+
+			<hr />
+			<br>
+			<nav aria-label="Page navigation example">
+				<ul id="teamPagination" class="pagination"></ul>
+			</nav>
+			<br>
+			<div id="loadingIcon" class="loader">Loading...</div>
+			<div id="teamList"></div>
+			<br> <br>
+		</div>
+	</div>
+
+	<br>
+	<br>
+	<br>
+	<div th:replace="fragments/footer :: footer" />
+
+	<script id="teamItem" type="text/jquery-tmpl">
+		<div class="container card profile-card">
+		<div class=" row"> 
+		<div class="userInfo  col-md-12 row">
+			<div class="avatar col-md-3">
+				<img
+					src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+					class="img-responsive rounded  profile-avatar"
+					alt="Avatar">
+			</div>
+		
+			<div class="userData col-md-9">
+				<div>
+					<div id="teamName" class=" text-center font-weight-bold profile-nick">${name}</div>
+				</div>
+				<br>
+				<div>
+		
+					<div class="contacts row">
+						<br>
+						<div class="text-left col-md">
+							<label for="place " class="font-weight-bold">Описание
+							</label>
+							<div id="place" class="font-italic">${about}</div>
+						</div>
+						<div class="text-left col-md">
+							<label for="place " class="font-weight-bold">Хакатон
+							</label>
+							<div id="place" class="font-italic">${hack.title}</div>
+						</div>
+						<div class="text-left col-md">
+							<label for="place " class="font-weight-bold">Расположение
+							</label>
+							<div id="place" class="font-italic">${hack.place}</div>
+						</div>
+					</div>	
+						<br><br>
+						
+						<div>
+							<button onclick="return showTeamInformation(${index})" class="btn bg-dark text-light">Подробнее</button>
+						</div>
+					
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<br>
+	 	</script>
+
+	<script id="tagItem" type="text/jquery-tmpl">
+				<div id ="tag_${id}" class="tag-padding" >
+				<button id="tag_${id}_button" onclick="return addTag(${id})" class="btn bg-dark text-light  btn-sm"> ${tagName}</button>
+				</div>
+		</script>
+
+	<script id="tagItem-active" type="text/jquery-tmpl">
+				<div id ="tag_act_${id}" class=" tag-padding">
+				<button onclick="return removeTag(${id})" class="btn bg-dark text-warning  btn-sm"> ${tagName} <span class="text-danger">X</span> </button>
+				</div>
+		</script>
+	<script id="tag-info" type="text/jquery-tmpl">
+				<div  class=" tag-padding">
+				<button onclick="return false;" class="btn bg-dark text-warning  btn-sm" readonly> ${tagName}  </button>
+				</div>
+		</script>
+	<script id="team-info" type="text/jquery-tmpl">
+				<div  class=" tag-padding">
+				<button onclick="return false;" class="btn bg-dark text-warning  btn-sm" readonly> ${tagName}  </button>
+				</div>
+		</script>
+	<script id="paginationItem" type="text/jquery-tmpl">
+			<li class="page-item">
+				<button id="page_${number}" class="page-link bg-dark text-light" onclick="return changePage(${number})">${number}</button>
+			</li>
+	</script>
+
+	<div id="fullHackInfo" class="modal fade " tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-dark">
+					<h4 class="modal-title text-warning">Хакатон</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid card profile-card">
+
+						<div class="userInfo   row">
+							<div class="avatar col-md-3">
+								<img
+									src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+									class="img-responsive rounded  profile-avatar" alt="Avatar">
+
+								<div class="profile-info-top">
+									<button onclick="" id="showCompany"
+										class="btn bg-dark text-light col-md-10">Организатор</button>
+								</div>
+								<br>
+								<div class="row">
+									<label for="hackStatus" class="font-weight-bold col-md-5">Статус</label>
+									<div id="hackStatus" class="font-italic text-warning col-md-7">Не
+										проверен</div>
+								</div>
+
+								<div class="row">
+									<label for="hackStatus" class="font-weight-bold col-md-3"><i
+										class="far fa-address-card"></i></label>
+									<div id="hackStatus" class="font-bold text-dark col-md-5">32</div>
+								</div>
+								<i class="far fa-user-lock fa-4x"></i>
+								<div class="row">
+									<label for="hackStatus" class="col-md-3 font-weight-bold "><i
+										class="fas fa-users fa-2x"></i></label>
+									<div id="hackStatus" class="font-bold  text-dark col-md-5">7</div>
+								</div>
+							</div>
+
+							<div class="userData col-md-9">
+								<div>
+									<div id="full_hackName"
+										class=" text-center font-weight-bold profile-nick"></div>
+								</div>
+								<br>
+								<div>
+
+									<div class="contacts row">
+										<br>
+										<div class="text-left col-md-3">
+											<label for="place " class="font-weight-bold">Адрес </label>
+											<div id="full_place" class="font-italic"></div>
+										</div>
+										<div class="text-left col-md-3">
+											<label for="full_date " class="font-weight-bold">Дата
+												проведения </label>
+											<div id="full_date" class="font-italic"></div>
+										</div>
+
+										<div class="text-left col-md-3">
+											<label for="full_dutarion " class="font-weight-bold">Продолжительность
+											</label>
+											<div id="full_dutarion" class="font-italic"></div>
+										</div>
+										<div class="text-left col-md-3">
+											<label for="full_site " class="font-weight-bold">Где
+												записаться </label>
+											<div id="full_site" class="font-italic"></div>
+										</div>
+									</div>
+									<div>
+										<button id="mapShowButton" class="btn btn-dark text-warning"
+											onclick="return showMap()">Карта</button>
+									</div>
+
+									<br> <label for="hack-tags" class="font-weight-bold">Хештеги
+									</label>
+									<div class="card">
+										<div id="hack-tags" class="card-body row "></div>
+									</div>
+									<div>
+										<div class="col-md-12">
+											<label for="full_description" class="font-weight-bold">Описание
+											</label>
+											<div id="full_description" class="font-italic"></div>
+
+										</div>
+									</div>
+									<br>
+
+									<div>
+										<div class="col-md-12">
+											<label for="full_auditory" class="font-weight-bold">Аудитория</label>
+											<div class="font-italic">
+												- <span id="full_auditory"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<br>
+
+
+						</div>
+						<br>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-danger" data-dismiss="modal"
+							onclick="return showTeamInfo()">Закрыть</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="fullTeamInfo" class="modal fade " tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-dark">
+					<h4 class="modal-title text-warning">Подробнее</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid card profile-card">
+
+						<div class="userInfo   row">
+							<div class="avatar col-md-3">
+								<img
+									src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+									class="img-responsive rounded  profile-avatar" alt="Avatar">
+								<br> <br>
+								<button id="captainProf" class="btn btn-info"
+									data-dismiss="modal">Капитан</button>
+								<br> <br>
+								<div class="row">
+									<label for="userCounter" class="col-md-3 font-weight-bold "><i
+										class="fas fa-users fa-2x"></i></label>
+									<div id="userCounter" class="font-bold  text-dark col-md-5"></div>
+								</div>
+							</div>
+
+							<div class="userData col-md-9">
+								<div>
+									<div id="full_teamName"
+										class=" text-center font-weight-bold profile-nick"></div>
+								</div>
+								<br>
+								<div>
+
+									<div class="contacts row">
+										<br>
+
+										<div class="text-left col-md-3">
+											<label for="full_teamDate " class="font-weight-bold">Дата
+												создания </label>
+											<div id="full_teamDate" class="font-italic"></div>
+										</div>
+										<div class="text-left col-md-3">
+											<label id="hacknameRef" for="hackref "
+												class="font-weight-bold"> </label>
+										</div>
+									</div>
+
+
+									<br> <label for="team-tags" class="font-weight-bold">Хештеги
+									</label>
+									<div class="card">
+										<div id="team-tags" class="card-body row "></div>
+									</div>
+									<div>
+										<div class="col-md-12">
+											<label for="full_teamDescription" class="font-weight-bold">Описание
+											</label>
+											<div id="full_teamDescription" class="font-italic"></div>
+
+										</div>
+									</div>
+									<br>
+								</div>
+							</div>
+							<br>
+						</div>
+						<br>
+					</div>
+					<div class="modal-footer">
+						<button onclick="#" id="addMemberRef" class="btn btn-success">Подать заявку в команду</button>
+						<button class="btn btn-info" id="hackref" data-dismiss="modal">Хакатон</button>
+						<button class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="captain" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-lg ">
+			<div class="modal-content ">
+				<div class="modal-header bg-dark">
+					<h4 class="modal-title  text-warning">Капитан</h4>
+					<button class="btn btn-danger" onclick="return showTeamInfo()"
+						data-dismiss="modal">X</button>
+				</div>
+				<div class="modal-body" style="height: 600px; overflow-y: scroll;">
+
+					<div class="container card profile-card" id="userProfile">
+						<div class=" row">
+							<div class="userInfo  col-md-8 row">
+								<div class="avatar col-md-4">
+									<img
+										src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+										class="img-responsive rounded float-left profile-avatar"
+										alt="Avatar">
+								</div>
+								<div class="userData col-md-8">
+									<div id="nickname"
+										class=" text-center font-weight-bold profile-nick"></div>
+									<br>
+									<div class="text-left">
+										<label for="fio " class="font-weight-bold">ФИО: </label> <span
+											id="fio" class="font-italic"> </span>
+									</div>
+									<div class="text-left">
+										<label for="gender " class="font-weight-bold">Пол: </label> <span
+											id="gender" class="font-italic"></span>
+									</div>
+									<div class="text-left">
+										<label for="birth " class="font-weight-bold">Дата
+											рождения: </label> <span id="birth" class="font-italic"></span>
+									</div>
+									<div class="text-left">
+										<label for="place " class="font-weight-bold">Расположение:
+										</label> <span id="place" class="font-italic">г</span>
+									</div>
+								</div>
+							</div>
+							<div class="contacts col-md-4">
+								<br> <br>
+								<div>
+									<label for="email " class="font-weight-bold">Email: </label> <span
+										id="email" class="font-italic"> </span>
+								</div>
+								<div>
+									<label for="phone " class="font-weight-bold">Телефон: </label>
+									<span id="phone" class="font-italic"> </span>
+								</div>
+								<div>
+									<label for="skype " class="font-weight-bold">Skype: </label> <span
+										id="skype" class="font-italic"> </span>
+								</div>
+							</div>
+						</div>
+						<div class="extraInfo profile-info-top">
+							<div class="card">
+								<div class="card-header bg-dark text-light font-weight-bold">Компания</div>
+								<div class="card-body">
+									<div class="row">
+										<label for="companyData" class="font-weight-bold col-md-2">Название</label>
+										<span id="companyData" class="font-italic col-md-6"> </span>
+									</div>
+									<hr />
+									<div class="col-md-10 text-center">
+										<label for="aboutCompany"
+											class="font-weight-bold text-uppercase">О компании</label>
+										<div id="aboutCompany"></div>
+									</div>
+								</div>
+							</div>
+							<div class="card profile-info-top">
+								<div class="card-header bg-dark text-light font-weight-bold">О
+									себе</div>
+								<div id="about" class="card-body"></div>
+							</div>
+							<div class="row profile-info-top">
+								<div class=" col-md-6 profile-info-left">
+									<div class="card">
+										<div class="card-header bg-dark text-light font-weight-bold">Образование</div>
+										<div id="education" class="card-body">
+											<div>
+												<label for="institution" class="font-weight-bold">ВУЗ:
+												</label> <span id="institution" class="font-italic"> </span>
+											</div>
+											<div>
+												<label for="faculty " class="font-weight-bold">Факультет:
+												</label> <span id="faculty" class="font-italic"> </span>
+											</div>
+											<div>
+												<label for="course " class="font-weight-bold">Курс:
+												</label> <span id="course" class="font-italic"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class=" col-md-6 profile-info-right">
+									<div class="card">
+										<div class="card-header bg-dark text-light font-weight-bold">Работа</div>
+										<div id="career" class="card-body">
+											<div>
+												<label for="placeOfWork " class="font-weight-bold">Место
+													работы: </label> <span id="placeOfWork" class="font-italic">
+												</span>
+											</div>
+											<div>
+												<label for="placeOfWork " class="font-weight-bold">Позиция:
+												</label> <span id="position" class="font-italic"> </span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+	<div id="companyProfile" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-lg ">
+			<div class="modal-content ">
+				<div class="modal-header bg-dark">
+					<h4 class="modal-title  text-warning">Организатор</h4>
+					<button class="btn btn-danger" onclick="return showInfo()"
+						data-dismiss="modal">X</button>
+				</div>
+				<div class="modal-body">
+
+					<div class="container card profile-card">
+						<div class=" row">
+							<div class="userInfo row">
+
+								<div class="col-md-5">
+									<div class="col-md-12">
+										<img
+											src="
+										https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+											class="img-responsive rounded  profile-avatar" alt="Avatar">
+									</div>
+									<br>
+									<div class="userData col-md-12">
+										<div class="row">
+											<label for="companyName" class="font-weight-bold col-md-4">Название</label>
+											<span id="companyName" class="font-italic col-md-6"> </span>
+										</div>
+
+										<div class="row">
+											<label for="companyStatus" class="font-weight-bold col-md-4">Статус</label>
+											<div id="companyStatus"
+												class="font-italic text-warning col-md-6">Не проверен</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-md-6 text-center">
+									<label for="companyAbout"
+										class="font-weight-bold text-uppercase">О компании</label>
+									<hr />
+									<div id="companyAbout"></div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="hackMap" class="modal fade" tabindex="-1"
+		data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-sm " style="margin-left: 50%;">
+			<div class="modal-content ">
+				<div class="modal-header bg-dark text-center">
+					<h4 class="modal-title  text-warning ">Место проведения</h4>
+					<button class="btn btn-danger" onclick="return showInfo()"
+						data-dismiss="modal">X</button>
+				</div>
+				<div class="modal-body">
+					<div class="container card " style="padding: 0px;">
+						<div class=" border border-success">
+							<div id="map" style="width: 100%; height: 400px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+		
+	</script>
+	<script
+		src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=4fa6aa42-d9bb-4b62-9e6b-77d1ce2ff058"
+		type="text/javascript"></script>
+	<script src="/js/team.js?12333"></script>
+</body>
+</html>
