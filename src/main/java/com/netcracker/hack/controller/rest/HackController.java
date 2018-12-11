@@ -8,9 +8,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +30,7 @@ public class HackController {
   @Autowired
   private HackService service;
 
-  @ApiOperation("Returns all hacks")
+  @ApiOperation("Returns all hacks by filter")
   @GetMapping
   public Page<HackDTO> getFilteredHacks(
       @RequestParam(name = "page", defaultValue = "0", required = false) int page,
@@ -39,6 +41,27 @@ public class HackController {
     return service.getFilteredHacks(new PageRequestBuilder(sortJson, page, size, filtersJson));
   }
 
+  @ApiOperation("Returns all hacks' names")
+  @GetMapping("/names")
+  public List<Pair<Object, Object>> getAllHackNames() {
+
+    return service.getAllHackNames();
+  }
+  
+  @ApiOperation("Returns all hacks' places")
+  @GetMapping("/places")
+  public Set<String> getAllHackPlaces() {
+
+    return service.getAllHackPlaces();
+  }
+  
+  @ApiOperation("Returns all company names")
+  @GetMapping("/companies")
+  public Set<String> getAllCompNames() {
+
+    return service.getAllCompNames();
+  }
+  
   @ApiOperation("Returns all hacks by company UUID")
   @GetMapping("company/{id}")
   public List<Hack> getHackByCompanyUuid(
