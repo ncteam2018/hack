@@ -19,8 +19,8 @@ public class EventDTO {
 
   public EventDTO(Event event) {
     this.id = event.getId();
-    this.sender = new UserDTO(event.getSender());
-    this.receiver = new UserDTO(event.getReceiver());
+    this.sender = new UserDTO(event.getSender(),false);
+    this.receiver = new UserDTO(event.getReceiver(),false);
     this.type = event.getType().getType();
     this.status = event.getStatus().getStatus();
     this.dateOfCreation = event.getDateOfCreation();
