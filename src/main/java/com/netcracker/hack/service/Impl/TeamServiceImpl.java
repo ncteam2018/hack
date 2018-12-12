@@ -6,6 +6,7 @@ import com.netcracker.hack.dto.builder.PageRequestBuilder;
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.model.Team;
 import com.netcracker.hack.repository.TeamRepository;
+import com.netcracker.hack.service.EventService;
 import com.netcracker.hack.service.ProfileService;
 import com.netcracker.hack.service.TagsService;
 import com.netcracker.hack.service.TeamService;
@@ -32,6 +33,8 @@ public class TeamServiceImpl implements TeamService {
   private TagsService tagService;
   @Autowired
   private ProfileService profileService;
+  @Autowired
+  private EventService eventService;
   
   public void deleteTeam(UUID id) {
     teamRepository.deleteById(id);
@@ -65,6 +68,8 @@ public class TeamServiceImpl implements TeamService {
     team.setPeopleCount(team.getPeopleCount()+1);
     teamRepository.save(team);
     
+    eventService.createTeamNotifications(teamUuid, "Добавлен новый пользователь - " + user.getUserData().getlName(), user.getUuid());
+    
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
   
@@ -76,6 +81,8 @@ public class TeamServiceImpl implements TeamService {
     team.getTeamMembers().remove(user);
     team.setPeopleCount(team.getPeopleCount()-1);
     teamRepository.save(team);
+    
+    eventService.createTeamNotifications(teamUuid, "Пользователь " + user.getUserData().getlName() + " покинул команду " , user.getUuid());
     
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }

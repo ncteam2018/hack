@@ -16,9 +16,9 @@ public class SocketController {
   @Autowired
   private TeamChatService teamChatService;
   
-  @MessageMapping("/notification/{userID}")
+  //@MessageMapping("/notification/{userID}")
   @SendTo("/topic/notifications/{userID}")
-  public boolean sendNotification(@DestinationVariable UUID userID) {//, NotificationDTO notification) {
+  public boolean sendNotification(@DestinationVariable UUID userID , NotificationDTO notification) {
     
     return true;
   }

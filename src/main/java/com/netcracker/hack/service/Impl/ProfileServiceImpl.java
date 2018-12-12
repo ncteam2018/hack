@@ -81,7 +81,8 @@ public class ProfileServiceImpl implements ProfileService {
       role.add(Role.USER);
 
     profile.getUserAuth().setRoles(role);
-    savedProfile = profileRepository.save(new Profile(profile));
+    Profile s = new Profile(profile);
+    savedProfile = profileRepository.save(s);
 
     UserAuthData userAuth = new UserAuthData(profile.getUuid(), profile.getUserAuth().getLogin(),
         profile.getUserAuth().getPassword(), profile.getUserAuth().getRoles());

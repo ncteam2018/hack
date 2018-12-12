@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import com.netcracker.hack.dto.EventDTO;
 import com.netcracker.hack.dto.NotificationDTO;
@@ -12,7 +13,9 @@ import com.netcracker.hack.model.Event;
 import com.netcracker.hack.model.Hack;
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.model.Subscription;
+import com.netcracker.hack.model.Team;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import com.netcracker.hack.repository.EventRepository;
 import com.netcracker.hack.repository.EventStatusRepository;
@@ -49,7 +52,10 @@ public class EventServiceImpl implements EventService {
   private EventStatusRepository eventStatusRepository;
   
   @Autowired
-  private SocketController socketController; 
+  private SocketController socketController;
+  
+  @Autowired
+  private SimpMessagingTemplate template;
   
 
   public void createEvent(Integer typeID, Integer statusID, UUID senderID, UUID receiverID,
@@ -114,10 +120,35 @@ public class EventServiceImpl implements EventService {
 
       newNotifications.add(notification);
       
-      socketController.sendNotification(user.getUuid());//, new NotificationDTO(notification));
+      //socketController.sendNotification(user.getUuid());//, new NotificationDTO(notification));
     }
 
     eventRepository.saveAll(newNotifications);
+  }
+  
+  public void createTeamNotifications(UUID teamID, String message, UUID userID) {
+
+    Team resTeam = teamRepository.findByUuid(teamID);
+
+    Set<Profile> teamMembers= resTeam.getTeamMembers();
+
+
+    for (Profile member : teamMembers) {
+      
+      if(member.getUuid().equals(userID))
+        continue;
+      
+      Event notification = new Event();
+      notification.setReceiver(member);
+      notification.setStatus(eventStatusRepository.findById(1).get());
+      notification.setMessage(message);
+      
+      //socketController.sendNotification(member.getUuid(), new NotificationDTO(notification));
+      template.convertAndSend("/topic/notifications/" + member.getUuid(), new NotificationDTO(notification));
+      
+      eventRepository.save(notification);
+    }
+
   }
 
   public List<List<EventDTO>> getEvents(Integer typeID, UUID ownerID) {

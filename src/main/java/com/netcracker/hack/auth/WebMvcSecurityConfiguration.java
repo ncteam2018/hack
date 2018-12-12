@@ -58,7 +58,7 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   public void configure(WebSecurity web) throws Exception {
 
-    web.ignoring().antMatchers("/js/**", "/css/**","/img/**");
+    web.ignoring().antMatchers("/js/**", "/css/**","/img/**", "/static/**");
   }
 
 }

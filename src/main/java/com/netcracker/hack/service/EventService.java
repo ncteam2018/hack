@@ -25,6 +25,8 @@ public interface EventService {
   
   public void updateUserNotifications(NotificationDTO notification); 
   
+  public void createTeamNotifications(UUID teamID, String message, UUID userID);
+  
   
   
 }

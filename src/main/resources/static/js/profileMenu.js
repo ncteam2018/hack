@@ -89,7 +89,7 @@ fetch("/api/profile/me", {
 			stompClient.connect({}, function(frame) {
 				stompClient.subscribe('/topic/notifications/' + me.uuid,
 						function(greeting) {
-							alert('new message!');
+							alert(JSON.parse(greeting.body).message);
 							//reloadEvents(UserID);
 						});
 			});
