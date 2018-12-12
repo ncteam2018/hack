@@ -8,13 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/event")
@@ -63,5 +57,12 @@ public class EventController {
   public Long getNewEventCounter(@RequestParam(name = "ownerID", required = true) UUID ownerID) {
 
     return service.countNewEvents(2, ownerID);
+  }
+
+  @ApiOperation("Creats notification")
+  @PostMapping("/notifications")
+  public void createHackNotification( @RequestParam(name = "hackID", required = true) UUID hackID,
+                                      @RequestParam(name = "message", required = true) String message){
+    service.createHackNotifications(hackID, message);
   }
 }

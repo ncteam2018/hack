@@ -12,6 +12,7 @@ $(document).ready(function() {
         }
     });
 });
+var UserID = null;
 
 $("#events").addClass('text-warning');
 eventList = new Array();
@@ -62,6 +63,20 @@ function changeState(eventId, state){
         method : 'PUT',
         headers : getDefaultHeaders(),
         body: JSON.stringify(state)
-    })
+    });
+    if(state == 1){
+        fetch("api/event/notifications",{
+            method : 'POST',
+            headers : getDefaultHeaders(),
+            body: JSON.stringify({hackID: eventId, message: 'заявка одобрена'})
+        });
+    }else{
+        fetch("api/event/notifications",{
+            method : 'POST',
+            headers : getDefaultHeaders(),
+            body: JSON.stringify({hackID: eventId, message: 'заявка не одобрена'})
+        });
+    }
+
 }
 
