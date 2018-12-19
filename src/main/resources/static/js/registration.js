@@ -24,9 +24,9 @@ function createUserProfile() {
     this.lastName = document.getElementById("lname").value;
 
     if ($("input[name='gender']:checked").val() != 'M') {
-      this.gender = ["MAN"];
+      this.gender = "MAN";
     } else {
-      this.gender = ["MAN"];
+      this.gender = "WOMAN";
     }
     this.level = ["PUPIL"];
 

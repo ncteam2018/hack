@@ -1,10 +1,9 @@
 package com.netcracker.hack.model;
 
 import java.sql.Date;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,9 +13,8 @@ import javax.persistence.Table;
 public class Event {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
-  private Integer id;
+  private UUID id;
 
   @ManyToOne
   private Profile sender;
@@ -42,16 +40,16 @@ public class Event {
   @ManyToOne
   private Team team;
 
-  @Column(name = "message")
+  @Column(name = "message", length = 1000)
   private String message;
 
   public Event() {}
 
-  public Integer getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 

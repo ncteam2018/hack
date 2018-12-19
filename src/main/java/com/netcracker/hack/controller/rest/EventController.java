@@ -47,7 +47,7 @@ public class EventController {
 
   @ApiOperation("Update event status")
   @PutMapping("/{id}")
-  public void updateEventStatus(@PathVariable Integer id, @RequestBody Integer newStatus) {
+  public void updateEventStatus(@PathVariable UUID id, @RequestBody Integer newStatus) {
 
     service.updateEventStatus(id, newStatus);
   }

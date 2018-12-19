@@ -1,17 +1,10 @@
 package com.netcracker.hack.model;
 
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,15 +22,13 @@ public class UserAuthData {
 
   @Column(name = "password", length = 60)
   private String password;
-
-  @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-  @CollectionTable(name = "userAuth_role", joinColumns = @JoinColumn(name = "uuid"))
-  @Enumerated(EnumType.STRING)
-  private Set<Role> roles;
+  
+  @Column(name = "role", length = 30)
+  private String role;
   
   public UserAuthData() {}
 
-  public UserAuthData(UUID uuid, String login, String password, Set<Role> roles) {
+  public UserAuthData(UUID uuid, String login, String password, String role) {
     PasswordEncoder encoder = new BCryptPasswordEncoder();
     
     this.uuid = uuid;
@@ -45,7 +36,7 @@ public class UserAuthData {
     if(encoder != null)
       this.password = encoder.encode(password);
       
-    this.roles = roles;
+    this.role = role;
   
   }
 
@@ -73,12 +64,12 @@ public class UserAuthData {
     this.password = password;
   }
 
-  public Set<Role> getRoles() {
-    return roles;
+  public String getRole() {
+    return role;
   }
 
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
+  public void setRole(String role) {
+    this.role = role;
   }
 
   @Override
@@ -96,6 +87,6 @@ public class UserAuthData {
   @Override
   public int hashCode() {
 
-    return Objects.hash(uuid, login, password, roles);
+    return Objects.hash(uuid, login, password, role);
   }
 }

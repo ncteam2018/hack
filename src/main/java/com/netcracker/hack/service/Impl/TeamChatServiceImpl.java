@@ -10,6 +10,7 @@ import com.netcracker.hack.repository.TeamChatRepository;
 import com.netcracker.hack.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.netcracker.hack.service.EventService;
 import com.netcracker.hack.service.TeamChatService;
 
 @Service
@@ -20,6 +21,9 @@ public class TeamChatServiceImpl implements TeamChatService {
 
   @Autowired
   private TeamRepository teamRepository;
+  
+  @Autowired
+  private EventService eventService;
 
   @Override
   public void addMessage(ChatMessageDTO message, UUID teamID) {
@@ -27,6 +31,8 @@ public class TeamChatServiceImpl implements TeamChatService {
     message.setDate(Date.valueOf(java.time.LocalDate.now()));
     TeamChatMessage newMessage = new TeamChatMessage(message, teamRepository.findByUuid(teamID));
     teamChatRepository.save(newMessage);
+    
+    eventService.createNotification("Новое сообщение в чате команды!", null, teamID, null);
   }
 
   @Override

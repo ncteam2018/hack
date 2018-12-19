@@ -6,6 +6,7 @@ import com.netcracker.hack.dto.builder.PageRequestBuilder;
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.model.Team;
 import com.netcracker.hack.repository.TeamRepository;
+import com.netcracker.hack.service.EventService;
 import com.netcracker.hack.service.ProfileService;
 import com.netcracker.hack.service.TagsService;
 import com.netcracker.hack.service.TeamService;
@@ -32,54 +33,78 @@ public class TeamServiceImpl implements TeamService {
   private TagsService tagService;
   @Autowired
   private ProfileService profileService;
-  
-  public void deleteTeam(UUID id) {
-    teamRepository.deleteById(id);
+  @Autowired
+  private EventService eventService;
+
+  public ResponseEntity<Object> deleteTeam(UUID teamID) {
+    eventService.createNotification("Команда удалена!", null, teamID, null);
+
+    teamRepository.deleteById(teamID);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 
-  public ResponseEntity<Object> updateTeam(Team team, UUID id) {
-    Optional<Team> teamOptional = teamRepository.findById(id);
+  public ResponseEntity<TeamDTO> updateTeam(TeamDTO updatedTeam, UUID teamID) {
+
+    Optional<Team> teamOptional = teamRepository.findById(teamID);
     if (!teamOptional.isPresent()) {
       return ResponseEntity.notFound().build();
     }
-    team.setUuid(id);
-    teamRepository.save(team);
-    return ResponseEntity.noContent().build();
+
+    if (teamOptional.get().getHack().getStatus().equals("Active"))
+      updatedTeam.setStatus("Active");
+
+    updatedTeam.setSkillTags(tagService.verifyTags(updatedTeam.getSkillTags()));
+    updatedTeam.setScopeTags(tagService.verifyTags(updatedTeam.getScopeTags()));
+    teamRepository.save(new Team(updatedTeam));
+
+    eventService.createNotification("Описание команды изменено!", null, teamID, null);
+
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
-  // 0------------------
-
-  
-  
   public TeamDTO getTeam(UUID uuid) {
 
     return new TeamDTO(teamRepository.findByUuid(uuid));
   }
 
   public ResponseEntity<TeamDTO> addUser(UUID teamUuid, String login) {
-    
+
     Profile user = profileService.getProfileByLogin(login);
     Team team = teamRepository.findByUuid(teamUuid);
-    
+
+    int oldCount = team.getTeamMembers().size();
     team.getTeamMembers().add(user);
-    team.setPeopleCount(team.getPeopleCount()+1);
+
+    if (oldCount != team.getTeamMembers().size())
+      team.setPeopleCount(team.getPeopleCount() + 1);
+
+    eventService.createNotification("Пользователь " + user.getUserData().getfName() + " "
+        + user.getUserData().getlName() + " принят в команду!", null, teamUuid, user.getUuid());
     teamRepository.save(team);
-    
+
+
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
-  
+
   public ResponseEntity<TeamDTO> removeUser(UUID teamUuid, UUID userUuid) {
-    
+
     Profile user = profileService.getProfile(userUuid);
     Team team = teamRepository.findByUuid(teamUuid);
-    
+
+    int oldCount = team.getTeamMembers().size();
     team.getTeamMembers().remove(user);
-    team.setPeopleCount(team.getPeopleCount()-1);
+
+    if (oldCount != team.getTeamMembers().size())
+      team.setPeopleCount(team.getPeopleCount() - 1);
+
     teamRepository.save(team);
-    
+
+    eventService.createNotification("Пользователь " + user.getUserData().getfName() + " "
+        + user.getUserData().getlName() + " покинул команду!", null, teamUuid, user.getUuid());
+
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
-  
+
 
   public ResponseEntity<TeamDTO> createTeam(TeamDTO team) {
 
@@ -87,7 +112,8 @@ public class TeamServiceImpl implements TeamService {
     team.setScopeTags(tagService.verifyTags(team.getScopeTags()));
     team.setPeopleCount(1);
     team.setDateOfPublishing(Date.valueOf(java.time.LocalDate.now()));
-    
+    team.setStatus("Active");
+
     UUID teamUuid = UUID.randomUUID();
     team.setUuid(teamUuid);
 

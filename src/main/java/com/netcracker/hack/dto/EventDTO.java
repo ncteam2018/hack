@@ -1,12 +1,13 @@
 package com.netcracker.hack.dto;
 
 import java.sql.Date;
+import java.util.UUID;
 import com.netcracker.hack.model.Event;
 import com.netcracker.hack.model.Team;
 
 public class EventDTO {
 
-  private Integer id;
+  private UUID id;
   private UserDTO sender;
   private UserDTO receiver;
   private String type;
@@ -32,7 +33,7 @@ public class EventDTO {
 
   public EventDTO() {}
 
-  public Integer getId() {
+  public UUID getId() {
     return id;
   }
 

@@ -2,6 +2,7 @@ package com.netcracker.hack.repository;
 
 import com.netcracker.hack.model.Hack;
 import com.netcracker.hack.model.Tag;
+import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.Tuple;
@@ -37,7 +38,9 @@ public interface HackRepository extends PagingAndSortingRepository<Hack, UUID> {
 
   @Query("SELECT name,uuid FROM Hack ")
   public List<Tuple> findAllName();
-  
+
   @Query("SELECT place FROM Hack ")
   public List<String> findAllCities();
+
+  public List<Hack> findByStartDateBetween(Date today, Date nextWeek);
 }

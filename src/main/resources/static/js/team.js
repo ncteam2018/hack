@@ -1,10 +1,9 @@
-function getDefaultHeaders() { // Вставка заголовков в ajax
+function getDefaultHeaders() { 
 	var headers = new Headers();
 	headers.append("Content-Type", "application/json");
 	return headers;
 }
 
-// Отключение события отправки формы при нажатии enter
 $(document).ready(function() {
 	$("#form1").keydown(function(event) {
 		if (event.keyCode == 13) {
@@ -14,15 +13,12 @@ $(document).ready(function() {
 	});
 });
 
-// Выделение жёлтым цветом названия в шапке на которой сейчас находится
-// пользователь
+
 $("#teams").addClass('text-warning');
 
 var teamList; // Массив загруженных хакатонов
 var hackPageParams; //
-function PageHandler() { // Занимается пагинацией: рисует её, отправляет
-	// запросы для получения нужной страницы по
-	// фильтрам(не перезагружает страницу)
+function PageHandler() { 
 
 	this.createPages = function() {
 
@@ -158,7 +154,6 @@ function loadData(isFirst) {
 		query += "&" + filterQueryString;
 	}
 
-	// Выполнение запроса хакатонов на адресс "/api/team?фильтры"
 	fetch(query, {
 		method : 'GET',
 		headers : getDefaultHeaders(),
@@ -170,8 +165,8 @@ function loadData(isFirst) {
 		}
 		return response.json();
 	}).then(function(teamPage) {
-		$("#teamList").html(""); // Очистка содержимого контейтера с
-		// шаблонами хакатонов от прошлого запроса
+		$("#teamList").html(""); 
+		
 		teamList = teamPage.content;
 
 		let cityNames = new Array();
@@ -275,7 +270,7 @@ function showTeamInformation(index) {
 			teamList[index].captain.lastName + " "
 					+ teamList[index].captain.firstName + " "
 					+ teamList[index].captain.middleName);
-	$("#gender").html(teamList[index].captain.gender[0]);
+	$("#gender").html(teamList[index].captain.gender);
 	$("#birth").html(teamList[index].captain.dateOfBirth);
 	$("#place").html(teamList[index].captain.city);
 	$("#email").html(teamList[index].captain.email);
@@ -312,7 +307,14 @@ function showTeamInformation(index) {
 	});
 
 	$('#addMemberRef').attr("onclick",
-			'sendAddMemberRequest("' + teamList[index].uuid + '")');
+			'sendAddMemberRequest("' + teamList[index].uuid + '")').html("Подать заявку в команду");
+
+	teamList[index].teamMembers.forEach(function(member, i, arr) {
+		if (member.uuid == Me.uuid)
+			$('#addMemberRef').attr("onclick",
+					'window.location.replace("/teamProfile/' + teamList[index].uuid + '")').html("Страница команды");
+	});
+
 	$('#fullTeamInfo').modal("show");
 
 	return false;
@@ -547,12 +549,6 @@ function findNewHackList() { // При нажатии на кнопку 'Пои�
 
 	// -- Загружаем новый список хакатонов
 
-	alert(filterQueryString) // Выводит alert окошко в котором пишется какой
-	// финальный фильтр был собран (нужен для
-	// проверки работоспособности)
-
-	// http не хочет отправлять ваш запрос со скобками от json-строк и требует
-	// чтобы все опасные символы были экранированны
 	filterQueryString = encodeURI(filterQueryString);
 	loadData(false); // Вызываем новую загрузку хакатонов с новым фильтром,
 	// false - это не первая загрузка, не надо снова грузить
@@ -620,12 +616,14 @@ function init() {
 
 function sendAddMemberRequest(teamID) {
 
-	let query = 'api/team/' + teamID + ' /addMe';
+	let query = '/api/team/' + teamID + '/sendRequest';
 	fetch(query, {
 		method : 'POST',
 		headers : getDefaultHeaders(),
 		credentials : "same-origin"
-	}).then(function(response) {
-		window.location.replace("/teamProfile?uuid=" + teamID);
 	});
+	
+	$("#requestSendAlert").modal("show");
+	
+	return false;
 }
