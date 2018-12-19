@@ -47,21 +47,21 @@ public class HackController {
 
     return service.getAllHackNames();
   }
-  
+
   @ApiOperation("Returns all hacks' places")
   @GetMapping("/places")
   public Set<String> getAllHackPlaces() {
 
     return service.getAllHackPlaces();
   }
-  
+
   @ApiOperation("Returns all company names")
   @GetMapping("/companies")
   public Set<String> getAllCompNames() {
 
     return service.getAllCompNames();
   }
-  
+
   @ApiOperation("Returns all hacks by company UUID")
   @GetMapping("company/{id}")
   public List<Hack> getHackByCompanyUuid(
@@ -70,9 +70,9 @@ public class HackController {
   }
 
   @ApiOperation("Returns hack by uuid")
-  @GetMapping("/{id}")
-  public HackDTO getHack(@ApiParam(value = "Hack's uuid", required = true) @PathVariable UUID id) {
-    return service.getHack(id);
+  @GetMapping("/{hackID}")
+  public HackDTO getHack(@ApiParam(value = "Hack's uuid", required = true) @PathVariable UUID hackID) {
+    return service.getHack(hackID);
   }
 
   @ApiOperation("Deletes hack profile by uuid")
@@ -85,7 +85,7 @@ public class HackController {
   @PostMapping
   public ResponseEntity<Object> createHack(
       @ApiParam(value = "new Hack") @RequestBody HackDTO hackDTO, Principal principal) {
-    return service.createHack(hackDTO,principal.getName());
+    return service.createHack(hackDTO, principal.getName());
   }
 
   @ApiOperation("Updates hack by uuid")

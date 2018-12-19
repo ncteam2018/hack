@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.netcracker.hack.dto.converter.TagConverter;
 import org.hibernate.annotations.GenericGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.netcracker.hack.dto.HackDTO;
 
 @Entity
@@ -29,6 +30,7 @@ public class Hack {
   @Column(name = "name")
   private String name;
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.EAGER)
   private CompanyData company;
 
@@ -61,7 +63,7 @@ public class Hack {
 
   @Column(name = "teamCounter")
   private Integer counterOfRegisteredTeams;
-
+ 
   @ManyToMany
   private List<Tag> skillTags;
 
