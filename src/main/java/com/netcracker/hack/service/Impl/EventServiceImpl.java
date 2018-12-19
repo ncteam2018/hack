@@ -15,6 +15,7 @@ import com.netcracker.hack.model.Event;
 import com.netcracker.hack.model.Hack;
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.model.Subscription;
+import com.netcracker.hack.model.UserAuthData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,9 @@ import com.netcracker.hack.repository.HackRepository;
 import com.netcracker.hack.repository.ProfileRepository;
 import com.netcracker.hack.repository.SubscriptionRepository;
 import com.netcracker.hack.repository.TeamRepository;
+import com.netcracker.hack.repository.UserAuthRepository;
 import com.netcracker.hack.service.EventService;
+import com.netcracker.hack.service.RolesService;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -35,6 +38,9 @@ public class EventServiceImpl implements EventService {
 
   @Autowired
   private ProfileRepository profileRepository;
+
+  @Autowired
+  private UserAuthRepository userAuthRepository;
 
   @Autowired
   private HackRepository hackRepository;
@@ -55,7 +61,7 @@ public class EventServiceImpl implements EventService {
   private SimpMessagingTemplate template;
 
 
-  public void createEvent(Integer typeID, Integer statusID, UUID senderID, UUID receiverID,
+  private void createEvent(Integer typeID, Integer statusID, UUID senderID, UUID receiverID,
       UUID hackID, UUID teamID, String message) {
 
     Event newEvent = new Event();
@@ -83,6 +89,21 @@ public class EventServiceImpl implements EventService {
 
     eventRepository.save(newEvent);
   }
+
+  public void sendToAdmin(Integer typeID, Integer statusID, UUID senderID, UUID hackID, UUID teamID,
+      String message) {
+
+    userAuthRepository.findByRole(RolesService.ADMIN_ROLE).forEach((UserAuthData admin) -> {
+      createEvent(typeID, statusID, senderID, admin.getUuid(), hackID, teamID, message);
+    });
+  }
+
+  public void sendToUser(Integer typeID, Integer statusID, UUID senderID, UUID receiverID,
+      UUID hackID, UUID teamID, String message) {
+    
+    createEvent(typeID, statusID, senderID, receiverID, hackID, teamID, message);
+  }
+
 
   public void createNotification(String message, UUID hackID, UUID teamID, UUID userID) {
 
@@ -142,7 +163,7 @@ public class EventServiceImpl implements EventService {
     for (Profile receiver : receivers) {
       Event notification = new Event();
       notification.setId(UUID.randomUUID());
-      notification.setType(eventTypeRepository.findById(2).get());
+      notification.setType(eventTypeRepository.findById(NOTIFICATION_EVENT_TYPE).get());
       notification.setReceiver(receiver);
       notification.setMessage(builder.build(notification.getId()));
       notification.setStatus(eventStatusRepository.findById(1).get());
