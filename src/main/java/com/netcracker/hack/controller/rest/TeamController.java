@@ -2,7 +2,6 @@ package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.dto.TeamDTO;
 import com.netcracker.hack.dto.builder.PageRequestBuilder;
-import com.netcracker.hack.model.Team;
 import com.netcracker.hack.service.TeamService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -64,8 +63,8 @@ public class TeamController {
 
   @ApiOperation("Deletes team by uuid")
   @DeleteMapping("/{id}")
-  public void deleteTeam(@ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
-    service.deleteTeam(id);
+  public ResponseEntity<Object> deleteTeam(@ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
+    return service.deleteTeam(id);
   }
 
   @ApiOperation("Adds team by uuid")
@@ -77,8 +76,8 @@ public class TeamController {
 
   @ApiOperation("Updates team by uuid")
   @PutMapping("/{id}")
-  public ResponseEntity<Object> updateTeam(
-      @ApiParam(value = "new Team", required = true) @RequestBody Team team,
+  public ResponseEntity<TeamDTO> updateTeam(
+      @ApiParam(value = "new Team", required = true) @RequestBody TeamDTO team,
       @ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
     return service.updateTeam(team, id);
   }
