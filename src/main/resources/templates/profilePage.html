@@ -11,31 +11,32 @@
 <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
 	rel="stylesheet">
 <link rel="stylesheet" th:href="@{/css/loadingAnimation.css?12232241}">
-<link rel="stylesheet" th:href="@{/css/hack.css?1222}"
+<link rel="stylesheet" th:href="@{/css/hack.css?12222}"
 	href="../static/css/hack.css">
 
 <link href="https://fonts.googleapis.com/css?family=Poiret+One"
 	rel="stylesheet">
 <title>Profile</title>
 </head>
-<body onload="loadUserProfile()" class="body-font" >
+<body onload="loadUserProfile()" class="body-font">
 	<div th:replace="fragments/profile_header :: header" />
 	<br>
 	<br>
 	<br>
 
-	<div class="container-fluid row" >
-		<div class="border-right col-md-2 text-right">
-			<div>
-				<button class="btn btn-dark btn-block" onclick="showProfile()">Мой Профиль</button>
-			</div>
-			<br>
-			<div>
-				<button class="btn btn-dark btn-block" onclick="showTeams()" >Мои команды</button>
+	<div class="container-fluid row">
+		<div class=" col-md-2 profile-card text-right border-right">
+			<div class="card border-dark rounded profile-card ">
+				<button class="btn btn-dark btn-block" onclick="showProfile()">Мой
+					Профиль</button>
+				<button class="btn btn-dark btn-block" onclick="showTeams()">Мои
+					команды</button>
+				<button id="hackListButton" class="btn btn-dark btn-block"
+					onclick="showHacks() " style="display: none;">Мои хакатоны</button>
 			</div>
 		</div>
-		<div class="container card profile-card col-md-9" id="userProfile"
-			style="display: none; background-color: #edeef0" >
+		<div class="container card profile-card col-md-9 border-dark rounded"
+			id="userProfile" style="display: none;">
 			<div class=" row">
 				<div class="userInfo  col-md-8 row">
 					<div class="avatar col-md-4">
@@ -83,7 +84,7 @@
 				</div>
 			</div>
 			<div class="extraInfo profile-info-top">
-				<div class="card">
+				<div id="companyInfo" class="card" style="display: none;">
 					<div class="card-header bg-dark text-light font-weight-bold">Компания</div>
 					<div class="card-body">
 						<div class="row">
@@ -103,7 +104,7 @@
 					<div class="card-header bg-dark text-light font-weight-bold">О
 						себе</div>
 					<div id="about" class="card-body"></div>
-					
+
 				</div>
 				<div class="row profile-info-top">
 					<div class=" col-md-6 profile-info-left">
@@ -143,20 +144,21 @@
 				</div>
 			</div>
 		</div>
-		<div class="container card profile-card col-md-9" id="userTeam"
-			style="display: none;"></div>	
+		<div class="container card profile-card col-md-9 border-0"
+			id="userTeam" style="display: none; background-color: #edeef0;"></div>
 
+		<div class="container card profile-card col-md-9 border-0"
+			id="userHacks" style="display: none; background-color: #edeef0;"></div>
 	</div>
 	<br>
 	<br>
 	<br>
 	<br>
 	<div th:replace="fragments/footer :: footer" />
-	
-	
-	
+
+
 	<script id="teamItem" type="text/jquery-tmpl">
-		<div class="container card profile-card" id="team_${id}">
+		<div class="container card profile-card border-dark rounded" id="team_${id}">
 		<div class=" row"> 
 		<div class="userInfo  col-md-12 row">
 			<div class="avatar col-md-3">
@@ -164,6 +166,7 @@
 					src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
 					class="img-responsive rounded  profile-avatar"
 					alt="Avatar">
+				<div id="text_${id}" class="container-fluid text-center bg-dark text-warning text-uppercase" style="margin-top:3px; display:none;">Капитан</div>
 			</div>
 		
 			<div class="userData col-md-9">
@@ -193,11 +196,9 @@
 					</div>	
 						<br><br>
 						
-						<div>
-							<a href="/teamProfile?uuid=${uuid}" class="btn bg-dark text-light">Страница команды</a>
-							<a href="#" class="btn bg-dark text-light">Хакатон</a>
-							<button onclick="sendRemoveMemberRequest('${uuid}', '${userID}',${id})" class="btn bg-danger text-light text-right">Покинуть команду</button>
-
+						<div id="${id}">
+							<a href="/teamProfile/${uuid}" class="btn bg-dark text-light">Страница команды</a>
+							<a href="${hackLink}" class="btn bg-dark text-light">Хакатон</a>
 						</div>
 					
 				</div>
@@ -207,28 +208,86 @@
 		</div>
 		<br>
 	 	</script>
-	
 
-		<!-- Optional JavaScript -->
+	<script id="hackItem" type="text/jquery-tmpl">
+		<div class="container card profile-card border-dark rounded">
+		<div class=" row"> 
+		<div class="userInfo  col-md-12 row">
+			<div class="avatar col-md-3">
+				<img
+					src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+					class="img-responsive rounded  profile-avatar"
+					alt="Avatar">
+			</div>
+		
+			<div class="userData col-md-9 ">
+				<div>
+					<div id="hackName" class=" text-center font-weight-bold profile-nick">${name}</div>
+				</div>
+				<br>
+				<div>
+		
+					<div class="contacts row">
+						<br>
+						<div class="text-left col-md-7">
+							<label for="place " class="font-weight-bold">Описание
+							</label>
+							<div id="place" class="font-italic">${description}</div>
+						</div>
+		
+						<div class="text-left col-md-4">
+							<label for="place " class="font-weight-bold">Расположение
+							</label>
+							<div id="place" class="font-italic">${place}</div>
+						</div>
+						<br><br><br><br>
+						
+						<div>
+							<a href="${hackLink}" class="btn bg-dark text-light">Страница</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<br>
+	 	</script>
+
+	<div id="successAlert" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<p>Вы успешно покинули команду!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">ОК</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-			crossorigin="anonymous"></script>
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
 	<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-			integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-			crossorigin="anonymous"></script>
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
 	<script
-			src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-			crossorigin="anonymous"></script>
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
 	<script
-			src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+		src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
 		
 	</script>
-	<script src="/js/profile.js?refresh2233223"></script>
+	<script src="/js/profile.js?12"></script>
 </body>
 </html>
 
