@@ -3,17 +3,18 @@ package com.netcracker.hack.service.Impl;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import com.netcracker.hack.dto.EventDTO;
 import com.netcracker.hack.dto.NotificationDTO;
+import com.netcracker.hack.dto.builder.NotificationBuilder;
 import com.netcracker.hack.dto.converter.EventConverter;
 import com.netcracker.hack.model.Event;
 import com.netcracker.hack.model.Hack;
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.model.Subscription;
-import com.netcracker.hack.model.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,6 @@ import com.netcracker.hack.repository.ProfileRepository;
 import com.netcracker.hack.repository.SubscriptionRepository;
 import com.netcracker.hack.repository.TeamRepository;
 import com.netcracker.hack.service.EventService;
-import com.netcracker.hack.sockets.SocketController;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -50,20 +50,17 @@ public class EventServiceImpl implements EventService {
 
   @Autowired
   private EventStatusRepository eventStatusRepository;
-  
-  @Autowired
-  private SocketController socketController;
-  
+
   @Autowired
   private SimpMessagingTemplate template;
-  
+
 
   public void createEvent(Integer typeID, Integer statusID, UUID senderID, UUID receiverID,
       UUID hackID, UUID teamID, String message) {
 
     Event newEvent = new Event();
 
-
+    newEvent.setId(UUID.randomUUID());
     newEvent.setSender(profileRepository.findByUuid(senderID));
     newEvent.setReceiver(profileRepository.findByUuid(receiverID));
 
@@ -87,68 +84,77 @@ public class EventServiceImpl implements EventService {
     eventRepository.save(newEvent);
   }
 
-  public void createHackNotifications(UUID hackID, String message) {
+  public void createNotification(String message, UUID hackID, UUID teamID, UUID userID) {
 
-    Hack resourceHack = hackRepository.findById(hackID).get();
-    String hackCity = resourceHack.getPlace().split(",")[1].trim();
+    NotificationBuilder builder = new NotificationBuilder();
+    Set<Profile> receivers = new HashSet<>();
+    int notificationType = 0;
 
-    List<Subscription> subscriptions = subRepository.findByCityName(hackCity);
+    if (hackID != null)
+      if (teamID == null)
+        notificationType = 1;
+      else
+        notificationType = 2;
+    else if (teamID != null)
+      if (userID == null)
+        notificationType = 3;
+      else
+        notificationType = 4;
 
+    switch (notificationType) {
+      case 1:
+        builder.addText(message).addHack(hackID);
 
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    Date currentDate = Date.valueOf(timestamp.toLocalDateTime().toLocalDate());
+        Hack resourceHack = hackRepository.findById(hackID).get();
+        String hackCity = resourceHack.getPlace().split(",")[1].trim();
 
-    List<Profile> notifiedUsers = new ArrayList<>();
+        subRepository.findByCityName(hackCity).forEach((Subscription sub) -> {
+          receivers.add(sub.getUser());
+        });
+        break;
+
+      case 2:
+        builder.addText(message).addHack(hackID).addTeam(teamID);
+
+        receivers.add(teamRepository.findByUuid(teamID).getCaptain());
+        break;
+
+      case 3:
+        builder.addText(message).addTeam(teamID);
+
+        teamRepository.findByUuid(teamID).getTeamMembers().forEach((Profile member) -> {
+          receivers.add(member);
+        });
+        break;
+
+      case 4:
+        builder.addText(message).addTeam(teamID).addUser(userID);
+
+        teamRepository.findByUuid(teamID).getTeamMembers().forEach((Profile member) -> {
+          receivers.add(member);
+        });
+        break;
+      default:
+        return;
+    }
+
     List<Event> newNotifications = new ArrayList<>();
-
-    for (Subscription sub : subscriptions) {
-
-      Profile user = sub.getUser();
-
-      if (notifiedUsers.contains(user))
-        continue;
-
-      notifiedUsers.add(user);
-
+    for (Profile receiver : receivers) {
       Event notification = new Event();
-      notification.setReceiver(user);
+      notification.setId(UUID.randomUUID());
+      notification.setType(eventTypeRepository.findById(2).get());
+      notification.setReceiver(receiver);
+      notification.setMessage(builder.build(notification.getId()));
       notification.setStatus(eventStatusRepository.findById(1).get());
-      notification.setDateOfCreation(currentDate);
-      notification.setDateOfUpdate(currentDate);
-      notification.setHack(resourceHack);
-      notification.setMessage(message);
-
+      notification.setDateOfCreation(
+          Date.valueOf(new Timestamp(System.currentTimeMillis()).toLocalDateTime().toLocalDate()));
       newNotifications.add(notification);
-      
-      //socketController.sendNotification(user.getUuid());//, new NotificationDTO(notification));
+
+      template.convertAndSend("/topic/notifications/" + receiver.getUuid(),
+          new NotificationDTO(notification));
     }
 
     eventRepository.saveAll(newNotifications);
-  }
-  
-  public void createTeamNotifications(UUID teamID, String message, UUID userID) {
-
-    Team resTeam = teamRepository.findByUuid(teamID);
-
-    Set<Profile> teamMembers= resTeam.getTeamMembers();
-
-
-    for (Profile member : teamMembers) {
-      
-      if(member.getUuid().equals(userID))
-        continue;
-      
-      Event notification = new Event();
-      notification.setReceiver(member);
-      notification.setStatus(eventStatusRepository.findById(1).get());
-      notification.setMessage(message);
-      
-      //socketController.sendNotification(member.getUuid(), new NotificationDTO(notification));
-      template.convertAndSend("/topic/notifications/" + member.getUuid(), new NotificationDTO(notification));
-      
-      eventRepository.save(notification);
-    }
-
   }
 
   public List<List<EventDTO>> getEvents(Integer typeID, UUID ownerID) {
@@ -163,9 +169,9 @@ public class EventServiceImpl implements EventService {
     return userEvents;
   }
 
-  public void updateEventStatus(Integer eventID, Integer newStatusID) {
+  public void updateEventStatus(UUID eventID, Integer newStatusID) {
 
-    Event updatedEvent = eventRepository.findById(eventID).get();
+    Event updatedEvent = eventRepository.findById(eventID);
     updatedEvent.setStatus(eventStatusRepository.findById(newStatusID).get());
 
     eventRepository.save(updatedEvent);
@@ -177,35 +183,32 @@ public class EventServiceImpl implements EventService {
     return a;
   }
 
-  public List<Event> getAllEvents(){
+  public List<Event> getAllEvents() {
     return (List<Event>) eventRepository.findAll();
   }
-  
-  
-  
+
   public List<NotificationDTO> getUserNotifications(UUID ownerID) {
-    
-    List<Event> s = eventRepository.findByTypeIdAndReceiverUuidAndStatusId(2, ownerID, 1 );
-    
+
+    List<Event> s = eventRepository.findByTypeIdAndReceiverUuidAndStatusId(2, ownerID, 1);
+
     return convertToNotificationDTO(s);
   }
-  
+
   public void updateUserNotifications(NotificationDTO notification) {
 
-    
+
   }
-  
+
   private List<NotificationDTO> convertToNotificationDTO(List<Event> events) {
-    
+
     ArrayList<NotificationDTO> notificationDTOList = new ArrayList<>();
 
     events.forEach((Event event) -> {
       notificationDTOList.add(new NotificationDTO(event));
-      // hackDTOList.add(HackMapper.INSTANCE.hackToHackDTO(hack));
     });
 
     return notificationDTOList;
   }
-  
-  
+
+
 }
