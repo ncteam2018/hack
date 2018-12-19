@@ -1,22 +1,111 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 </head>
 <body>
-<div th:fragment="footer" class="header-font">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom">
-    <div class=" navbar-collapse " id="navbarNav">
-      <ul class="navbar-nav ml-auto ">
-        <li class="nav-item">
-          <a class="nav-link" href="#">О нас</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Связь</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</div>
+	<div th:fragment="footer" class="header-font">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom">
+			<div class=" navbar-collapse " id="navbarNav">
+				<ul class="navbar-nav ml-auto ">
+					<li class="nav-item"><button onclick="return showInfo()"
+							class="nav-link btn btn-dark text-light">О нас</button></li>
+					<li class="nav-item"><button onclick="return showBugSend()"
+							class="nav-link btn btn-dark text-light">
+							<i class="fas fa-exclamation-circle text-danger"></i>
+						</button></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div id="aboutInfo" class="modal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">О нас</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">X</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p class="text-center">Учебный проект. Создан на курсах
+							NetCracker, осень 2018.</p>
+						<hr />
+						<p>Разработчики: Родионова Юлия, Куклин Дмитрий, Потапов
+							Николай</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="messageSendAlert" class="modal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content border-success">
+					<div class="modal-header bg-dark">
+						<h5 class="modal-title text-warning">Послать сообщение</h5>
+					</div>
+					<div class="modal-body">
+						<p>Сообщение отправлено</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">ОК</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="sendEmailInfo" class="modal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Сообщить об ошибке</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">X</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="form  row" name="loginForm">
+
+							<div class="col-md-12 "
+								style="padding-left: 10%; padding-right: 10%;">
+
+								<div class="form-group row">
+									<label class=" col-md-2 col-form-label form-right"
+										for="messageTextarea2">Сообщение </label>
+									<div class="col-md-10">
+										<textarea class="form-control" name="messageTextarea2"
+											id="messageTextarea2" rows="5"></textarea>
+									</div>
+								</div>
+
+								<hr />
+								<button id="sendToUser2" onclick=""
+									class="btn bg-dark text-success text-bold">Подтвердить</button>
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Отмена</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+			
+		</script>
+
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
+
+		<script src="/js/footer.js?1222223"></script>
+	</div>
 </body>
 </html>

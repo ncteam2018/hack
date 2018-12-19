@@ -2,7 +2,8 @@ package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.dto.TeamDTO;
 import com.netcracker.hack.dto.builder.PageRequestBuilder;
-import com.netcracker.hack.model.Team;
+import com.netcracker.hack.service.EventService;
+import com.netcracker.hack.service.ProfileService;
 import com.netcracker.hack.service.TeamService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,7 +27,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class TeamController {
 
   @Autowired
-  private TeamService service;
+  private TeamService teamService;
+
+  @Autowired
+  private EventService eventService;
+
+  @Autowired
+  private ProfileService profileService;
 
   @ApiOperation("Returns all teams")
   @GetMapping
@@ -36,50 +43,75 @@ public class TeamController {
       @RequestParam(name = "sort", required = false) String sortJson,
       @RequestParam(name = "filter", required = false) String filtersJson) {
 
-    return service.getFilteredTeams(new PageRequestBuilder(sortJson, page, size, filtersJson));
+    return teamService.getFilteredTeams(new PageRequestBuilder(sortJson, page, size, filtersJson));
   }
 
   @ApiOperation("Returns team by uuid")
   @GetMapping("/{id}")
   public TeamDTO getTeam(@ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
-    return service.getTeam(id);
+    return teamService.getTeam(id);
   }
 
-  @ApiOperation("add uset to the team")
-  @PostMapping("/{id}/addMe")
-  public ResponseEntity<TeamDTO> addUserToTeam(
-      @ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id,
+  @ApiOperation("Send request from user")
+  @PostMapping("/{teamID}/sendRequest")
+  public void sendRequest(
+      @ApiParam(value = "Team's uuid", required = true) @PathVariable UUID teamID,
       Principal principal) {
-    return service.addUser(id, principal.getName());
+
+    eventService.sendToUser(EventService.INVITE_EVENT_TYPE, EventService.PROCESSING_EVENT_STATUS,
+        profileService.getUserDTOByLogin(principal.getName()).getUuid(),
+        teamService.getTeam(teamID).getCaptain().getUuid(), null, teamID, "Запрос на вступление в команду");
+  }
+
+  @ApiOperation("Send invite to user")
+  @PostMapping("/{teamID}/sendInvite")
+  public void sendInvite(
+      @ApiParam(value = "Team's uuid", required = true) @PathVariable UUID teamID,
+      @RequestBody UUID invitedUser) {
+
+    eventService.sendToUser(EventService.INVITE_EVENT_TYPE, EventService.PROCESSING_EVENT_STATUS,
+        teamService.getTeam(teamID).getCaptain().getUuid(), invitedUser, null, teamID,
+        "Приглашение в команду");
+  }
+
+  @ApiOperation("Add uset to the team")
+  @PostMapping("/{teamID}/addUser")
+  public ResponseEntity<TeamDTO> addUserToTeam(
+      @ApiParam(value = "Team's uuid", required = true) @PathVariable UUID teamID,
+      Principal principal) {
+
+    return teamService.addUser(teamID, principal.getName());
   }
 
   @ApiOperation("remove user from the team")
   @PostMapping("/{teamID}/{userID}")
   public ResponseEntity<TeamDTO> removeUserFromTeam(
-      @ApiParam(value = "Team's uuid", required = true) @PathVariable(name="teamID") UUID teamID,
-      @ApiParam(value = "User's uuid", required = true) @PathVariable(name="userID") UUID userID) {
+      @ApiParam(value = "Team's uuid", required = true) @PathVariable(name = "teamID") UUID teamID,
+      @ApiParam(value = "User's uuid",
+          required = true) @PathVariable(name = "userID") UUID userID) {
 
-    return service.removeUser(teamID, userID);
+    return teamService.removeUser(teamID, userID);
   }
 
   @ApiOperation("Deletes team by uuid")
   @DeleteMapping("/{id}")
-  public void deleteTeam(@ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
-    service.deleteTeam(id);
+  public ResponseEntity<Object> deleteTeam(
+      @ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
+    return teamService.deleteTeam(id);
   }
 
   @ApiOperation("Adds team by uuid")
   @PostMapping
   public ResponseEntity<TeamDTO> createTeam(
       @ApiParam(value = "new Team", required = true) @RequestBody TeamDTO team) {
-    return service.createTeam(team);
+    return teamService.createTeam(team);
   }
 
   @ApiOperation("Updates team by uuid")
   @PutMapping("/{id}")
-  public ResponseEntity<Object> updateTeam(
-      @ApiParam(value = "new Team", required = true) @RequestBody Team team,
+  public ResponseEntity<TeamDTO> updateTeam(
+      @ApiParam(value = "new Team", required = true) @RequestBody TeamDTO team,
       @ApiParam(value = "Team's uuid", required = true) @PathVariable UUID id) {
-    return service.updateTeam(team, id);
+    return teamService.updateTeam(team, id);
   }
 }

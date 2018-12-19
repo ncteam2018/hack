@@ -2,6 +2,7 @@ package com.netcracker.hack.controller.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +56,8 @@ public class WebController {
   }
 
   @RequestMapping(path = "/teams", method = RequestMethod.GET)
-  public String getTeamListPage(Model model, @RequestParam(name = "hackName", defaultValue="") String hackName) {
+  public String getTeamListPage(Model model,
+      @RequestParam(name = "hackName", defaultValue = "") String hackName) {
 
     model.addAttribute("hackName", hackName);
     return "teams";
@@ -67,12 +69,38 @@ public class WebController {
     return "teamRegistration";
   }
 
-  @RequestMapping(path = "/teamProfile", method = RequestMethod.GET)
-  public String getTeamProfilePage(Model model, @RequestParam(name = "uuid") String teamUuid) {
+  @RequestMapping(path = "/teamProfile/{uuid}", method = RequestMethod.GET)
+  public String getTeamProfilePage(Model model,
+      @PathVariable(name = "uuid", required = true) String teamUuid) {
 
     model.addAttribute("teamUuid", teamUuid);
     return "teamProfilePage";
   }
+
+  @RequestMapping(path = "/teamProfile/{uuid}/update", method = RequestMethod.GET)
+  public String getTeamUpdatePage(Model model,
+      @PathVariable(name = "uuid", required = true) String teamUuid) {
+
+    model.addAttribute("teamUuid", teamUuid);
+    return "updateTeamPage";
+  }
+
+  @RequestMapping(path = "/hackPage/{uuid}", method = RequestMethod.GET)
+  public String getHackPage(Model model,
+      @PathVariable(name = "uuid", required = true) String hackUuid) {
+    
+    model.addAttribute("hackUuid", hackUuid);
+    return "hackPage";
+  }
+
+  @RequestMapping(path = "/profileView/{uuid}", method = RequestMethod.GET)
+  public String getProfileView(Model model,
+      @PathVariable(name = "uuid", required = true) String userUuid) {
+    
+    model.addAttribute("userUuid", userUuid);
+    return "profileView";
+  }
+  
 
 
 }

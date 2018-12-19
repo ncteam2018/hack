@@ -23,4 +23,6 @@ public interface TeamRepository extends CrudRepository<Team, UUID> {
 
   public Page<Team> findDistinctBySkillTagsInAndHackNameContainsAndHackPlaceContains(
       Pageable pageable, List<Tag> skillTags, String hackName, String cityName);
+  
+  public List<Team> findByHackUuid(UUID hackID);
 }

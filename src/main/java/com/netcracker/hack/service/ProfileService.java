@@ -23,4 +23,6 @@ public interface ProfileService {
   ResponseEntity<Object> createProfile(UserDTO profile);
 
   ResponseEntity<Object> updateProfile(Profile profile, UUID id);
+  
+  public List<UserDTO> findUsersByLogin(String userLogin, UUID teamID) ;
 }

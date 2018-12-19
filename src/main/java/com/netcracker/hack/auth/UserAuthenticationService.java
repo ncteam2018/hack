@@ -1,6 +1,5 @@
 package com.netcracker.hack.auth;
 
-import com.netcracker.hack.model.Role;
 import com.netcracker.hack.model.UserAuthData;
 import com.netcracker.hack.repository.UserAuthRepository;
 import java.util.ArrayList;
@@ -28,10 +27,9 @@ public class UserAuthenticationService implements UserDetailsService {
     if (userAuth != null) {
       List<GrantedAuthority> authorities = new ArrayList<>();
 
-      for (Role role : userAuth.getRoles()) {
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.toString().toUpperCase()));
-      }
-
+      
+       authorities.add(new SimpleGrantedAuthority("ROLE_" + userAuth.getRole().toUpperCase()));
+   
       return new User(
           userAuth.getLogin(),
           userAuth.getPassword(),

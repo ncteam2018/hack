@@ -1,8 +1,10 @@
 package com.netcracker.hack.controller.rest;
 
+import com.netcracker.hack.dto.MessageDTO;
 import com.netcracker.hack.dto.UserDTO;
 import com.netcracker.hack.model.Profile;
-import com.netcracker.hack.service.Impl.ProfileServiceImpl;
+import com.netcracker.hack.service.EventService;
+import com.netcracker.hack.service.ProfileService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.security.Principal;
@@ -17,18 +19,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/profile")
 public class ProfileController {
 
-  private ProfileServiceImpl service;
+  @Autowired
+  private ProfileService service;
 
   @Autowired
-  public ProfileController(ProfileServiceImpl service) {
-    this.service = service;
-  }
+  private EventService eventService;
 
   @ApiOperation("Returns all users")
   @GetMapping
@@ -49,6 +51,14 @@ public class ProfileController {
       @ApiParam(value = "User's uuid", required = true) @PathVariable UUID id) {
     return service.getUserDTO(id);
   }
+
+  @ApiOperation("Returns user by uuid")
+  @GetMapping("/searchUser")
+  public List<UserDTO> findUsers(@RequestParam String userLogin, @RequestParam UUID teamID) {
+
+    return service.findUsersByLogin(userLogin, teamID);
+  }
+
 
   @ApiOperation("Returns user by login")
   @GetMapping("login/{login}")
@@ -76,5 +86,27 @@ public class ProfileController {
       @ApiParam(value = "User's profile", required = true) @RequestBody Profile profile,
       @ApiParam(value = "User's uuid", required = true) @PathVariable UUID id) {
     return service.updateProfile(profile, id);
+  }
+
+  @ApiOperation("Send message to user")
+  @PostMapping("/sendMessage")
+  public void sendMessageToUser(
+      @ApiParam(value = "User's message", required = true) @RequestBody MessageDTO message) {
+
+    eventService.sendToUser(EventService.MESSAGE_EVENT_TYPE, EventService.OK_EVENT_STATUS,
+        message.getSender(), message.getReceiver(), null, null, message.getMessage());
+
+    // TODO: послать и на почту
+  }
+
+  @ApiOperation("Send message to admin")
+  @PostMapping("/sendErrorMessage")
+  public void sendMessageToAdmin(
+      @ApiParam(value = "User's message", required = true) @RequestBody MessageDTO message) {
+
+    eventService.sendToAdmin(EventService.MESSAGE_EVENT_TYPE, EventService.OK_EVENT_STATUS,
+        message.getSender(), null, null, message.getMessage());
+
+    // TODO: послать и на почту
   }
 }

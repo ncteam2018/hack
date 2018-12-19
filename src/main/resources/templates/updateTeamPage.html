@@ -13,16 +13,17 @@
 <title>Team registration</title>
 
 </head>
-<body class="reg-back body-font">
+<body class="reg-back body-font" onload="loadTeamData()">
 	<div th:replace="fragments/profile_header :: header" />
 	<br>
 	<br>
+	<span id="teamUuid" th:text="${teamUuid}" style="visibility: hidden;">${teamUuid}</span>
 	<br>
 	<div class="container">
 		<div class="col-md-12 ">
 			<form class="form card row" name="loginForm">
-				<div class="card-header text-center bg-dark text-light">Создание
-					команды</div>
+				<div class="card-header text-center bg-dark text-light">Редактирование
+					описания команды</div>
 				<br>
 				<div class="card-body col-md-12 "
 					style="padding-left: 10%; padding-right: 10%;">
@@ -49,7 +50,6 @@
 						<div class="col-md-7">
 							<select class="form-control col-md-8" id="hack"
 								name="hack">
-								<option value=""></option>
 							</select>
 						</div>
 					</div>
@@ -100,9 +100,9 @@
 					</div>
 
 					<hr />
-					<button onclick="return createTeam()"
+					<button onclick="return updateTeam()"
 						class="btn bg-dark text-success">Подтвердить</button>
-					<a href="/teams" class="btn bg-dark text-danger"> Отмена</a>
+					<button onclick="return goBack()" class="btn bg-dark text-danger"> Отмена</button>
 				</div>
 			</form>
 		</div>
@@ -139,6 +139,6 @@
 		src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
 		
 	</script>
-	<script src="/js/regTeam.js?12334"></script>
+	<script src="/js/updateTeam.js?12"></script>
 </body>
 </html>

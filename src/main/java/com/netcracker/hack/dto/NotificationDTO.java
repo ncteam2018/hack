@@ -1,10 +1,11 @@
 package com.netcracker.hack.dto;
 
+import java.util.UUID;
 import com.netcracker.hack.model.Event;
 
 public class NotificationDTO {
 
-  private Integer id;
+  private UUID id;
   private String status;
   private HackDTO resourceHackReference;
   private String message;
@@ -12,13 +13,13 @@ public class NotificationDTO {
   public NotificationDTO(Event event) {
     this.id = event.getId();
     this.status = event.getStatus().getStatus();
-    this.resourceHackReference = new HackDTO(event.getHack());
+    //this.resourceHackReference = new HackDTO(event.getHack());
     this.message = event.getMessage();
   }
 
   public NotificationDTO() {}
 
-  public Integer getId() {
+  public UUID getId() {
     return id;
   }
 
@@ -46,7 +47,7 @@ public class NotificationDTO {
     this.message = message;
   }
 
-  public void setId(Integer id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 }

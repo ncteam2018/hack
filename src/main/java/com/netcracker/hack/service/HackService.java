@@ -12,6 +12,10 @@ import org.springframework.http.ResponseEntity;
 
 public interface HackService {
 
+  public static final String ACTIVE_HACK_STATUS = "Active";
+  public static final String Processing_HACK_STATUS = "Processing";
+  public static final String CANCELED_HACK_STATUS = "Canceled";
+  
   Page<HackDTO> getFilteredHacks(PageRequestBuilder requestBuilder);
 
   HackDTO getHack(UUID id);

@@ -6,11 +6,14 @@ import java.util.Objects;
 import java.util.Set;
 import java.sql.Date;
 import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.netcracker.hack.dto.TeamDTO;
 import com.netcracker.hack.dto.UserDTO;
@@ -26,6 +29,9 @@ public class Team {
 
   @Column(name = "name")
   private String name;
+  
+  @Column(name = "status")
+  private String status;        //TODO: Active/Completed
 
   @ManyToOne
   private Profile captain;
@@ -51,12 +57,16 @@ public class Team {
   @Column(name = "peopleCount")
   private Integer peopleCount;
 
-  @ManyToMany
+  @ManyToMany(fetch=FetchType.EAGER)
   private Set<Profile> teamMembers = new HashSet<>();
+  
+  @OneToMany(cascade = CascadeType.ALL, mappedBy="team")
+  private List<TeamChatMessage> chat;
 
   public Team(TeamDTO teamDTO) {
     this.uuid = teamDTO.getUuid();
     this.name = teamDTO.getName();
+    this.status = teamDTO.getStatus();
     this.captain = new Profile(teamDTO.getCaptain());
     this.hack = new Hack(teamDTO.getHack());
     this.about = teamDTO.getAbout();
@@ -203,8 +213,14 @@ public class Team {
   public void setTeamMembers(Set<Profile> teamMembers) {
     this.teamMembers = teamMembers;
   }
+  
+  public String getStatus() {
+    return status;
+  }
 
-
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
   @Override
   public boolean equals(Object o) {

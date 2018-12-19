@@ -87,6 +87,14 @@ public class CompanyData {
     this.companyName = companyName;
   }
 
+  public List<Hack> getHacks() {
+    return hacks;
+  }
+
+  public void setHacks(List<Hack> hacks) {
+    this.hacks = hacks;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
