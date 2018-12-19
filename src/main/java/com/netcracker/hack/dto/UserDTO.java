@@ -2,9 +2,9 @@ package com.netcracker.hack.dto;
 
 import com.netcracker.hack.model.CompanyData;
 import com.netcracker.hack.model.EducationLvl;
-import com.netcracker.hack.model.Gender;
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.model.UserAuthData;
+import java.sql.Date;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -18,9 +18,9 @@ public class UserDTO {
   private String middleName;
   private String lastName;
 
-  private Set<Gender> gender;
+  private String gender;
   private String city;
-  private String dateOfBirth;
+  private Date dateOfBirth;
   private Boolean active;
   private String about;
 
@@ -130,11 +130,11 @@ public class UserDTO {
     this.teams = teams;
   }
 
-  public Set<Gender> getGender() {
+  public String getGender() {
     return gender;
   }
 
-  public void setGender(Set<Gender> gender) {
+  public void setGender(String gender) {
     this.gender = gender;
   }
 
@@ -146,11 +146,11 @@ public class UserDTO {
     this.city = city;
   }
 
-  public String getDateOfBirth() {
+  public Date getDateOfBirth() {
     return dateOfBirth;
   }
 
-  public void setDateOfBirth(String dateOfBirth) {
+  public void setDateOfBirth(Date dateOfBirth) {
     this.dateOfBirth = dateOfBirth;
   }
 

@@ -1,17 +1,11 @@
 package com.netcracker.hack.model;
 
-import java.util.Set;
-import javax.persistence.CollectionTable;
+import java.sql.Date;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -32,16 +26,14 @@ public class UserData {
   @Column(name = "lName")
   private String lName;
 
-  @ElementCollection(targetClass = Gender.class, fetch = FetchType.EAGER)
-  @CollectionTable(name = "sex", joinColumns = @JoinColumn(name = "gender_id"))
-  @Enumerated(EnumType.STRING)
-  private Set<Gender> gender;
+  @Column(name = "gender")
+  private String gender;
 
   @Column(name = "city")
   private String city;
 
   @Column(name = "dateOfBirth")
-  private String dateOfBirth;
+  private Date dateOfBirth;
 
   @Column(name = "active")
   private Boolean active;
@@ -84,11 +76,11 @@ public class UserData {
     this.lName = lName;
   }
 
-  public Set<Gender> getGender() {
+  public String getGender() {
     return gender;
   }
 
-  public void setGender(Set<Gender> gender) {
+  public void setGender(String gender) {
     this.gender = gender;
   }
 
@@ -100,11 +92,11 @@ public class UserData {
     this.city = city;
   }
 
-  public String getDateOfBirth() {
+  public Date getDateOfBirth() {
     return dateOfBirth;
   }
 
-  public void setDateOfBirth(String dateOfBirth) {
+  public void setDateOfBirth(Date dateOfBirth) {
     this.dateOfBirth = dateOfBirth;
   }
 
