@@ -95,4 +95,10 @@ public class HackController {
       @ApiParam(value = "Hack's uuid", required = true) @PathVariable UUID id) {
     return service.updateHack(hackDTO, id);
   }
+
+  @ApiOperation("Updates hack status by uuid")
+  @PutMapping("/{id}/status")
+  public ResponseEntity<Object> updateStatus(@PathVariable UUID id, @RequestBody String status){
+    return service.updateStatus(id, status);
+  }
 }

@@ -16,7 +16,7 @@ public interface EventService {
   public static final int OK_EVENT_STATUS = 1;
   public static final int PROCESSING_EVENT_STATUS = 2;
   public static final int CANCELED_EVENT_STATUS = 3;
-  
+
   public void sendToAdmin(Integer typeID, Integer statusID, UUID senderID, UUID hackID, UUID teamID,
       String message);
 
@@ -28,6 +28,9 @@ public interface EventService {
   public List<Event> getAllEvents();
 
   public void updateEventStatus(UUID eventID, Integer newStatusID);
+  public EventDTO getEventById(UUID id);
+
+  public void updateEventStatus(Integer eventID, Integer newStatusID);
 
   public Long countNewEvents(Integer newStatusID, UUID ownerID);
 
@@ -36,5 +39,8 @@ public interface EventService {
   public void updateUserNotifications(NotificationDTO notification);
 
   public void createNotification(String message, UUID hackID, UUID teamID, UUID userID);
+
+  public void sendNotificationToUser(String message, UUID hackID, UUID teamID, UUID receiver);
+
 
 }

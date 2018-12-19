@@ -12,6 +12,7 @@ $(document).ready(function() {
         }
     });
 });
+var UserID = null;
 
 $("#events").addClass('text-warning');
 eventList = new Array();
@@ -57,11 +58,69 @@ function loadEventInformation() {
 
 
 function changeState(eventId, state){
+    var hackId1;
     var q = "api/event/" + eventId;
     fetch(q, {
         method : 'PUT',
         headers : getDefaultHeaders(),
         body: JSON.stringify(state)
-    })
+    });
+    var sender;
+
+    query = "api/event/" + eventId;
+
+    fetch(query, {
+        method: 'GET',
+        headers: getDefaultHeaders(),
+        credentials: "same-origin"
+    }).then(function (response) {
+        return response.json();
+    }).then(function (value) {
+        sender = value.sender.uuid;
+        hackId1 = value.resourceHackReference.uuid;
+        var newEvent1 = new function () {
+            this.message = "Заявка одобрена";
+            this.hackID = eventId;
+            this.teamId = null;
+            this.reciever = sender;
+        }
+        var newEvent2 = new function () {
+            this.message = "Заявка отклонена";
+            this.hackID = eventId;
+            this.teamId = null;
+            this.reciever = sender;
+        }
+
+        q = "api/hack/"+hackId1+"/status";
+        if(state == 1){
+            fetch("api/event/userNotification",{
+                method : 'POST',
+                headers : getDefaultHeaders(),
+                body: JSON.stringify(newEvent1)
+            });
+            hackState = "Active";
+
+            fetch(q, {
+                method : 'PUT',
+                headers : getDefaultHeaders(),
+                body: JSON.stringify(hackState)
+            });
+        }else{
+            fetch("api/event/userNotification",{
+                method : 'POST',
+                headers : getDefaultHeaders(),
+                body: JSON.stringify(newEvent2)
+            });
+            hackState = "Canceled";
+            fetch(q, {
+                method : 'PUT',
+                headers : getDefaultHeaders(),
+                body: JSON.stringify(hackState)
+            });
+        }
+
+    });
+
+
 }
 

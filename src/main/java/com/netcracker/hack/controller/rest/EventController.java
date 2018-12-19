@@ -8,13 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/event")
@@ -63,5 +57,18 @@ public class EventController {
   public Long getNewEventCounter(@RequestParam(name = "ownerID", required = true) UUID ownerID) {
 
     return service.countNewEvents(2, ownerID);
+  }
+
+
+  @ApiOperation("Creates notification for user")
+  @PostMapping("/userNotification")
+  public void sendNotificationToUser(@RequestParam String message, @RequestParam UUID hackID, @RequestParam UUID teamID, @RequestParam UUID receiver){
+
+  }
+
+  @ApiOperation("Get Event by id")
+  @GetMapping("/{id}")
+  public EventDTO getEventById(@PathVariable UUID id){
+    return service.getEventById(id);
   }
 }

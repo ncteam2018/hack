@@ -66,6 +66,8 @@
                     <label for="status " class="font-weight-bold">Статус
                     </label>
                     <div id="status" class="font-italic">${status}</div>
+                    </label>
+                    <div id="id" class="font-italic">${id}</div>
 
                 </div>
                 <!--<div class=" col-md-1">-->
@@ -74,11 +76,11 @@
                 <br><br><br><br>
 
                 <div>
-                    <button onclick="return changeState(${id}, 1)" class="btn bg-dark text-light">Подтвердить</button>
+                    <button onclick="return changeState('${id}', 1)" class="btn bg-dark text-light">Подтвердить</button>
                 </div>
                 &nbsp
                 <div>
-                    <button onclick="return changeState(${id}, 3)" class="btn bg-dark text-light">Отклонить</button>
+                    <button onclick="return changeState('${id}', 3)" class="btn bg-dark text-light">Отклонить</button>
                 </div>
             </div>
         </div>

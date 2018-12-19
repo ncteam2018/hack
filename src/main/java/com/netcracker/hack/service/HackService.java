@@ -33,4 +33,6 @@ public interface HackService {
   Set<String>  getAllHackPlaces();
 
   Set<String> getAllCompNames();
+
+  ResponseEntity<Object> updateStatus(UUID id, String status);
 }
