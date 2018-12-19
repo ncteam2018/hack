@@ -275,7 +275,7 @@ function showTeamInformation(index) {
 			teamList[index].captain.lastName + " "
 					+ teamList[index].captain.firstName + " "
 					+ teamList[index].captain.middleName);
-	$("#gender").html(teamList[index].captain.gender[0]);
+	$("#gender").html(teamList[index].captain.gender);
 	$("#birth").html(teamList[index].captain.dateOfBirth);
 	$("#place").html(teamList[index].captain.city);
 	$("#email").html(teamList[index].captain.email);
@@ -312,7 +312,14 @@ function showTeamInformation(index) {
 	});
 
 	$('#addMemberRef').attr("onclick",
-			'sendAddMemberRequest("' + teamList[index].uuid + '")');
+			'sendAddMemberRequest("' + teamList[index].uuid + '")').html("Подать заявку в команду");
+
+	teamList[index].teamMembers.forEach(function(member, i, arr) {
+		if (member.uuid == Me.uuid)
+			$('#addMemberRef').attr("onclick",
+					'window.location.replace("/teamProfile/' + teamList[index].uuid + '")').html("Страница команды");		
+	});
+
 	$('#fullTeamInfo').modal("show");
 
 	return false;
@@ -547,12 +554,6 @@ function findNewHackList() { // При нажатии на кнопку 'Пои�
 
 	// -- Загружаем новый список хакатонов
 
-	alert(filterQueryString) // Выводит alert окошко в котором пишется какой
-	// финальный фильтр был собран (нужен для
-	// проверки работоспособности)
-
-	// http не хочет отправлять ваш запрос со скобками от json-строк и требует
-	// чтобы все опасные символы были экранированны
 	filterQueryString = encodeURI(filterQueryString);
 	loadData(false); // Вызываем новую загрузку хакатонов с новым фильтром,
 	// false - это не первая загрузка, не надо снова грузить
@@ -626,6 +627,6 @@ function sendAddMemberRequest(teamID) {
 		headers : getDefaultHeaders(),
 		credentials : "same-origin"
 	}).then(function(response) {
-		window.location.replace("/teamProfile?uuid=" + teamID);
+		window.location.replace("/teamProfile/" + teamID);
 	});
 }
