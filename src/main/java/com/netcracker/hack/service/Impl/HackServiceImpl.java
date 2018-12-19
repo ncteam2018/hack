@@ -4,9 +4,11 @@ import com.netcracker.hack.dto.HackDTO;
 import com.netcracker.hack.dto.UserDTO;
 import com.netcracker.hack.dto.builder.PageRequestBuilder;
 import com.netcracker.hack.model.Hack;
+import com.netcracker.hack.model.Team;
 import com.netcracker.hack.repository.CompanyRepository;
 import com.netcracker.hack.repository.EventRepository;
 import com.netcracker.hack.repository.HackRepository;
+import com.netcracker.hack.repository.TeamRepository;
 import com.netcracker.hack.service.EventService;
 import com.netcracker.hack.service.HackService;
 import com.netcracker.hack.service.ProfileService;
@@ -32,7 +34,7 @@ public class HackServiceImpl implements HackService {
 
   @Autowired
   private HackRepository hackRepository;
-  
+
   @Autowired
   private CompanyRepository companyRepository;
 
@@ -48,34 +50,36 @@ public class HackServiceImpl implements HackService {
   @Autowired
   private EventService eventService;
 
+  @Autowired
+  private TeamRepository teamRepository;
 
   @Override
   public Set<String> getAllHackPlaces() {
-    
+
     Set<String> cities = new HashSet<>();
-    for(String city : hackRepository.findAllCities())
+    for (String city : hackRepository.findAllCities())
       cities.add(city.split(",")[1]);
-    
+
     return cities;
   }
 
   @Override
   public Set<String> getAllCompNames() {
-    
+
     return companyRepository.findDistinctCompNames();
   }
-  
+
   @Override
-  public List<Pair<Object, Object>>  getAllHackNames() {
-    
-    List<Tuple>  resultTuple = hackRepository.findAllName();
+  public List<Pair<Object, Object>> getAllHackNames() {
+
+    List<Tuple> resultTuple = hackRepository.findAllName();
     List<Pair<Object, Object>> nameUuidPairs = new ArrayList<>();
-    
-    for(Tuple pair: resultTuple)
-      nameUuidPairs.add(Pair.of(pair.get(0), pair.get(1)) );
-    
-    
-    
+
+    for (Tuple pair : resultTuple)
+      nameUuidPairs.add(Pair.of(pair.get(0), pair.get(1)));
+
+
+
     return nameUuidPairs;
   }
 
@@ -115,18 +119,29 @@ public class HackServiceImpl implements HackService {
   }
 
   public HackDTO getHack(UUID id) {
-    Hack hack = hackRepository.findByUuid(id);
-  
-    return new HackDTO(hack); 
+    return new HackDTO(hackRepository.findByUuid(id));
   }
 
   public List<Hack> getHackByCompany(UUID id) {
     return null;// repository.findByCompany_Uuid(id);
   }
 
-  public void deleteHack(UUID id) {
-    // eventService.updateEvent(eventID, statusID); -- Изменить статус уже удалённого хакатона
-    hackRepository.deleteById(id);
+  public void deleteHack(UUID hackID) {
+
+    Hack hack = hackRepository.findByUuid(hackID);
+    hack.setStatus("Closed");
+    hackRepository.save(hack);
+
+    eventService.createNotification("Хакатон отменён!", hackID, null, null);
+
+    teamRepository.findByHackUuid(hackID).forEach((Team team) -> {
+      eventService.createNotification(
+          "Хакатон больше не действителен, смените его или команда будет удалена!", hackID,
+          team.getUuid(), null);
+      team.setStatus("Completed");
+      // TODO: team.setDeleteTime();
+      teamRepository.save(team);
+    });
   }
 
   public ResponseEntity<Object> createHack(HackDTO hackDTO, String creatorName) {
@@ -138,7 +153,6 @@ public class HackServiceImpl implements HackService {
     hackDTO.setCompany(companyProfile.getCompanyData());
     hackDTO.setStatus("Active");
     Hack savedHack = hackRepository.save(new Hack(hackDTO));
-    // Hack savedHack = hackRepository.save(HackMapper.INSTANCE.hackDTOToHack(hackDTO));
 
     eventService.createEvent(1, 2, companyProfile.getUuid(),
         UUID.fromString("00000000-0000-0000-0000-000000000000"), savedHack.getUuid(), null,
@@ -162,17 +176,15 @@ public class HackServiceImpl implements HackService {
       hackRepository.save(new Hack(hackDTO));
 
       // TODO: Сдалать нормальный поиск нужного события
-      eventService
-          .updateEventStatus(eventRepository.findByHackUuid(id).get(0).getId(), 1);
+      eventService.updateEventStatus(eventRepository.findByHackUuid(id).get(0).getId(), 1);
 
-      eventService.createHackNotifications(hackDTO.getUuid(),
-          "Объявлен новый хакатон, спешите принять участие!");// -- Оповещения о новом хакатоне
+      eventService.createNotification("Объявлен новый хакатон, спешите принять участие!",
+          hackDTO.getUuid(), null, null);
     }
 
     if (hackStatus.equals("Canceled")) {
       hackRepository.delete(hackOptional.get());
-      eventService.updateEventStatus(eventRepository.findByHackUuid(id).get(0).getId(),
-          3);
+      eventService.updateEventStatus(eventRepository.findByHackUuid(id).get(0).getId(), 3);
     }
 
 
