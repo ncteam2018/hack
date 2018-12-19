@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface TeamService {
 
+  public static final String TEAM_ACTIVE_STATUS = "Active";
+  public static final String TEAM_COMPLETED_STATUS = "Completed";
+  
   public TeamDTO getTeam(UUID id);
 
   public ResponseEntity<Object> deleteTeam(UUID id);
