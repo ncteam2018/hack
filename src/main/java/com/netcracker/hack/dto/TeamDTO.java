@@ -13,6 +13,7 @@ public class TeamDTO {
 
   private UUID uuid;
   private String name;
+  private String status; 
   private UserDTO captain;
   private HackDTO hack;
   private String about;
@@ -26,6 +27,7 @@ public class TeamDTO {
   public TeamDTO(Team team) {
     this.uuid = team.getUuid();
     this.name = team.getName();
+    this.status = team.getStatus();
     this.captain = new UserDTO(team.getCaptain(),true);
     this.hack = new HackDTO(team.getHack());
     this.about = team.getAbout();
@@ -138,6 +140,14 @@ public class TeamDTO {
 
   public void setTeamMembers(Set<UserDTO> teamMembers) {
     this.teamMembers = teamMembers;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 
   @Override
