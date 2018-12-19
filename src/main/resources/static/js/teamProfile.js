@@ -13,7 +13,7 @@ var chatSocket = new SockJS('/teamChat');
 function loadTeamProfile() {
 
 	let uuid = $("#teamUuid").html();
-	let query = "api/team/" + uuid;
+	let query = "/api/team/" + uuid;
 
 	fetch(query, {
 		method : 'GET',
@@ -31,10 +31,11 @@ function loadTeamProfile() {
 						teamUUID = teamProfile.uuid;
 
 						$("#teamName").html(teamProfile.name);
-						$("#creationDate").html(teamProfile.dateOPublishing);
+						$("#creationDate").html(teamProfile.dateOfPublishing);
 						$("#hackName").html(teamProfile.hack.title);
 						$("#aboutTeam").html(teamProfile.about);
 						$("#memberCounter").html(teamProfile.peopleCount);
+						$("#hackLink").attr("href","/hackPage/" + teamProfile.hack.uuid);
 
 						teamProfile.skillTags
 								.forEach(function(tag, index, arr) {
@@ -65,6 +66,8 @@ function loadTeamProfile() {
 						loadTeamChat(teamUUID);
 						connectTeamChatSocket(teamUUID);
 
+						if (captainProfile.uuid == UserID)
+							$('#captainPanel').css("display", "block");
 					});
 
 }
@@ -84,7 +87,7 @@ function connectTeamChatSocket(teamID) {
 
 function loadTeamChat(teamID) {
 
-	let query = "api/team/" + teamUUID + "/chat";
+	let query = "/api/team/" + teamUUID + "/chat";
 	fetch(query, {
 		method : 'GET',
 		headers : getDefaultHeaders(),
@@ -108,7 +111,7 @@ function showMemberProfile(index) {
 	$("#fio").html(
 			teamMembers[index].lastName + " " + teamMembers[index].firstName
 					+ " " + teamMembers[index].middleName);
-	$("#gender").html(teamMembers[index].gender[0]);
+	$("#gender").html(teamMembers[index].gender);
 	$("#birth").html(teamMembers[index].dateOfBirth);
 	$("#place").html(teamMembers[index].city);
 	$("#email").html(teamMembers[index].email);
@@ -126,12 +129,26 @@ function showMemberProfile(index) {
 		$("#aboutCompany").html(teamMembers[index].companyData.about);
 	}
 
-	$('#deleteUserButton').attr(
-			"onclick",
-			'sendRemoveMemberRequest("' + teamUUID + '","'
-					+ teamMembers[index].uuid + '","' + index + '")');
+	if (teamMembers[index].uuid != captainProfile.uuid)
+		if (captainProfile.uuid == UserID)
+			$('#deleteUserButton').attr(
+					"onclick",
+					'sendRemoveMemberRequest("' + teamUUID + '","'
+							+ teamMembers[index].uuid + '","' + index + '")')
+					.css("display", "block");
+		else
+			$('#deleteUserButton').css("display", "none");
+	else
+		$('#deleteUserButton').css("display", "none");
+
 	$('#profilePlaceholder').css('display', 'none');
 	$('#memberProfile').css('display', 'block');
+
+}
+
+function updatePage() {
+	let newLocation = window.location.pathname + "/update";
+	window.location.replace(newLocation);
 
 }
 
@@ -139,18 +156,20 @@ function sendMessage() {
 
 	let message = new function() {
 		this.id = null;
-		this.senderName = me.lastName +" " + me.firstName;
+		this.senderName = Me.lastName + " " + Me.firstName;
 		this.date = null;
 		this.message = $('#message').val();
 	};
 
 	chatClient.send("/app/team/" + teamUUID + "/newMessage", {}, JSON
 			.stringify(message));
+
+	$('#message').val("");
 }
 
 function sendRemoveMemberRequest(teamID, userID, id) {
 
-	let query = 'api/team/' + teamID + ' /' + userID;
+	let query = '/api/team/' + teamID + ' /' + userID;
 	fetch(query, {
 		method : 'POST',
 		headers : getDefaultHeaders(),
@@ -161,4 +180,102 @@ function sendRemoveMemberRequest(teamID, userID, id) {
 				$("#memberCounter").html(
 						Number.parseInt($("#memberCounter").html()) - 1);
 			});
+}
+
+function showDeleteAlert() {
+	$("#deleteAlert").modal("show");
+	return false;
+}
+
+function deleteTeam() {
+
+	$("#deleteAlert").modal('hide')
+	let query = '/api/team/' + $("#teamUuid").html();
+	fetch(query, {
+		method : 'DELETE',
+		headers : getDefaultHeaders(),
+		credentials : "same-origin"
+	})
+			.then(
+					function(response) {
+
+						if (response.status != 200) {
+							$(function() {
+
+								$('body')
+										.prepend(
+												' <div id="myModalFail" class="modal fade" tabindex="-1"><div class="modal-dialog modal-lg"> <div class="modal-content"> <div class="modal-header"> <h4 class="modal-title">Регистрация</h4></div><div class="modal-body">При удалении команды произошла ошибка!</div><div class="modal-footer"><button class="btn btn-danger" data-dismiss="modal">Ок</button></div></div></div></div>');
+								$('#myModalFail').modal("show");
+
+							});
+						} else {
+							$(function() {
+								window.location.replace("/profile");
+							});
+						}
+					});
+	return false;
+}
+
+function showSearchMembers() {
+	$("#searchMembers").modal("show");
+	return false;
+}
+
+function openUserProfileTab(profileLink) {
+
+	window.open(profileLink);
+	return false;
+}
+
+function findUsers() {
+
+	$("#tableOfUsers").html("");
+
+	let query = '/api/profile/searchUser?userLogin=' + $("#searchUser").val()
+			+ "&teamID=" + $("#teamUuid").html();
+	fetch(query, {
+		method : 'GET',
+		headers : getDefaultHeaders(),
+		credentials : "same-origin"
+	}).then(function(response) {
+		return response.json();
+	}).then(function(foundUsers) {
+
+		if ((foundUsers == null) || (foundUsers.length == 0)) {
+			;
+			$("#notFoundMessage").css("display", "block");
+			$("#memberSearchList").css("visibility", "hidden");
+		} else {
+			$("#notFoundMessage").css("display", "none");
+			$("#memberSearchList").css("visibility", "visible");
+
+			foundUsers.forEach(function(foundUser, index, arr) {
+
+				var user = new function() {
+					this.number = index + 1;
+					this.FIO = foundUser.firstName + " " + foundUser.lastName;
+					this.uuid = foundUser.uuid;
+					this.profileLink = "/profileView/" + foundUser.uuid;
+				}
+
+				$("#foundUserRow").tmpl(user).appendTo("#tableOfUsers");
+			});
+
+		}
+	});
+
+	return false;
+}
+
+function clearInput() {
+
+	$("#searchUser").val("");
+	return false;
+}
+
+function sendInvite(userUUID) {
+
+	alert("Invite for " + userUUID);
+	return false;
 }

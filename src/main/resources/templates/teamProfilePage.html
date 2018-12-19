@@ -24,16 +24,23 @@
 	<br>
 	<span id="teamUuid" th:text="${teamUuid}" style="visibility: hidden;">${teamUuid}</span>
 	<br>
-	<div class="container card profile-card" id="userProfile">
+	<div class="container card profile-card border-dark rounded" id="userProfile">
 		<div class=" row">
 			<div class="userInfo  row">
 				<div class="avatar col-md-3" style="margin-left: 20px;">
 					<img
 						src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
 						class=" rounded  profile-avatar" alt="Avatar"> <br> <br>
-					<button class="btn bg-dark text-light">Редактировать</button>
-					<br>
-					<button class="btn bg-danger text-light">Удалить команду</button>
+					<div id="captainPanel" style="display: none;">
+						<button onclick="updatePage()" class="btn bg-dark text-light"
+							style="margin: 2px;">Редактировать</button>
+						<button onclick="return showSearchMembers()"
+							class="btn bg-dark text-light" style="margin: 2px;">Пригласить
+							в команду</button>
+						<button onclick="return showDeleteAlert()"
+							class="btn bg-danger text-light" style="margin: 2px;">Удалить
+							команду</button>
+					</div>
 				</div>
 				<div class="userData col-md-6">
 
@@ -45,19 +52,20 @@
 						<div class="contacts">
 
 							<br>
-							<div class="text-left col-md-3">
+							<div class="text-left ">
 								<label for="creationDate " class="font-weight-bold">Дата
-									создания </label>
-								<div id="creationDate" class="font-italic"></div>
+									создания: <span id="creationDate" class="font-italic"></span>
+								</label>
+
 							</div>
 
 
 						</div>
-						<div class="text-left col-md">
-							<label for="hackName" class="font-weight-bold"> Название
-								хакатона: </label>
-							<div id="hackName" class="font-italic">вввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввв</div>
-							<a class="btn btn-info" href="">Подробнее</a>
+						<div class="text-left ">
+							<label class="font-weight-bold"> Название хакатона: <span
+								id="hackName" class="font-italic"></span> <a id="hackLink"
+								class="btn-sm btn-info" href="">Подробнее</a>
+							</label>
 						</div>
 
 						<br> <label for="team-tags" class="font-weight-bold">Хештеги
@@ -72,11 +80,10 @@
 		</div>
 		<div class="extraInfo profile-info-top">
 			<div class="card" style="margin-top: 10px;">
-				<div class="card-header bg-dark text-light font-weight-bold">Описание</div>
+				<div class="card-header bg-dark text-light font-weight-bold ">О
+					команде</div>
 				<div class="card-body">
 					<div class="col-md-10 text-center">
-						<label for="aboutTeam" class="font-weight-bold text-uppercase">О
-							команде</label>
 						<div id="aboutTeam"></div>
 					</div>
 				</div>
@@ -142,9 +149,7 @@
 								себе</div>
 							<div class="card-body">
 								<div class="col-md-10 text-center">
-									<label for="aboutCompany"
-										class="font-weight-bold text-uppercase">крутой парень</label>
-									<div id="aboutCompany"></div>
+									<div id="about"></div>
 								</div>
 							</div>
 						</div>
@@ -187,7 +192,8 @@
 						</div>
 						<br> <br>
 						<div class="text-left col-md-3">
-							<button onclick="" id="deleteUserButton" class="btn btn-danger">Исключить</button>
+							<button onclick="" id="deleteUserButton" class="btn btn-danger"
+								style="display: block;">Исключить</button>
 						</div>
 
 					</div>
@@ -242,6 +248,104 @@
 				</div>
 	</script>
 
+	<script id="foundUserRow" type="text/jquery-tmpl">
+	<tr>
+		<th scope="row">${number}</th>
+		<td id="searchAvatar"><img
+			src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+			class="img-responsive rounded float-left profile-avatar" alt="Avatar"
+			style="height: 35px; width: 35px;"></td>
+		<td>${FIO}</td>
+		<td>
+			<button onclick="return openUserProfileTab('${profileLink}')" class="btn-sm btn-dark text-light">Профиль</button>
+		</td>
+		<td>
+			<button onclick="return sendInvite('${uuid}')" class="btn-sm btn-dark text-success ">
+				<i class="fa fa-plus" aria-hidden="true"></i>
+			</button>
+		</td>
+	</tr>
+		</script>
+
+
+	<div id="deleteAlert" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Удаление команды</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Вы уверены?</p>
+				</div>
+				<div class="modal-footer">
+					<button onclick="return deleteTeam()" type="button"
+						class="btn btn-danger">Подтвердить</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Отмена</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="searchMembers" class="modal fade " tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-dark">
+					<h4 class="modal-title text-warning">Поиск участников</h4>
+					<button class="btn btn-danger" data-dismiss="modal">X</button>
+				</div>
+				<div class="modal-body">
+					<form id="form1" class="form  row" name="loginForm">
+						<div class=" col-md-12 "
+							style="padding-left: 10%; padding-right: 10%;">
+
+							<div class="row text-center">
+								<input type="text" class="form-control col-md-8"
+									name="searchUser" id="searchUser"
+									placeholder="Введите логин пользователя" />
+								<button onclick="return findUsers()"
+									class="btn-sm bg-dark text-light" style="margin: 2px;">
+									<i class="fas fa-search"></i> Поиск
+								</button>
+								<button onclick="return clearInput()"
+									class="btn-sm bg-dark text-light" style="margin: 2px;">
+									<i class="fas fa-trash-alt"></i> Очистить
+								</button>
+							</div>
+							<hr>
+							<div id="notFoundMessage" class="text-warning text-center"
+								style="display: none">
+								<h3>Пользователь не найден!</h3>
+							</div>
+							<div id="memberSearchList"
+								style="height: 600px; overflow: auto; visibility: hidden;">
+								<table class="table">
+									<thead class="thead-dark">
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col"></th>
+											<th scope="col">ФИО</th>
+											<th scope="col">Страница профиля</th>
+											<th scope="col"></th>
+										</tr>
+									</thead>
+									<tbody id="tableOfUsers">
+									</tbody>
+								</table>
+
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script
@@ -261,7 +365,7 @@
 		src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
 		
 	</script>
-	<script src="/js/teamProfile.js?1"></script>
+	<script src="/js/teamProfile.js?12"></script>
 </body>
 </html>
 

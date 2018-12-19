@@ -14,7 +14,7 @@ $(document).ready(function() {
 });
 
 
-fetch("api/hack/names", {
+fetch("/api/hack/names", {
     method: 'GET',
     headers: getDefaultHeaders(),
     credentials: "same-origin"
@@ -102,7 +102,7 @@ function loadHack(hackUUid,team) {
 
 function saveTeam(team) {
 	
-	fetch("api/team", {
+	fetch("/api/team", {
 	    method: 'POST',
 	    headers: getDefaultHeaders(),
 	    body: JSON.stringify(team),
@@ -132,7 +132,7 @@ function saveTeam(team) {
 		  return response.json();
 		  }).then(function (team) {
 			  if(team != null)
-			        window.location.replace("/teamProfile?uuid=" + team.uuid);	  
+			        window.location.replace("/teamProfile/" + team.uuid);	  
 		  }	);
 }
 
@@ -169,7 +169,7 @@ function createTeam() {
 		
 	};
 	
-	fetch("api/profile/me", {
+	fetch("/api/profile/me", {
 	    method: 'GET',
 	    headers: getDefaultHeaders(),
 	    credentials: "same-origin"
