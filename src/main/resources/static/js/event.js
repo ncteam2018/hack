@@ -64,17 +64,39 @@ function changeState(eventId, state){
         headers : getDefaultHeaders(),
         body: JSON.stringify(state)
     });
+    var sender;
+    query = "api/event/" + eventId;
+
+    fetch(query, {
+        method: 'GET',
+        headers: getDefaultHeaders(),
+        credentials: "same-origin"
+    }).then(function (response) {
+        sender = response.sender;
+    })
+    var newEvent1 = new function () {
+        this.message = "Заявка одобрена";
+        this.hackID = eventId;
+        this.teamId = null;
+        this.reciever = sender;
+    }
+    var newEvent2 = new function () {
+        this.message = "Заявка отклонена";
+        this.hackID = eventId;
+        this.teamId = null;
+        this.reciever = sender;
+    }
     if(state == 1){
-        fetch("api/event/notifications",{
+        fetch("api/event/userNotification",{
             method : 'POST',
             headers : getDefaultHeaders(),
-            body: JSON.stringify({hackID: eventId, message: 'заявка одобрена'})
+            body: JSON.stringify(newEvent1)
         });
     }else{
-        fetch("api/event/notifications",{
+        fetch("api/event/userNotification",{
             method : 'POST',
             headers : getDefaultHeaders(),
-            body: JSON.stringify({hackID: eventId, message: 'заявка не одобрена'})
+            body: JSON.stringify(newEvent2)
         });
     }
 

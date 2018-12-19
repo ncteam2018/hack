@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import com.netcracker.hack.dto.EventDTO;
 import com.netcracker.hack.dto.NotificationDTO;
@@ -175,6 +176,13 @@ public class EventServiceImpl implements EventService {
 
     return notificationDTOList;
   }
-  
-  
+
+  public void sendNotificationToUser(String message, UUID hackID, UUID teamID, UUID receiver){
+
+  }
+
+  public EventDTO getEventById(Integer id){
+    Optional<Event> event = eventRepository.findById(id);
+    return new EventDTO(event.get());
+  }
 }

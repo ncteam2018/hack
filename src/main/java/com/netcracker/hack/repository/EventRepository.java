@@ -2,6 +2,7 @@ package com.netcracker.hack.repository;
 
 import com.netcracker.hack.model.Event;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,4 +14,6 @@ public interface EventRepository extends CrudRepository<Event, Integer> {
   
   public Long countByReceiverUuidAndTypeIdNot(UUID profileUuid, Integer typeID);
   public List<Event> findByTypeIdAndReceiverUuidAndStatusId(Integer typeId, UUID profileUuid, Integer statusId );
+
+  public Optional<Event> findById(Integer id);
 }

@@ -59,10 +59,22 @@ public class EventController {
     return service.countNewEvents(2, ownerID);
   }
 
-  @ApiOperation("Creats notification")
+  @ApiOperation("Creates notification")
   @PostMapping("/notifications")
   public void createHackNotification( @RequestParam(name = "hackID", required = true) UUID hackID,
                                       @RequestParam(name = "message", required = true) String message){
     service.createHackNotifications(hackID, message);
+  }
+
+  @ApiOperation("Creates notification for user")
+  @PostMapping("/userNotification")
+  public void sendNotificationToUser(@RequestParam String message, @RequestParam UUID hackID, @RequestParam UUID teamID, @RequestParam UUID receiver){
+
+  }
+
+  @ApiOperation("Get Event by id")
+  @GetMapping("/{id}")
+  public EventDTO getEventById(@PathVariable Integer id){
+    return service.getEventById(id);
   }
 }

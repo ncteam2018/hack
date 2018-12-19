@@ -17,14 +17,17 @@ public interface EventService {
 
   public List<Event> getAllEvents();
 
+  public EventDTO getEventById(Integer id);
+
   public void updateEventStatus(Integer eventID, Integer newStatusID);
 
   public Long countNewEvents(Integer newStatusID, UUID ownerID);
 
   public List<NotificationDTO> getUserNotifications(UUID ownerID);
   
-  public void updateUserNotifications(NotificationDTO notification); 
-  
+  public void updateUserNotifications(NotificationDTO notification);
+
+  public void sendNotificationToUser(String message, UUID hackID, UUID teamID, UUID receiver);
   
   
 }
