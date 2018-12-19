@@ -24,7 +24,8 @@
 	<br>
 	<span id="teamUuid" th:text="${teamUuid}" style="visibility: hidden;">${teamUuid}</span>
 	<br>
-	<div class="container card profile-card border-dark rounded" id="userProfile">
+	<div class="container card profile-card border-dark rounded"
+		id="userProfile">
 		<div class=" row">
 			<div class="userInfo  row">
 				<div class="avatar col-md-3" style="margin-left: 20px;">
@@ -108,6 +109,11 @@
 										src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
 										class="img-responsive rounded float-left profile-avatar"
 										alt="Avatar">
+
+									<button id="sendMessageButton"
+										onclick=""
+										class="btn-sm btn-success" style="margin: 10px;">
+										Написать сообщение</button>
 								</div>
 								<div class="userData col-md-8">
 									<div class="text-left">
@@ -291,7 +297,47 @@
 		</div>
 	</div>
 
-	<div id="searchMembers" class="modal fade " tabindex="-1">
+	<div id="messageWindow" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header  text-center bg-dark text-light">
+					<h5 class="modal-title ">
+						Послать сообщение для <span id="receiverName"></span>
+					</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true" class="text-light">Х</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="form  row" name="loginForm">
+
+						<div class="col-md-12 "
+							style="padding-left: 10%; padding-right: 10%;">
+
+							<div class="form-group row">
+								<label class=" col-md-2 col-form-label form-right"
+									for="messageTextarea">Сообщение </label>
+								<div class="col-md-10">
+									<textarea class="form-control" name="messageTextarea"
+										id="messageTextarea" rows="5"></textarea>
+								</div>
+							</div>
+
+							<hr />
+							<button id="sendToUser" onclick=""
+								class="btn bg-dark text-success">Подтвердить</button>
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Отмена</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div id="searchMembers" class="modal fade " tabindex="1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header bg-dark">
@@ -346,6 +392,40 @@
 		</div>
 	</div>
 
+
+	<div id="inviteSendAlert" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content border-success">
+				<div class="modal-header bg-dark">
+					<h5 class="modal-title text-warning">Приглашение в команду</h5>
+				</div>
+				<div class="modal-body">
+					<p>Приглашение в команду отправлено</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">ОК</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="messageSendAlert" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content border-success">
+				<div class="modal-header bg-dark">
+					<h5 class="modal-title text-warning">Послать сообщение</h5>
+				</div>
+				<div class="modal-body">
+					<p>Сообщение отправлено</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">ОК</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script
@@ -365,7 +445,7 @@
 		src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
 		
 	</script>
-	<script src="/js/teamProfile.js?12"></script>
+	<script src="/js/teamProfile.js?112"></script>
 </body>
 </html>
 

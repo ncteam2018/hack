@@ -1,10 +1,9 @@
-function getDefaultHeaders() { // Вставка заголовков в ajax
+function getDefaultHeaders() { 
 	var headers = new Headers();
 	headers.append("Content-Type", "application/json");
 	return headers;
 }
 
-// Отключение события отправки формы при нажатии enter
 $(document).ready(function() {
 	$("#form1").keydown(function(event) {
 		if (event.keyCode == 13) {
@@ -14,15 +13,12 @@ $(document).ready(function() {
 	});
 });
 
-// Выделение жёлтым цветом названия в шапке на которой сейчас находится
-// пользователь
+
 $("#teams").addClass('text-warning');
 
 var teamList; // Массив загруженных хакатонов
 var hackPageParams; //
-function PageHandler() { // Занимается пагинацией: рисует её, отправляет
-	// запросы для получения нужной страницы по
-	// фильтрам(не перезагружает страницу)
+function PageHandler() { 
 
 	this.createPages = function() {
 
@@ -158,7 +154,6 @@ function loadData(isFirst) {
 		query += "&" + filterQueryString;
 	}
 
-	// Выполнение запроса хакатонов на адресс "/api/team?фильтры"
 	fetch(query, {
 		method : 'GET',
 		headers : getDefaultHeaders(),
@@ -170,8 +165,8 @@ function loadData(isFirst) {
 		}
 		return response.json();
 	}).then(function(teamPage) {
-		$("#teamList").html(""); // Очистка содержимого контейтера с
-		// шаблонами хакатонов от прошлого запроса
+		$("#teamList").html(""); 
+		
 		teamList = teamPage.content;
 
 		let cityNames = new Array();
@@ -317,7 +312,7 @@ function showTeamInformation(index) {
 	teamList[index].teamMembers.forEach(function(member, i, arr) {
 		if (member.uuid == Me.uuid)
 			$('#addMemberRef').attr("onclick",
-					'window.location.replace("/teamProfile/' + teamList[index].uuid + '")').html("Страница команды");		
+					'window.location.replace("/teamProfile/' + teamList[index].uuid + '")').html("Страница команды");
 	});
 
 	$('#fullTeamInfo').modal("show");
@@ -621,12 +616,14 @@ function init() {
 
 function sendAddMemberRequest(teamID) {
 
-	let query = 'api/team/' + teamID + ' /addMe';
+	let query = '/api/team/' + teamID + '/sendRequest';
 	fetch(query, {
 		method : 'POST',
 		headers : getDefaultHeaders(),
 		credentials : "same-origin"
-	}).then(function(response) {
-		window.location.replace("/teamProfile/" + teamID);
 	});
+	
+	$("#requestSendAlert").modal("show");
+	
+	return false;
 }

@@ -1,9 +1,10 @@
 package com.netcracker.hack.controller.rest;
 
+import com.netcracker.hack.dto.MessageDTO;
 import com.netcracker.hack.dto.UserDTO;
 import com.netcracker.hack.model.Profile;
+import com.netcracker.hack.service.EventService;
 import com.netcracker.hack.service.ProfileService;
-import com.netcracker.hack.service.Impl.ProfileServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.security.Principal;
@@ -27,6 +28,9 @@ public class ProfileController {
 
   @Autowired
   private ProfileService service;
+
+  @Autowired
+  private EventService eventService;
 
   @ApiOperation("Returns all users")
   @GetMapping
@@ -82,5 +86,27 @@ public class ProfileController {
       @ApiParam(value = "User's profile", required = true) @RequestBody Profile profile,
       @ApiParam(value = "User's uuid", required = true) @PathVariable UUID id) {
     return service.updateProfile(profile, id);
+  }
+
+  @ApiOperation("Send message to user")
+  @PostMapping("/sendMessage")
+  public void sendMessageToUser(
+      @ApiParam(value = "User's message", required = true) @RequestBody MessageDTO message) {
+
+    eventService.sendToUser(EventService.MESSAGE_EVENT_TYPE, EventService.OK_EVENT_STATUS,
+        message.getSender(), message.getReceiver(), null, null, message.getMessage());
+
+    // TODO: послать и на почту
+  }
+
+  @ApiOperation("Send message to admin")
+  @PostMapping("/sendErrorMessage")
+  public void sendMessageToAdmin(
+      @ApiParam(value = "User's message", required = true) @RequestBody MessageDTO message) {
+
+    eventService.sendToAdmin(EventService.MESSAGE_EVENT_TYPE, EventService.OK_EVENT_STATUS,
+        message.getSender(), null, null, message.getMessage());
+
+    // TODO: послать и на почту
   }
 }

@@ -35,7 +35,8 @@ function loadTeamProfile() {
 						$("#hackName").html(teamProfile.hack.title);
 						$("#aboutTeam").html(teamProfile.about);
 						$("#memberCounter").html(teamProfile.peopleCount);
-						$("#hackLink").attr("href","/hackPage/" + teamProfile.hack.uuid);
+						$("#hackLink").attr("href",
+								"/hackPage/" + teamProfile.hack.uuid);
 
 						teamProfile.skillTags
 								.forEach(function(tag, index, arr) {
@@ -123,6 +124,7 @@ function showMemberProfile(index) {
 	$("#course").html(teamMembers[index].course);
 	$("#placeOfWork").html(teamMembers[index].placeOfWork);
 	$("#position").html(teamMembers[index].position);
+	$("#sendMessageButton").attr("onclick",'return showMessageWindow(' + index + ')');
 
 	if (teamMembers[index].companyData != null) {
 		$("#companyData").html(teamMembers[index].companyData.companyName);
@@ -276,6 +278,57 @@ function clearInput() {
 
 function sendInvite(userUUID) {
 
-	alert("Invite for " + userUUID);
+	let query = '/api/team/' + teamUUID + '/sendInvite';
+	fetch(query, {
+		method : 'POST',
+		headers : getDefaultHeaders(),
+		body : JSON.stringify(userUUID),
+		credentials : "same-origin"
+	});
+
+	$("#inviteSendAlert").modal("show");
+
 	return false;
 }
+
+function showMessageWindow(index) {
+
+	$("#receiverName").html(
+			teamMembers[index].lastName + " " + teamMembers[index].firstName);
+	$("#sendToUser").attr("onclick",'return sendMessageToUser(' + index + ')');
+	
+	$("#messageWindow").modal("show");
+	return false;
+}
+
+function sendMessageToUser(index) {
+	
+	let Message = new function() {
+		this.sender = Me.uuid;
+		this.receiver = teamMembers[index].uuid;
+		this.message = $("#messageTextarea").val();
+	}
+	
+	let query = '/api/profile/sendMessage';
+	fetch(query, {
+		method : 'POST',
+		headers : getDefaultHeaders(),
+		body : JSON.stringify(Message),
+		credentials : "same-origin"
+	});
+	
+	$("#messageWindow").modal("hide");
+	$("#messageSendAlert").modal("show");
+	
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
