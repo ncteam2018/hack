@@ -2,6 +2,7 @@ package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.dto.UserDTO;
 import com.netcracker.hack.model.Profile;
+import com.netcracker.hack.service.ProfileService;
 import com.netcracker.hack.service.Impl.ProfileServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,18 +18,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/profile")
 public class ProfileController {
 
-  private ProfileServiceImpl service;
-
   @Autowired
-  public ProfileController(ProfileServiceImpl service) {
-    this.service = service;
-  }
+  private ProfileService service;
 
   @ApiOperation("Returns all users")
   @GetMapping
@@ -49,6 +47,14 @@ public class ProfileController {
       @ApiParam(value = "User's uuid", required = true) @PathVariable UUID id) {
     return service.getUserDTO(id);
   }
+
+  @ApiOperation("Returns user by uuid")
+  @GetMapping("/searchUser")
+  public List<UserDTO> findUsers(@RequestParam String userLogin, @RequestParam UUID teamID) {
+
+    return service.findUsersByLogin(userLogin, teamID);
+  }
+
 
   @ApiOperation("Returns user by login")
   @GetMapping("login/{login}")

@@ -4,6 +4,7 @@ import com.netcracker.hack.dto.UserDTO;
 import com.netcracker.hack.model.CompanyStatus;
 import com.netcracker.hack.model.Profile;
 import com.netcracker.hack.model.Role;
+import com.netcracker.hack.model.Team;
 import com.netcracker.hack.model.UserAuthData;
 import com.netcracker.hack.repository.ProfileRepository;
 import com.netcracker.hack.repository.UserAuthRepository;
@@ -48,8 +49,8 @@ public class ProfileServiceImpl implements ProfileService {
   }
 
   public Profile getProfileByLogin(String login) {
-    
-    return  profileRepository.findByUuid(userAuthRepository.findByLogin(login).getUuid());
+
+    return profileRepository.findByUuid(userAuthRepository.findByLogin(login).getUuid());
   }
 
   public UserDTO getUserDTOByLogin(String login) {
@@ -103,15 +104,32 @@ public class ProfileServiceImpl implements ProfileService {
     return ResponseEntity.noContent().build();
   }
 
+  public List<UserDTO> findUsersByLogin(String userLogin, UUID teamID) {
+
+    List<UserAuthData> users = userAuthRepository.findTop10ByLoginContains(userLogin);
+
+    List<UUID> userUUIDs = new ArrayList<>();
+    users.forEach((UserAuthData user) -> {
+      userUUIDs.add(user.getUuid());
+    });
+
+    Team team = new Team();
+    team.setUuid(teamID);
+    List<UserDTO> foundUsers = makeListOfUserDTO(profileRepository.findByUuidInAndTeamsNotContains(userUUIDs, team));
+
+    return foundUsers;
+  }
+
   private List<UserDTO> makeListOfUserDTO(List<Profile> profiles) {
 
     ArrayList<UserDTO> users = new ArrayList<>();
 
     profiles.forEach((Profile profile) -> {
-      users.add(new UserDTO(profile,false));
+      users.add(new UserDTO(profile, false));
     });
 
     return users;
   }
+
 
 }
