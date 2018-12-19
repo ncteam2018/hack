@@ -1,4 +1,3 @@
-
 function showNotif() {
 	if ($("#notifList").is(":visible"))
 		$("#notifList").hide();
@@ -6,11 +5,21 @@ function showNotif() {
 		$("#notifList").show();
 }
 
+function isEmpty(el) {
+	return !$.trim(el.html())
+}
+
 function delNotif(notifID) {
 
 	let id = "#" + notifID;
 	$(id).remove();
 	$(id + "-divider").remove();
+
+	if (isEmpty($("#notificationWindow"))) {
+		$("#bellIcon").addClass('text-white');
+		$("#bellIcon").removeClass('text-warning');
+		$("#bellSymbol").css("display", "none");
+	}
 }
 
 function getDefaultHeaders() {
@@ -49,19 +58,14 @@ function reloadEvents(userID) {
 			function(userEventCounter) {
 				notifications = userEventCounter;
 				$("#notificationWindow").html("");
-				if (notifications != null) {
+				if (notifications.length != 0) {
 					$("#bellIcon").removeClass('text-white');
 					$("#bellIcon").addClass('text-warning');
+					$("#bellSymbol").css("display", "inline");
 					notifications.forEach(function(notification, index, arr) {
 						$("#notifItem").tmpl(notification).appendTo(
-								"#notificationWindow"); // Добавляем
-						// шаблон
-						// тега
-						// в
-						// контейнер
-						// с
-						// id=tag_scope
-
+								"#notificationWindow");
+						$("#" + notification.id).html(notification.message);
 					})
 				}
 			});
@@ -81,16 +85,22 @@ fetch("/api/profile/me", {
 	return response.json();
 }).then(
 		function(myProfile) {
-			me = myProfile;
+			Me = myProfile;
 			UserID = myProfile.uuid;
 			reloadEvents(myProfile.uuid);
 
 			stompClient = Stomp.over(socket);
 			stompClient.connect({}, function(frame) {
-				stompClient.subscribe('/topic/notifications/' + me.uuid,
+				stompClient.subscribe('/topic/notifications/' + Me.uuid,
 						function(greeting) {
-							alert(JSON.parse(greeting.body).message);
-							//reloadEvents(UserID);
+							$("#bellIcon").removeClass('text-white');
+							$("#bellIcon").addClass('text-warning');
+							$("#bellSymbol").css("display", "inline");
+							let notif = JSON.parse(greeting.body);
+							$("#notifItem").tmpl(notif).appendTo(
+									"#notificationWindow");
+
+							$("#" + notif.id).html(notif.message);
 						});
 			});
 
