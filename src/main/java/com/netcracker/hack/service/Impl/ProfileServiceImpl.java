@@ -3,12 +3,12 @@ package com.netcracker.hack.service.Impl;
 import com.netcracker.hack.dto.UserDTO;
 import com.netcracker.hack.model.CompanyStatus;
 import com.netcracker.hack.model.Profile;
-import com.netcracker.hack.model.Role;
 import com.netcracker.hack.model.Team;
 import com.netcracker.hack.model.UserAuthData;
 import com.netcracker.hack.repository.ProfileRepository;
 import com.netcracker.hack.repository.UserAuthRepository;
 import com.netcracker.hack.service.ProfileService;
+import com.netcracker.hack.service.RolesService;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -66,27 +66,28 @@ public class ProfileServiceImpl implements ProfileService {
   public ResponseEntity<Object> createProfile(UserDTO profile) {
 
     profile.setUuid(UUID.randomUUID());
-    profile.getUserAuth().setRoles(null);
+    profile.getUserAuth().setRole(null);
 
     Profile savedProfile;
-    Set<Role> role = new HashSet<>();
+    String role;
 
     if (profile.getCompanyData() != null) {
       Set<CompanyStatus> status = new HashSet<>();
       status.add(CompanyStatus.INDIVIDUAL);
       profile.getCompanyData().setStatus(status);
       profile.getCompanyData().setVerification(false);
-      role.add(Role.ORGANIZATION);
+      role = RolesService.ORGANIZATION_ROLE;
       // TODO: СОБЫТИЕ ПОДТВЕРДИТЬ КОМПАНИЮ
+      
     } else
-      role.add(Role.USER);
+      role = RolesService.USER_ROLE;
 
-    profile.getUserAuth().setRoles(role);
+    profile.getUserAuth().setRole(role);
     Profile s = new Profile(profile);
     savedProfile = profileRepository.save(s);
 
     UserAuthData userAuth = new UserAuthData(profile.getUuid(), profile.getUserAuth().getLogin(),
-        profile.getUserAuth().getPassword(), profile.getUserAuth().getRoles());
+        profile.getUserAuth().getPassword(), profile.getUserAuth().getRole());
     userAuthRepository.save(userAuth);
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")

@@ -9,4 +9,6 @@ public interface UserAuthRepository extends CrudRepository<UserAuthData, UUID> {
   public UserAuthData findByLogin(String login);
   
   public List<UserAuthData> findTop10ByLoginContains(String login);
+  
+  public List<UserAuthData> findByRole(String role);
 }
