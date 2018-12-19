@@ -72,8 +72,11 @@ function changeState(eventId, state){
         headers: getDefaultHeaders(),
         credentials: "same-origin"
     }).then(function (response) {
-        sender = response.sender.uuid;
-    })
+        return response.json();
+    }).then(function (value) {
+        sender = value.sender.uuid;
+    });
+
     var newEvent1 = new function () {
         this.message = "Заявка одобрена";
         this.hackID = eventId;
