@@ -43,13 +43,7 @@ function loadEventInformation() {
                 eventItem.index = index;
                 $("#eventItem").tmpl(eventItem).appendTo("#eventList");
             });
-            // $("#message").html(value[0][0].message);
-            // $("#dateOfCreation").html(value[0][0].dateOfCreation);
-            //
-            // $("#id").html(value[0][0].id);
-
         })
-        // $('#loadingIcon').remove();
         $('#userProfile').css('visibility', 'visible');
     });
 
