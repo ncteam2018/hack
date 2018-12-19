@@ -206,4 +206,11 @@ public class HackServiceImpl implements HackService {
 
     return hackDTOList;
   }
+
+  public ResponseEntity<Object> updateStatus(UUID id, String status){
+    Hack hack = hackRepository.findByUuid(id);
+    hack.setStatus(status);
+    hackRepository.save(hack);
+    return ResponseEntity.noContent().build();
+  }
 }

@@ -245,4 +245,6 @@ public class EventServiceImpl implements EventService {
   public void updateEventStatus(Integer eventID, Integer newStatusID) {
 
   }
+
+
 }
