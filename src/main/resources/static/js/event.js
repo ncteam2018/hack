@@ -14,7 +14,9 @@ $(document).ready(function() {
 });
 var UserID = null;
 
-$("#events").addClass('text-warning');
+
+$("#notifications").addClass('text-warning');
+
 eventList = new Array();
 function loadEventInformation() {
     fetch("/api/profile/me", {
