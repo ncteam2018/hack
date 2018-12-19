@@ -72,7 +72,7 @@ function changeState(eventId, state){
         headers: getDefaultHeaders(),
         credentials: "same-origin"
     }).then(function (response) {
-        sender = response.sender;
+        sender = response.sender.uuid;
     })
     var newEvent1 = new function () {
         this.message = "Заявка одобрена";

@@ -28,7 +28,7 @@ public interface EventService {
   public List<Event> getAllEvents();
 
   public void updateEventStatus(UUID eventID, Integer newStatusID);
-  public EventDTO getEventById(Integer id);
+  public EventDTO getEventById(UUID id);
 
   public void updateEventStatus(Integer eventID, Integer newStatusID);
 

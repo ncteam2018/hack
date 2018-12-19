@@ -236,8 +236,13 @@ public class EventServiceImpl implements EventService {
 
   }
 
-  public EventDTO getEventById(Integer id){
-    Optional<Event> event = eventRepository.findById(id);
-    return new EventDTO(event.get());
+  public EventDTO getEventById(UUID id){
+    Event event = eventRepository.findById(id);
+    return new EventDTO(event);
+  }
+
+  @Override
+  public void updateEventStatus(Integer eventID, Integer newStatusID) {
+
   }
 }
