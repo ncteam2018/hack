@@ -15,7 +15,7 @@ public class Tag {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  @Column(name = "tag")
+  @Column(name = "tag" , length = 255)
   private String tag;
   
   

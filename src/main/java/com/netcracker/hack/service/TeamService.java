@@ -21,7 +21,7 @@ public interface TeamService {
   
   public Page<TeamDTO> getFilteredTeams(PageRequestBuilder builder);
 
-  public ResponseEntity<TeamDTO> addUser(UUID teamID, String login);
+  public ResponseEntity<TeamDTO> addUser(UUID teamID, UUID userID);
   
   public ResponseEntity<TeamDTO> removeUser(UUID teamID, UUID userID);
   

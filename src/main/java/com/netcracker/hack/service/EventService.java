@@ -28,6 +28,7 @@ public interface EventService {
   public List<Event> getAllEvents();
 
   public void updateEventStatus(UUID eventID, Integer newStatusID);
+
   public EventDTO getEventById(UUID id);
 
   public void updateEventStatus(Integer eventID, Integer newStatusID);
@@ -40,7 +41,12 @@ public interface EventService {
 
   public void createNotification(String message, UUID hackID, UUID teamID, UUID userID);
 
-  public void sendNotificationToUser(String message, UUID hackID, UUID teamID, UUID receiver);
+  public void sendNotificationToUser(String message, UUID hackID, UUID teamID, UUID userID,
+      UUID receiverID);
+
+  public List<List<Event>> getAllUserEvents(UUID userID);
+
+  public void deleteEvent(UUID eventID);
 
 
 }

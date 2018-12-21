@@ -114,9 +114,6 @@ function disconnect() {
 	console.log("Disconnected");
 }
 
-function showRef(ref) {
-	alert(ref);
-}
 
 function updateNotification(notifID) {
 	delNotif(notifID);

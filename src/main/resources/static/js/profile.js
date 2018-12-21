@@ -77,9 +77,13 @@ function loadUserProfile() {
 $("#profile").addClass('text-warning');
 
 function showProfile() {
-	$('#userProfile').css('display', 'block');
+	$('#userProfile').css('display', 'block');	
 	$('#userTeam').css('display', 'none');
 	$('#userHacks').css('display', 'none');
+	
+	$('#myProfile').removeClass('text-light').addClass('text-warning');
+	$('#myTeams').removeClass('text-warning').addClass('text-light');
+	$('#hackListButton').removeClass('text-warning').addClass('text-light');
 }
 
 function showTeams() {
@@ -87,20 +91,29 @@ function showTeams() {
 	$('#userTeam').css('display', 'block');
 	$('#userHacks').css('display', 'none');
 	
+	$('#myProfile').removeClass('text-warning').addClass('text-light');
+	$('#myTeams').removeClass('text-light').addClass('text-warning');
+	$('#hackListButton').removeClass('text-warning').addClass('text-light');
 }
 
 function showHacks() {
 	$('#userProfile').css('display', 'none');
 	$('#userTeam').css('display', 'none');
 	$('#userHacks').css('display', 'block');
+	
+	$('#myProfile').removeClass('text-warning').addClass('text-light');
+	$('#myTeams').removeClass('text-warning').addClass('text-light');
+	$('#hackListButton').removeClass('text-light').addClass('text-warning');
 }
 
 function sendRemoveMemberRequest(teamID, userID, id) {
 
-	let query = 'api/team/' + teamID + ' /' + userID;
+	let query = 'api/team/' + teamID + '/removeUser';
+
 	fetch(query, {
 		method : 'POST',
 		headers : getDefaultHeaders(),
+		body : JSON.stringify(userID),
 		credentials : "same-origin"
 	}).then(function() {
 		$("#team_"+id).remove();

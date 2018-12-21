@@ -38,12 +38,12 @@ public class NotificationBuilder {
     return this;
   }
 
-  public String build(UUID ID) {
+  public String build(UUID notificationID) {
     
     StringBuilder notifStringCopy = new StringBuilder(notificationMessage);
     
     notifStringCopy.append(" <button onclick=\"");
-    notifStringCopy.append("updateNotification(\'" + ID + "\') ");
+    notifStringCopy.append("updateNotification(\'" + notificationID + "\') ");
     notifStringCopy.append("\" class=\"btn-sm btn-danger float-right\">X</button> ");
     
     return notifStringCopy.toString();

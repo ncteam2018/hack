@@ -26,9 +26,14 @@ public class EventController {
     return service.getEvents(typeID, ownerID);
   }
 
+  @GetMapping("/{userID}/myEvents")
+  public List<List<Event>> getAllEvents(@PathVariable UUID userID) {
+    return service.getAllUserEvents(userID);
+  }
+
   @ApiOperation("Returns all events")
   @GetMapping("/all")
-  public List<Event> getAllEvents() {
+  public List<Event> getAllUserEvents() {
     return service.getAllEvents();
   }
 
@@ -46,10 +51,17 @@ public class EventController {
   }
 
   @ApiOperation("Update event status")
-  @PutMapping("/{id}")
-  public void updateEventStatus(@PathVariable UUID id, @RequestBody Integer newStatus) {
+  @PutMapping("/{eventID}")
+  public void updateEventStatus(@PathVariable UUID eventID, @RequestBody Integer newStatus) {
 
-    service.updateEventStatus(id, newStatus);
+    service.updateEventStatus(eventID, newStatus);
+  }
+
+  @ApiOperation("Delete event")
+  @DeleteMapping("/{eventID}")
+  public void deleteEvent(@PathVariable UUID eventID) {
+
+    service.deleteEvent(eventID);
   }
 
   @ApiOperation("Returns count of new events")
@@ -61,14 +73,16 @@ public class EventController {
 
 
   @ApiOperation("Creates notification for user")
-  @PostMapping("/userNotification")
-  public void sendNotificationToUser(@RequestParam String message, @RequestParam UUID hackID, @RequestParam UUID teamID, @RequestParam UUID receiver){
-
+  @PostMapping("/sendNotification")
+  public void sendNotificationToUser(@RequestParam String message,
+      @RequestParam(required = false) UUID hackID, @RequestParam(required = false) UUID teamID,
+      @RequestParam(required = false) UUID userID, @RequestParam UUID receiver) {
+    service.sendNotificationToUser(message, hackID, teamID, userID, receiver);
   }
 
   @ApiOperation("Get Event by id")
   @GetMapping("/{id}")
-  public EventDTO getEventById(@PathVariable UUID id){
+  public EventDTO getEventById(@PathVariable UUID id) {
     return service.getEventById(id);
   }
 }

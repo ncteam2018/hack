@@ -36,6 +36,7 @@ public class TeamServiceImpl implements TeamService {
   @Autowired
   private EventService eventService;
 
+  @Override
   public ResponseEntity<Object> deleteTeam(UUID teamID) {
     eventService.createNotification("Команда удалена!", null, teamID, null);
 
@@ -43,6 +44,7 @@ public class TeamServiceImpl implements TeamService {
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 
+  @Override
   public ResponseEntity<TeamDTO> updateTeam(TeamDTO updatedTeam, UUID teamID) {
 
     Optional<Team> teamOptional = teamRepository.findById(teamID);
@@ -62,50 +64,57 @@ public class TeamServiceImpl implements TeamService {
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
+  @Override
   public TeamDTO getTeam(UUID uuid) {
 
     return new TeamDTO(teamRepository.findByUuid(uuid));
   }
 
-  public ResponseEntity<TeamDTO> addUser(UUID teamUuid, String login) {
+  @Override
+  public ResponseEntity<TeamDTO> addUser(UUID teamUuid, UUID userID) {
 
-    Profile user = profileService.getProfileByLogin(login);
+    Profile user = profileService.getProfile(userID);
     Team team = teamRepository.findByUuid(teamUuid);
 
+    eventService.createNotification("Пользователь " + user.getUserData().getfName() + " "
+        + user.getUserData().getlName() + " принят в команду!", null, teamUuid, user.getUuid());
+  
     int oldCount = team.getTeamMembers().size();
     team.getTeamMembers().add(user);
 
     if (oldCount != team.getTeamMembers().size())
       team.setPeopleCount(team.getPeopleCount() + 1);
 
-    eventService.createNotification("Пользователь " + user.getUserData().getfName() + " "
-        + user.getUserData().getlName() + " принят в команду!", null, teamUuid, user.getUuid());
     teamRepository.save(team);
-
+    
+    eventService.sendNotificationToUser("Вы были приняты в команду!", null, teamUuid, null, userID);
 
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 
+  @Override
   public ResponseEntity<TeamDTO> removeUser(UUID teamUuid, UUID userUuid) {
 
     Profile user = profileService.getProfile(userUuid);
     Team team = teamRepository.findByUuid(teamUuid);
 
-    int oldCount = team.getTeamMembers().size();
+    int oldCount = team.getTeamMembers().size();    
     team.getTeamMembers().remove(user);
 
     if (oldCount != team.getTeamMembers().size())
       team.setPeopleCount(team.getPeopleCount() - 1);
 
-    teamRepository.save(team);
-
     eventService.createNotification("Пользователь " + user.getUserData().getfName() + " "
         + user.getUserData().getlName() + " покинул команду!", null, teamUuid, user.getUuid());
+    
+    teamRepository.save(team);
 
+    eventService.sendNotificationToUser("Вы покинули команду!", null, teamUuid, null, userUuid);
+    
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 
-
+  @Override
   public ResponseEntity<TeamDTO> createTeam(TeamDTO team) {
 
     team.setSkillTags(tagService.verifyTags(team.getSkillTags()));
@@ -126,7 +135,7 @@ public class TeamServiceImpl implements TeamService {
     return ResponseEntity.status(HttpStatus.CREATED).body(team);
   }
 
-
+  @Override
   public Page<TeamDTO> getFilteredTeams(PageRequestBuilder requestBuilder) {
     Page<Team> teamPage;
 

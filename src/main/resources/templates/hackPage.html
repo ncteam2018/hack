@@ -38,7 +38,8 @@
 						</label>
 					</div>
 					<button id="deleteButton" onclick="return showDeleteAlert();"
-						class="btn bg-danger text-light" style="display: none;">Удалить объявление</button>
+						class="btn bg-danger text-light" style="display: none;">Удалить
+						объявление</button>
 				</div>
 				<div class="userData col-md-6">
 
@@ -123,13 +124,17 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6" style="visibility: hidden;">
+				<div class="col-md-6">
 					<div class="card " style="margin-top: 10px;">
 						<div class="card-header bg-dark text-light font-weight-bold">Участники</div>
 						<div class="card-body">
 
-							<div class="text-left col-md-4">
-								<div id="creationDate" class="font-italic">Команд:</div>
+							<div class="text-left ">
+								<div id="creationDate" class="font-italic">
+									Команд: <span id="regTeamCOunter"></span>
+									<hr>
+								</div>
+								<div id="hackteams" class="text-center"></div>
 							</div>
 
 						</div>
@@ -145,6 +150,24 @@
 	<br>
 	<br>
 	<div th:replace="fragments/footer :: footer" />
+
+
+	<script id="team_item" type="text/jquery-tmpl">
+									<div class="containter col-md card ">
+										<div class="card-body row">
+											<div class="col-md-2">
+												<img
+													src="https://image.freepik.com/free-icon/no-translate-detected_318-44341.jpg"
+													class="img-responsive rounded  profile-avatar" alt="Avatar" style="height: 50px; width: 50px;">
+											</div>
+											<div class="col-md-10 row">
+												<div id="teamName" class="col-md-6">${name}</div>
+												<div id="teamMemberCounter" class="col-md-2">${memberCounter}</div>
+												<a href="/teamProfile/${uuid}" class="btn btn-dark rounded border-light text-light col-md-4" id="teamName" style="height: 40px;">Команда</a>
+											</div>
+										</div>
+									</div>
+		</script>
 
 	<script id="tag-info" type="text/jquery-tmpl">
 				<div  class=" tag-padding">
@@ -199,7 +222,7 @@
 	<script
 		src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=4fa6aa42-d9bb-4b62-9e6b-77d1ce2ff058"
 		type="text/javascript"></script>
-	<script src="/js/hackView.js?1"></script>
+	<script src="/js/hackView.js?122"></script>
 
 </body>
 </html>

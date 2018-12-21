@@ -13,48 +13,69 @@ function loadHackProfile() {
 		credentials : "same-origin"
 	}).then(function(response) {
 		return response.json();
-	}).then(function(hack) {
+	}).then(
+			function(hack) {
 
-		$("#hackStatus").html(hack.status);
-		$("#hackName").html(hack.title);
-		$("#creationDate").html(hack.startDate);
-		$("#duration").html(hack.duration);
-		$("#compName").html(hack.company.companyName);
-		$("#aboutHack").html(hack.description);
-		$("#auditory").html(hack.auditory);
-		$("#source").html(hack.site);
-		$("#address").html(hack.place);
+				$("#hackStatus").html(hack.status);
+				$("#hackName").html(hack.title);
+				$("#creationDate").html(hack.startDate);
+				$("#duration").html(hack.duration);
+				$("#compName").html(hack.company.companyName);
+				$("#aboutHack").html(hack.description);
+				$("#auditory").html(hack.auditory);
+				$("#source").html(hack.site);
+				$("#address").html(hack.place);
 
-		hack.skillTags.forEach(function(tag, index, arr) {
-			$("#tag-info").tmpl(tag).appendTo("#hack-tags");
+				hack.skillTags.forEach(function(tag, index, arr) {
+					$("#tag-info").tmpl(tag).appendTo("#hack-tags");
+				});
+
+				hack.scopeTags.forEach(function(tag, index, arr) {
+					$("#tag-info").tmpl(tag).appendTo("#hack-tags");
+				});
+
+				loadTeams();
+				mas = hack.placeCoords.split(',').map(Number)
+				mark_X = mas[1];
+				mark_Y = mas[0];
+
+				hackathonPlace = new ymaps.Placemark([ mark_X, mark_Y ], { // Ставим
+					// маркер
+					// хакатона и
+					// центрируем
+					// карту на него
+					hintContent : 'Место проведения хакатона'
+				}, {
+					preset : "islands#circleDotIcon",
+					iconColor : '#ff0000'
+				});
+				myMap.geoObjects.add(hackathonPlace)
+				myMap.setCenter([ mark_X, mark_Y ]);
+
+				if ((Me.companyData != null)
+						&& (hack.company.uuid == Me.companyData.uuid)
+						&& (hack.status != "Closed"))
+					$("#deleteButton").css("display", "block");
+
+			});
+
+}
+
+function loadTeams() {
+
+	let query = "/api/hack/" + $("#hackUuid").html() + "/teams";
+	fetch(query, {
+		method : 'GET',
+		headers : getDefaultHeaders(),
+		credentials : "same-origin"
+	}).then(function(response) {
+		return response.json();
+	}).then(function(teams) {
+		$("#regTeamCOunter").html(teams.length);
+		teams.forEach(function(team, index, arr) {
+			$("#team_item").tmpl(team).appendTo("#hackteams");
 		});
-
-		hack.scopeTags.forEach(function(tag, index, arr) {
-			$("#tag-info").tmpl(tag).appendTo("#hack-tags");
-		});
-
-		mas = hack.placeCoords.split(',').map(Number)
-		mark_X = mas[1];
-		mark_Y = mas[0];
-
-		hackathonPlace = new ymaps.Placemark([ mark_X, mark_Y ], { // Ставим
-			// маркер
-			// хакатона и
-			// центрируем
-			// карту на него
-			hintContent : 'Место проведения хакатона'
-		}, {
-			preset : "islands#circleDotIcon",
-			iconColor : '#ff0000'
-		});
-		myMap.geoObjects.add(hackathonPlace)
-		myMap.setCenter([ mark_X, mark_Y ]);
-
-		if ((Me.companyData != null) && (hack.company.uuid == Me.companyData.uuid)&&(hack.status != "Closed")  )
-			$("#deleteButton").css("display","block");
-
 	});
-
 }
 
 var myMap; // Объект хранящий yandex карту

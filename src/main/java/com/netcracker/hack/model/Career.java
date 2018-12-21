@@ -19,7 +19,7 @@ public class Career {
   @Column(name = "placeOfWork")
   private String placeOfWork;
 
-  @Column(name = "position")
+  @Column(name = "position", length = 300)
   private String position;
 
   public Career() {

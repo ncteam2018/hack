@@ -13,7 +13,6 @@ public class NotificationDTO {
   public NotificationDTO(Event event) {
     this.id = event.getId();
     this.status = event.getStatus().getStatus();
-    //this.resourceHackReference = new HackDTO(event.getHack());
     this.message = event.getMessage();
   }
 

@@ -17,19 +17,19 @@ public class UserData {
   @Column(name = "id")
   private Integer id;
 
-  @Column(name = "fName")
+  @Column(name = "fName", length = 255)
   private String fName;
 
-  @Column(name = "mName")
+  @Column(name = "mName", length = 255)
   private String mName;
 
-  @Column(name = "lName")
+  @Column(name = "lName", length = 255)
   private String lName;
 
   @Column(name = "gender")
   private String gender;
 
-  @Column(name = "city")
+  @Column(name = "city", length = 255)
   private String city;
 
   @Column(name = "dateOfBirth")
@@ -38,11 +38,10 @@ public class UserData {
   @Column(name = "active")
   private Boolean active;
 
-  @Column(name = "about")
+  @Column(name = "about", length = 1000)
   private String about;
 
-  public UserData() {
-  }
+  public UserData() {}
 
   public Integer getId() {
     return id;

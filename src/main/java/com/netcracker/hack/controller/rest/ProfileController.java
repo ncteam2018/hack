@@ -95,7 +95,8 @@ public class ProfileController {
 
     eventService.sendToUser(EventService.MESSAGE_EVENT_TYPE, EventService.OK_EVENT_STATUS,
         message.getSender(), message.getReceiver(), null, null, message.getMessage());
-
+    
+    eventService.sendNotificationToUser("Вам пришло письмо!", null, null, message.getSender(), message.getReceiver());
     // TODO: послать и на почту
   }
 
@@ -106,7 +107,7 @@ public class ProfileController {
 
     eventService.sendToAdmin(EventService.MESSAGE_EVENT_TYPE, EventService.OK_EVENT_STATUS,
         message.getSender(), null, null, message.getMessage());
-
+    
     // TODO: послать и на почту
   }
 }
