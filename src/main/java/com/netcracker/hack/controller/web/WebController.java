@@ -30,13 +30,13 @@ public class WebController {
 
   @RequestMapping(path = "/login", method = RequestMethod.GET)
   public String login(Model model,
-      @RequestParam(name = "loginError", required = false) String loginError) {
+      @RequestParam(name = "loginError", defaultValue = "nope") String loginError) {
 
-    if(loginError != null)
+    if (loginError != null)
       model.addAttribute("loginError", loginError);
     return "open/login";
   }
-  
+
   @RequestMapping(path = "/", method = RequestMethod.GET)
   public String getMainPage() {
     return "open/index";
@@ -88,7 +88,7 @@ public class WebController {
   @RequestMapping(path = "/hackPage/{uuid}", method = RequestMethod.GET)
   public String getHackPage(Model model,
       @PathVariable(name = "uuid", required = true) String hackUuid) {
-    
+
     model.addAttribute("hackUuid", hackUuid);
     return "hackPage";
   }
@@ -96,11 +96,11 @@ public class WebController {
   @RequestMapping(path = "/profileView/{uuid}", method = RequestMethod.GET)
   public String getProfileView(Model model,
       @PathVariable(name = "uuid", required = true) String userUuid) {
-    
+
     model.addAttribute("userUuid", userUuid);
     return "profileView";
   }
-  
+
 
 
 }

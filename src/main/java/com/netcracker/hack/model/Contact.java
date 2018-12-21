@@ -17,13 +17,13 @@ public class Contact {
   @Column(name = "id")
   private Integer id;
 
-  @Column(name = "phone")
+  @Column(name = "phone", length = 500)
   private String phone;
 
-  @Column(name = "email")
+  @Column(name = "email", length = 500)
   private String email;
 
-  @Column(name = "skype")
+  @Column(name = "skype", length = 500)
   private String skype;
 
   public Contact() {

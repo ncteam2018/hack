@@ -53,7 +53,7 @@ public class HackServiceImpl implements HackService {
 
   @Autowired
   private TeamRepository teamRepository;
-  
+
   @Autowired
   private TeamService teamService;
 
@@ -207,10 +207,16 @@ public class HackServiceImpl implements HackService {
     return hackDTOList;
   }
 
-  public ResponseEntity<Object> updateStatus(UUID id, String status){
+  public ResponseEntity<Object> updateStatus(UUID id, String status) {
     Hack hack = hackRepository.findByUuid(id);
     hack.setStatus(status);
     hackRepository.save(hack);
+
+    String hackStatus = status;
+    if (hackStatus.equals(HackService.ACTIVE_HACK_STATUS))
+      eventService.createNotification("Объявлен новый хакатон, спешите принять участие!", id, null,
+          null);
+
     return ResponseEntity.noContent().build();
   }
 }

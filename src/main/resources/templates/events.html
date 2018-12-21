@@ -1,112 +1,588 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Events</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css?123"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
-    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
-          rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/hack.css?123242162}">
-    <link rel="stylesheet" th:href="@{/css/loadingAnimation.css?122322341}">
-    <link href="https://fonts.googleapis.com/css?family=Poiret+One|Enriqueta"
-          rel="stylesheet">
+<meta charset="UTF-8">
+<title>Events</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css?123"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/hack.css?132}">
+<link rel="stylesheet" th:href="@{/css/loadingAnimation.css?122322341}">
+<link
+	href="https://fonts.googleapis.com/css?family=Poiret+One|Enriqueta"
+	rel="stylesheet">
 
 </head>
-<body onload="loadEventInformation()" class="body-font">
-<div th:replace="fragments/profile_header :: header" />
+<body onload="loadMyEvents()" class="body-font">
+	<div th:replace="fragments/profile_header :: header" />
 
-<br>
-<br>
-<!--<div id="loadingIcon" class="loader">Loading...</div>-->
-<div id="eventList"></div>
+	<br>
+	<br>
 
-<br>
-<br>
-<br>
-<div th:replace="fragments/footer :: footer" />
+	<div class="container-fluid row">
+		<div class=" col-md-2 profile-card text-right border-right">
+			<div class="profile-card border  border-dark rounded bg-light">
+				<button id="myInvites" class="btn btn-dark btn-block text-warning"
+					onclick="showMyInvites()">
+					Приглашения &nbsp<span
+						class="badge badge badge-light text-dark text-center"
+						id="inviteCounter"> 0</span>
+				</button>
+				<button id="myMessages" class="btn btn-dark btn-block"
+					onclick="showMyMessages()">
+					Сообщения &nbsp <span
+						class="badge badge badge-light text-dark text-center"
+						id="messageCounter"> 0</span>
+				</button>
+				<button id="myRequests" class="btn btn-dark btn-block"
+					onclick="showAdminRequests()">
+					Запросы &nbsp <span
+						class="badge badge badge-light text-dark text-center"
+						id="requestCounter"> 0</span>
+				</button>
+			</div>
+		</div>
+		<div class="col-md row">
+			<div class=" col-md border border-dark rounded event-container">
+				<div class="text-center">
+					<h3>Отправленные</h3>
+				</div>
+				<hr>
+				<div>
+					<div id="loadingIcon1" class="loader">Loading...</div>
+					<div id="myInvitesListSended"></div>
 
-<script id="eventItem" type="text/jquery-tmpl">
-<div class="container card profile-card">
-<div class=" row">
-<div class="userInfo  col-md-12 row">
-    <div class="avatar col-md-3">
-        <img
-            src="https://www.detailquebec.com/wp-content/uploads/2018/08/Mail-de-confirmation-exemple-de-logo.png"
-            class="img-responsive rounded  profile-avatar"
-            alt="Avatar">
-    </div>
+					<div id="myMessagesListSended" style="display: none;"></div>
 
-    <div class="userData col-md-9">
-        <div>
-            <div id="type" class=" text-center font-weight-bold profile-nick">${type}</div>
-        </div>
-        <br>
-        <div>
+					<div id="myRequestsListSended" style="display: none;"></div>
+				</div>
 
-            <div class="contacts row">
-                <br>
-                <div class="text-left col-md-7">
-                    <label for="message " class="font-weight-bold">Описание
-                    </label>
-                    <div id="message" class="font-italic">${message}</div>
-                    <!--<br>-->
-                    <!--<label for="type " class="font-weight-bold">Тип сообщения-->
-                    <!--</label>-->
-                    <!--<div id="type" class="font-italic">${type}</div>-->
-                </div>
+			</div>
+			<div class=" col-md border border-danger rounded event-container">
+				<div class="text-center">
+					<h3>Полученные</h3>
+				</div>
+				<hr>
+				<div>
+					<div id="loadingIcon2" class="loader">Loading...</div>
+					<div id="myInvitesListReceived"></div>
+					<div id="myMessagesListReceived" style="display: none;"></div>
+					<div id="myRequestsListReceived" style="display: none;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<div th:replace="fragments/footer :: footer" />
 
-                <div class="text-left col-md-4">
-                    <label for="dateOfCreation " class="font-weight-bold">Дата создания
-                    </label>
-                    <div id="dateOfUpdate" class="font-italic">${dateOfCreation}</div>
-                    <br>
-                    <label for="status " class="font-weight-bold">Статус
-                    </label>
-                    <div id="status" class="font-italic">${status}</div>
-                    </label>
-                    <div id="id" class="font-italic">${id}</div>
 
-                </div>
-                <!--<div class=" col-md-1">-->
-                    <!--<div id="plac2e" class="font-italic border"><i class="far fa-bell fa-3x" id="bell"></i></div>-->
-                <!--</div>-->
-                <br><br><br><br>
+	<div id="message_" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header  text-center bg-dark text-light">
+					<h5 class="modal-title ">
+						Послать сообщение для <span id="messageReceiver"></span>
+					</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true" class="text-light">Х</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="form  row" name="loginForm">
 
-                <div>
-                    <button onclick="return changeState('${id}', 1)" class="btn bg-dark text-light">Подтвердить</button>
-                </div>
-                &nbsp
-                <div>
-                    <button onclick="return changeState('${id}', 3)" class="btn bg-dark text-light">Отклонить</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-<br>
-</script>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-<script
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
-<script
-        src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+						<div class="col-md-12 "
+							style="padding-left: 10%; padding-right: 10%;">
 
-</script>
-<script src="/js/event.js?re2fddf3s2246f"></script>
+							<div class="form-group row">
+								<label class=" col-md-2 col-form-label form-right"
+									for="messageTextarea">Сообщение </label>
+								<div class="col-md-10">
+									<textarea class="form-control" name="messageTextarea"
+										id="messageTextarea_" rows="5"></textarea>
+								</div>
+							</div>
+
+							<hr />
+							<button id="sendTo" onclick="" class="btn bg-dark text-success">Подтвердить</button>
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Отмена</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	
+		<script id="messageItemSend" type="text/jquery-tmpl">
+				<div id ="event_${id}" class="container card profile-card event-card rounded border-dark bg-light">
+							<div class=" row">
+								<div class="userInfo  col-md-12 row">
+									<div class="avatar col-md-3 text-center">
+										<img
+											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARUAAAC2CAMAAADAz+kkAAAAhFBMVEX///8zMzMcHBzPz8/T09MxMTEsLCwjIyMmJiYhISH4+PgzMjMpKSn7+/suLi4dHR3e3t5XV1e1tbVDQ0NeXl7Z2dmvr6+BgYHx8fHj4+O9vb04ODhJSUmHh4dOTk43Nzd9fX1ycnKmpqYTExPExMSUlJSQkJBtbW2bm5tmZmaoqKkJCQnME956AAAMdUlEQVR4nO1diXaqOhQFapjEoILKILY49Frf///fA4eak4Q5yGD3euutdbXasJucnZwpkpQJcxKc4oUTyqPCVJZDZxGfgomZ/ehZmF9c2dIsjFHXj9ECEMLJs8nuZV6FEm/pytoo+SCBsCa7S68sJ/utMXpKbkDY2O7L8DJbOgZu+MumQob8GmDDWc+KSFm5SlNOKqJzCpGyWOWTclbUrgfZAbByzrMortb1ADuC5mZal7ljdT26zmBtM1R6Er7j6nlADSd8Ul5sZkVCgMnGPFr8IZMiBDj0GUPrvPPyuUF1aJPr9tbQvnA/Y7mQlLMh7Ks735U1gAb2LSu76/H0BDaxy525GUYlPXEbtqIotpL+PwvXd/N/RCl4l/h41g/ef0vhdxcNwzY0K+v0q7rPM9FS4f5IctLebS7Hj7HheNnsZI0vucr6qT885pDhXBipGg38i2Pwnhr/6hDX1GqfQafDbh/Bp855buNucL0tO5mQERU6HQaPWcSZLnh7myxLdqogddnxiF+DpcrSYtwenRUgZI199TwQsLSo163cXGbeMN5jpqS4LxRi64nk1KdwYTxNetT1WF+IiDG52iV52aVtLVK7HulLwWzocLKETES/qr2LUbkhoNcKkk1pQh+W8bbrcb4YzMbEmiRUUYdcbV38RaPCmp4syWI5UXMFsR6pkcMPKRtinaSYmj940fUoX44FTUEsLWii3kmWb4jo5bKQHHpRvZtZYQ0LciQ6acc+dj3Il+NIeyJDiXpBNt5rt5IiYI7HDCsofLcltP5kDoIMKzIyvsbvWnnC/EqdLNMiVhKDu6uULzZozHe8NAweK7Kqv4srYcl3anNZkZHyVSPvcnAwv/jBjQxW0nyOgqyoEWC15bmz81iRMR77KlrjzCyMTFZkZEdlc1GHCC+ys7Nns1lJtGgxXi2aL/JSAFlWiGmljnYVLfEtsDGlnjiLFewSMyvRojHu6GZfCvGMNuO5ZlmxV0edCBDpzvicUH5IaI+qH9k8FYYVZSL55JrDowsjLlVibugLX5owuxYeK5IZ6cQM00alRV6kEc+mR8lutSQrCZ+fxCoakxatyHWgfl7XQWlWEuUi195otOihPVfo96qG8qwkdvrwfBEpmw4fRRxI7ZEPD32twErqoiJXkTP8VTR3yPn/dDpWYgXu/4Z/LgLaQ9rKaqwkWgTs9WbI3gVzA3WVeJaKrCT8ys9VhPSimqseYwXUQwbzvjIr0nxHfps61ABAYJHaQ3lgq7OSaBGRUocOg4wszqID8QyMt74GK8kqIs9FQ/R0A4+1qjORHQ4rdDECywo8F6mDOxetLfBXZU+7teZKqkX2YLUIao8dccZek5VkFSFwzhzOKoJqgbjz/JeV33UDWZlmsUJ9uzwULQrkHO15oPZcSWMn5I7O/h7CKjK/yZWvZcW4GrCSWC2yf4Kx6L+Pzie1BxuZWQWNWKF/S9+1aG0UaM8DzVihd0O91iJz89h9Tq+7zxyvfENWKK9Nn3104Lxf4DVrzAp1ygr7uoqWIcfnloXmrEge0CKNtyvqHGZEJGAg/avAGy+AlTTlEHhv+qdFMHJTnBQqhBXK03fo244uOIAoX7HtE8OKJH2BqGuvShTNCERLv0p8RBQrybkIWLP+aNE9YnM70WSce2gIY4WKNvVGi4D2aCU9quJYkbwN1KI+rKIZ8L5rm5KRYIGs9FCLqmrPA0JZkeYg48HqugAAeqzD8rZOLCtUdkzuWaN1wDNapWwkwaykeYg90SIqW6BSLYJwVqTVjs186ABUZkm1aF6Rh7I6K4kWkfEioxMfHfS5GWW15wHxcyXBhczmNdzXa5HvEgU+GF+qfh6yMhXDijQhM7+t6avPRdBjXSPTvpW5cq0SAOei6t/QAOS5R65VldESK1RFiZ7jIxUNH0RktFrWvjVWEi0iRofxq1ZRAHYGu3qZJO2xQsWLtJdokfmtlYn3FKFFVhItIqOuxk/7q8j/IbRHRZW154FWWUm0iCgit1rvIRZ8Er9O3zYYd6usSOaGGGfbWgS0x2oSm3olK8nOe9veKvK3oL6nx6xMdlQdn4raWkVAe1Lou56uoIvMtljTW9Ei81tnquOw3EdrC5T5Ce1HvHdh7vJ+VR+VGWT9kNPb+hTtozuS2gNqfWpmMra349fB6L6IjQQ6nGqNNQsnkBcRg79GvZr9l50O93ZLGUD+gvQa2Huo0PVq9tthBdSQ33PmVluQKSFKiwLEeg0CmdzNOT3xJPC9Th7I6daFeLpnoPLPfuQaiPU6CWHF29gZHso1sIQCfHS+Cyz602MNPZR29x5KXh3f728jblOZNteiI+mxthxYmyLEmy2KlWVu5MP7R1CGlFOTVTQ7kece7R81H5rUSbYbJduwTw20yM6+pKcQnktrDz2WvkTJYERV5+rMCmQA1e6xHFjqswwjQ2eCZ23KtLuI6jP6Ps2JvoN+OEir510gcw2yPdY9iL6Xz9RYk/terYYW+eTFYJit7/lF55kaVbJ6PoCPLqyqRccQ+Nw+8n6226weKgOs4Ld7MbH7wlolLZqdQJZoXPD3h/nAr80AI7MFZaWEH2xPVEYgo4IWQe0xWO2hYW5IO9YwW/DXwpdgxa+RWbqiep6U+UwC2AsmLLUiggO5py7RP6Z4rkyrZiGXjROaMTjbfpf60Df4TFzyPExpUeEqEpGxTmoPrpKxvrdINkvEi/wf8ums4tXzAF2z33rGepPqhg/SQ2Q5RavoSF5Kqe9ytYdG7eqGaR1WgPZUroTxYnKe6fk+uhOxzUFakfbQgJUw+VrUedXUnrybJufyUnilK9LKr54HzA2s2W+tagpU2KnZdXx5WFmkK9rKWhYf5I9ZVq1cg9dU2IFqzNLaQ8P8R3qIDnwt+ibnpP2vZkQD1klmn4vEVe42qJYCWsSzhMCiV9EeZsxRy5W7ZWrIywLk0akogrPOj6DHukHcG/aPEV/lDc89TftqeDEZL9JRHPg3u+v5QYx0EO9p2KuuUkeAaqzASiRdQJ/kPeldQKqh7uJNtIkXlkFeiYX1+qvnd+yge4QirnsE3EFbQjrTf4TwGgmsWpalwjaZVlhp55YF0GmEF7HrUVca758CQ+h0Ixik0B7ruqC60jCrSEAHI3F1HRct70poVaudecFAeAcjaK3E3vi3WmQ2aUa22H5jpbpdPWdrUWe0zyo+t6ow9yG3Hz7Swr3gbCCBndHa76Lnnx2NuogRqZpzFp9QJ6yL3ku6/3rBD9I19Xq/HsKqpqOfoJ1+ulTHxSfx9btzlqkhrwvzuI+31uG/g7WN98f2kroFdOecbUAn16/WxvpK8CPAgJVpHivv0fX3Nv/rdogebldOGg06RJsR8A7+dRO/dZ4H/o2x3ci1prWoBCv0LQUjvCqzxi0Ffzda8FgBt58Mrj9pWSxVlfvEmaw80efOZ01R9aacB/5uVeIAV+vAMEDUuIHrPW5ro+8xz2elfFbEoAGyRwpZKZHzMRJUuAVyiH3U66LsjaHIeIt7MR8wSW99Jivoc+zaQ6PMTcR/t1anrPzdcM674dyhXimf/j4arGmD60gLalFZg7zfpBEiajOHF1KMmZfeDQuaglg6UUShEbqZ8uGH9HI5SQG9qN7OsDBmRQukCX1Cwtuuh/libOlNvzWRTETvYbT32rEwiwWhZG/PeC0R7nqgLwWmZwV2pTS5hnpV1t9JnCOdfvxrOtFcpsma9v5iE3FYMrt9JF89Bi5R8Hp/Q32Xbf9RZU6Gqnt9h6VrBNeDlsOSMSrJ8fj26B4jTamTpRdN09vFLOK4VvD2Htk4s5MlDaWOXaCDkDG06VQ539/2HJ5PFxnOZbybf//icCZK8tTObxBszQTlb5NJkxeby/FjbDheNgtZ5weDlOd5Z+Zm5AMjbGmGraQg//+Anf5ns68r9E/x/mFz3uV+BL5qs2/auf9kftg2NOtuZel88ESACHPK5iqUAvOlg4cNYoPnvFj0DeOjgMWvqb3DzQouVkGPiSs1NMulbLLn5JUajB5X0lSHScLww8wI/aBQf75inhdyEr71bElI4dYWZtHSY2shECqflDTPXYTJHSas7DoFUIb/VshrTpDsW5R3NC5YOedwIqV57hnpPxmoaXT6ZKuQUlynMFs7xjg0uhDXPw02nHUZV5J33hocH5WwcfToKxE2tuey+bPe0pW1fGL6tARqAmFNdpeVcornF1e20hN3O5OmW6DUQ2LJ7qVG/p85CU7xwqHTfoaP0FnEp2CSk/33P9AJ5B9Mat7gAAAAAElFTkSuQmCC"
+											class="img-responsive rounded  profile-avatar" alt="Avatar">
+
+										<a href="/profileView/${receiver.uuid}" class="btn bg-dark text-light" style="margin-top: 5px;">Пользователь</a>
+									</div>
+
+									<div class="userData col-md-9">
+										<div>
+											<div class=" text-center font-weight-bold profile-nick">Сообщение</div>
+										</div>
+										<br>
+										<div>
+
+											<div class="contacts row">
+												<br>
+												<div class="text-left col-md-7">
+													<label for="message" class="font-weight-bold">Текст
+														сообщения </label>
+													<div id="message" class="font-italic">"${message}" </div>
+												</div>
+
+												<div class="text-left col-md-4">
+													<label for="dateOfCreation " class="font-weight-bold">Дата
+														отправки </label>
+													<div id="dateOfUpdate" class="font-italic">${dateOfCreation}</div>
+												</div>
+												<br> <br> <br> <br>
+												<div>
+													<button onclick="return deleteMessage('${id}', '${id}')"
+														class="btn border-dark bg-danger text-light">Удалить</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+		</script>
+
+	<script id="messageItemRec" type="text/jquery-tmpl">
+				<div id ="event_${id}" class="container card profile-card event-card rounded border-dark bg-light">
+							<div class=" row">
+								<div class="userInfo  col-md-12 row">
+									<div class="avatar col-md-3 text-center">
+										<img
+											src="data:image/png;base64,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"
+											class="img-responsive rounded  profile-avatar" alt="Avatar">
+
+										<a href="/profileView/${sender.uuid}" class="btn bg-dark text-light" style="margin-top: 5px;">Пользователь</a>
+									</div>
+
+									<div class="userData col-md-9">
+										<div>
+											<div class=" text-center font-weight-bold profile-nick">Сообщение</div>
+										</div>
+										<br>
+										<div>
+
+											<div class="contacts row">
+												<br>
+												<div class="text-left col-md-7">
+													<label for="message" class="font-weight-bold">Текст
+														сообщения </label>
+													<div id="message" class="font-italic">"${message}" 
+														<p>Автор - ${sender.userData.lname} ${sender.userData.fname}</p>
+													</div>
+												</div>
+
+												<div class="text-left col-md-4">
+													<label for="dateOfCreation " class="font-weight-bold">Дата
+														отправки </label>
+													<div id="dateOfUpdate" class="font-italic">${dateOfCreation}</div>
+
+
+												</div>
+												<br> <br> <br> <br>
+
+												<div>
+													<button onclick="return showMessageWindow_('${sender.userData.lName} ${sender.userData.fDame}', '${sender.uuid}', '${id}')"
+														class="btn bg-success border-dark text-light">Ответить</button>
+												</div>
+												&nbsp
+												<div>
+													<button onclick="return deleteMessage('${id}', '${id}')"
+														class="btn border-dark bg-danger text-light">Удалить</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+		</script>
+
+	<script id="requestItemSend" type="text/jquery-tmpl">
+				<div id ="event_${id}" class="container card profile-card event-card rounded border-dark bg-light">
+							<div class=" row">
+								<div class="userInfo  col-md-12 row">
+									<div class="avatar col-md-3 text-center">
+										<img
+											src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj56BWJobFa_n3kAUo-HWobtnSkKUmGXRA04hHAx_VJBFTY8uB"
+											class="img-responsive rounded  profile-avatar" alt="Avatar">
+
+										<a href="/hackPage/${hack.uuid}" class="btn bg-dark text-light">Хакатон</a>
+
+
+									</div>
+
+									<div class="userData col-md-9">
+										<div>
+											<div id="type"
+												class=" text-center font-weight-bold profile-nick">Запрос
+												на подтверждение </div>
+										</div>
+										<br>
+										<div>
+
+											<div class="contacts row">
+												<br>
+												<div class="text-left col-md-7">
+													<label for="message " class="font-weight-bold">Описание
+													</label>
+													<div id="message" class="font-italic">${message} <p>Название хакатона - ${hack.name}</p></div>
+												</div>
+
+												<div class="text-left col-md-4">
+													<label for="dateOfCreation " class="font-weight-bold">Дата
+														создания </label>
+													<div id="dateOfUpdate" class="font-italic">${dateOfCreation}</div>
+													<br> <label for="status " class="font-weight-bold">Статус
+													</label>
+													<div id="status" class="font-italic">${status.status}</div>
+												</div>
+												<br> <br> <br> <br>
+												<div>
+													<button onclick="return deleteReq('${id}', '${id}')"
+														class="btn bg-danger border-dark text-light">Отменить</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+		</script>
+
+	<script id="requestItemRec" type="text/jquery-tmpl">
+				<div id ="event_${id}" class="container card profile-card event-card rounded border-dark bg-light">
+							<div class=" row">
+								<div class="userInfo  col-md-12 row">
+									<div class="avatar col-md-3 text-center">
+										<img
+											src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj56BWJobFa_n3kAUo-HWobtnSkKUmGXRA04hHAx_VJBFTY8uB"
+											class="img-responsive rounded  profile-avatar" alt="Avatar">
+
+										<a href="/hackPage/${hack.uuid}" class="btn bg-dark text-light">Хакатон</a>
+
+
+									</div>
+
+									<div class="userData col-md-9">
+										<div>
+											<div id="type"
+												class=" text-center font-weight-bold profile-nick">Запрос
+												на подтверждение </div>
+										</div>
+										<br>
+										<div>
+
+											<div class="contacts row">
+												<br>
+												<div class="text-left col-md-7">
+													<label for="message " class="font-weight-bold">Описание
+													</label>
+													<div id="message" class="font-italic">${message} <p>Название хакатона - ${hack.name}</p></div>
+												</div>
+
+												<div class="text-left col-md-4">
+													<label for="dateOfCreation " class="font-weight-bold">Дата
+														создания </label>
+													<div id="dateOfUpdate" class="font-italic">${dateOfCreation}</div>
+												</div>
+												<br> <br> <br> <br>
+
+												<div>
+													<button onclick="return changeRequestStatus('${hack.uuid}', '${sender.uuid}', '${id}', 1, '${id}')"
+														class="btn bg-success border-dark text-light">Подтвердить</button>
+												</div>
+												&nbsp
+												<div>
+													<button onclick="return changeRequestStatus('${hack.uuid}', '${sender.uuid}', '${id}', 3, '${id}')"
+														class="btn bg-danger border-dark text-light">Отклонить</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+		</script>
+
+
+	<script id="inviteItemSend" type="text/jquery-tmpl">
+				<div id ="event_${id}" class="container card profile-card event-card rounded border-dark bg-light">
+							<div class=" row">
+								<div class="userInfo  col-md-12 row">
+									<div class="avatar col-md-3 text-center">
+										<img
+											src="http://cdn.onlinewebfonts.com/svg/download_363993.png"
+											class="img-responsive rounded  profile-avatar" alt="Avatar">
+
+										<a href="/teamProfile/${team.uuid}" class="btn bg-dark text-light" style="margin-top: 5px;">Команда</a>
+									</div>
+
+									<div class="userData col-md-9">
+										<div>
+											<div class=" text-center font-weight-bold profile-nick">Приглашение
+												в команду</div>
+										</div>
+										<br>
+										<div>
+
+											<div class="contacts row">
+												<br>
+												<div class="text-left col-md-7">
+													<label for="message" class="font-weight-bold">Описание
+													</label>
+													<div id="message" class="font-italic">${message} <p>Название команды - ${team.name}</p></div>
+												</div>
+
+												<div class="text-left col-md-4">
+													<label for="dateOfCreation " class="font-weight-bold">Дата
+														отправки </label>
+													<div id="dateOfUpdate" class="font-italic">${dateOfCreation}</div>
+													<label for="status " class="font-weight-bold">Статус
+													</label>
+													<div id="status" class="font-italic">${status.status}</div>
+
+												</div>
+												<br> <br> <br> <br>
+
+												<a href="/profileView/${receiver.uuid}" class="btn bg-dark text-light">Пользователь</a>
+												&nbsp
+												<div>
+													<button onclick="return deleteInvite('${id}', '${id}')"
+														class="btn bg-danger border-dark text-light">Отменить</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+		</script>
+
+	<script id="inviteItemRec" type="text/jquery-tmpl">
+				<div id ="event_${id}" class="container card profile-card event-card rounded border-dark bg-light">
+							<div class=" row">
+								<div class="userInfo  col-md-12 row">
+									<div class="avatar col-md-3 text-center">
+										<img
+											src="http://cdn.onlinewebfonts.com/svg/download_363993.png"
+											class="img-responsive rounded  profile-avatar" alt="Avatar">
+
+										<a href="/teamProfile/${team.uuid}" class="btn bg-dark text-light" style="margin-top: 5px;">Команда</a>
+
+									</div>
+
+									<div class="userData col-md-9">
+										<div>
+											<div class=" text-center font-weight-bold profile-nick">Приглашение
+												в команду</div>
+										</div>
+										<br>
+										<div>
+
+											<div class="contacts row">
+												<br>
+												<div class="text-left col-md-7">
+													<label for="message" class="font-weight-bold">Описание
+													</label>
+													<div id="message" class="font-italic">${message} <p>Название команды - ${team.name}</p></div>
+												</div>
+
+												<div class="text-left col-md-4">
+													<label for="dateOfCreation " class="font-weight-bold">Дата
+														отправки </label>
+													<div id="dateOfUpdate" class="font-italic">${dateOfCreation}</div>
+													<label for="status " class="font-weight-bold">Статус
+													</label>
+													<div id="status" class="font-italic">${status.status}</div>
+
+												</div>
+												<br> <br> <br> <br>
+												<div>
+													<button onclick="return changeInviteStatus('${team.uuid}', '${receiver.uuid}', '${id}', 1, '${id}')"
+														class="btn bg-success border-dark text-light">Подтвердить</button>
+												</div>
+												&nbsp
+												<div>
+													<button onclick="return changeInviteStatus('${team.uuid}', '${receiver.uuid}', '${id}', 3, '${id}')"
+														class="btn bg-danger border-dark text-light">Отклонить</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+		</script>
+
+	<script id="inviteItemSendReq" type="text/jquery-tmpl">
+				<div id ="event_${id}" class="container card profile-card event-card rounded border-dark bg-light">
+							<div class=" row">
+								<div class="userInfo  col-md-12 row">
+									<div class="avatar col-md-3 text-center">
+										<img
+											src="http://cdn.onlinewebfonts.com/svg/download_363993.png"
+											class="img-responsive rounded  profile-avatar" alt="Avatar">
+
+										<a href="/teamProfile/${team.uuid}" class="btn bg-dark text-light" style="margin-top: 5px;">Команда</a>
+									</div>
+
+									<div class="userData col-md-9">
+										<div>
+											<div class=" text-center font-weight-bold profile-nick">Запрос на вступление
+												в команду</div>
+										</div>
+										<br>
+										<div>
+
+											<div class="contacts row">
+												<br>
+												<div class="text-left col-md-7">
+													<label for="message" class="font-weight-bold">Описание
+													</label>
+													<div id="message" class="font-italic">${message} <p>Название команды - ${team.name}</p></div>
+												</div>
+
+												<div class="text-left col-md-4">
+													<label for="dateOfCreation " class="font-weight-bold">Дата
+														отправки </label>
+													<div id="dateOfUpdate" class="font-italic">${dateOfCreation}</div>
+													<label for="status " class="font-weight-bold">Статус
+													</label>
+													<div id="status" class="font-italic">${status.status}</div>
+
+												</div>
+												<br> <br> <br> <br>
+
+												<div>
+													<button onclick="return deleteInvite('${id}', '${id}')"
+														class="btn bg-danger border-dark text-light">Отменить</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+		</script>
+
+	<script id="inviteItemRecReq" type="text/jquery-tmpl">
+				<div id ="event_${id}" class="container card profile-card event-card rounded border-dark bg-light">
+							<div class=" row">
+								<div class="userInfo  col-md-12 row">
+									<div class="avatar col-md-3 text-center">
+										<img
+											src="http://cdn.onlinewebfonts.com/svg/download_363993.png"
+											class="img-responsive rounded  profile-avatar" alt="Avatar">
+
+										<a href="/teamProfile/${team.uuid}" class="btn bg-dark text-light" style="margin-top: 5px;">Команда</a>
+
+									</div>
+
+									<div class="userData col-md-9">
+										<div>
+											<div class=" text-center font-weight-bold profile-nick">Запрос на вступление 
+												в команду</div>
+										</div>
+										<br>
+										<div>
+
+											<div class="contacts row">
+												<br>
+												<div class="text-left col-md-7">
+													<label for="message" class="font-weight-bold">Описание
+													</label>
+													<div id="message" class="font-italic">${message} <p>Название команды - ${team.name}</p></div>
+												</div>
+
+												<div class="text-left col-md-4">
+													<label for="dateOfCreation " class="font-weight-bold">Дата
+														отправки </label>
+													<div id="dateOfUpdate" class="font-italic">${dateOfCreation}</div>
+												<br> <br> <br>
+											</div>
+											<div class="row">	
+												<a href="/profileView/${receiver.uuid}" class="btn bg-dark text-light">Пользователь</a>
+												&nbsp
+												<div>
+													<button onclick="return changeInviteStatus('${team.uuid}', '${sender.uuid}', '${id}', 1, '${id}')"
+														class="btn bg-success border-dark text-light">Подтвердить</button>
+												</div>
+												&nbsp
+												<div>
+													<button onclick="return changeInviteStatus('${team.uuid}', '${sender.uuid}', '${id}', 3, '${id}')"
+														class="btn bg-danger border-dark text-light">Отклонить</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+		</script>
+
+	
+	<div id="messageSendAlert_" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content border-success">
+				<div class="modal-header bg-dark">
+					<h5 class="modal-title text-warning">Послать сообщение</h5>
+				</div>
+				<div class="modal-body">
+					<p>Сообщение отправлено</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">ОК</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"></script>
+	<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+			integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+			crossorigin="anonymous"></script>
+	<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+			crossorigin="anonymous"></script>
+	<script
+			src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+		
+	</script>
+	<script src="/js/event.js?134233"></script>
 </body>
 </html>

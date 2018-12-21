@@ -38,7 +38,7 @@ public class CompanyData {
   @Column(name = "companyName")
   private String companyName;
   
-  @Column(name = "about")
+  @Column(name = "about", length = 1000)
   private String about;
   
   @OneToMany(mappedBy="company")

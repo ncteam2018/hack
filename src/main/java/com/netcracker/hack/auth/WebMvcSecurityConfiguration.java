@@ -32,7 +32,7 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
 
     http.formLogin().loginPage("/login").failureUrl("/login?loginError=fail")
-        .defaultSuccessUrl("/profile").and()
+        .defaultSuccessUrl("/profile", true).and()
 
         .httpBasic().and().csrf().disable()
 
@@ -47,18 +47,12 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
            "/swagger-ui.html", "/webjars/**").hasRole("ADMIN")
         .antMatchers("/**").authenticated();
 
-    // HTTPS
-    // .and()
-    // .requiresChannel();
-    // .antMatchers("/login").requiresSecure()
-    // .antMatchers("/loginError").requiresSecure();
-
   }
 
   @Override
   public void configure(WebSecurity web) throws Exception {
 
-    web.ignoring().antMatchers("/js/**", "/css/**","/img/**", "/static/**");
+    web.ignoring().antMatchers("/js/**", "/css/**","/img/**");
 
   }
 

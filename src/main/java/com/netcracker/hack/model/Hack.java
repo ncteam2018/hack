@@ -46,10 +46,10 @@ public class Hack {
   @Column(name = "placeCoords")
   private String placeCoords;
 
-  @Column(name = "site")
+  @Column(name = "site", length = 300)
   private String site;
 
-  @Column(name = "description")
+  @Column(name = "description", length = 1000)
   private String description;
 
   @Column(name = "auditory")

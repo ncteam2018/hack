@@ -143,7 +143,7 @@ var numberOfElements // переменная с размером запраши�
 
 function loadData(isFirst) {
 
-	let query = "api/team?size=2"; // Формирует query string
+	let query = "api/team?size=5"; // Формирует query string
 	let hackPageParams;
 
 	if (filterQueryString != "")

@@ -28,7 +28,7 @@ public class NotificationScheduler {
   @Autowired
   private EventService eventService;
 
-  @Scheduled(fixedDelay = 60000)
+  @Scheduled(fixedDelay = 1000*60*60*24)
   public void clearNotificationJob() {
 
     eventRepository.deleteAll(eventRepository.findByTypeIdAndStatusStatus(2, "Canceled"));
@@ -38,7 +38,7 @@ public class NotificationScheduler {
 
   }
 
-  @Scheduled(fixedDelay = 60000)
+  @Scheduled(fixedDelay = 1000*60*60*24)
   public void sendStartHackNotificationJob() {
 
     Date today = new Date(Calendar.getInstance().getTimeInMillis());

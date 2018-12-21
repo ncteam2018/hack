@@ -61,6 +61,8 @@ public class TeamController {
     eventService.sendToUser(EventService.INVITE_EVENT_TYPE, EventService.PROCESSING_EVENT_STATUS,
         profileService.getUserDTOByLogin(principal.getName()).getUuid(),
         teamService.getTeam(teamID).getCaptain().getUuid(), null, teamID, "Запрос на вступление в команду");
+    
+    eventService.sendNotificationToUser("Пришёл запрос на вступление в команду!", null, teamID, null, teamService.getTeam(teamID).getCaptain().getUuid());
   }
 
   @ApiOperation("Send invite to user")
@@ -72,23 +74,25 @@ public class TeamController {
     eventService.sendToUser(EventService.INVITE_EVENT_TYPE, EventService.PROCESSING_EVENT_STATUS,
         teamService.getTeam(teamID).getCaptain().getUuid(), invitedUser, null, teamID,
         "Приглашение в команду");
+    
+    eventService.sendNotificationToUser("Вас пригласили в команду!", null, teamID, null, invitedUser);
   }
 
   @ApiOperation("Add uset to the team")
   @PostMapping("/{teamID}/addUser")
   public ResponseEntity<TeamDTO> addUserToTeam(
       @ApiParam(value = "Team's uuid", required = true) @PathVariable UUID teamID,
-      Principal principal) {
+      @RequestBody UUID userID) {
 
-    return teamService.addUser(teamID, principal.getName());
+    return teamService.addUser(teamID, userID);
   }
 
   @ApiOperation("remove user from the team")
-  @PostMapping("/{teamID}/{userID}")
+  @PostMapping("/{teamID}/removeUser")
   public ResponseEntity<TeamDTO> removeUserFromTeam(
       @ApiParam(value = "Team's uuid", required = true) @PathVariable(name = "teamID") UUID teamID,
       @ApiParam(value = "User's uuid",
-          required = true) @PathVariable(name = "userID") UUID userID) {
+          required = true) @RequestBody UUID userID) {
 
     return teamService.removeUser(teamID, userID);
   }

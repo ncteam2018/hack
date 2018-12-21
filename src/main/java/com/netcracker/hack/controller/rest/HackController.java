@@ -3,6 +3,8 @@ package com.netcracker.hack.controller.rest;
 import com.netcracker.hack.dto.HackDTO;
 import com.netcracker.hack.dto.builder.PageRequestBuilder;
 import com.netcracker.hack.model.Hack;
+import com.netcracker.hack.model.Team;
+import com.netcracker.hack.repository.TeamRepository;
 import com.netcracker.hack.service.HackService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,6 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class HackController {
   @Autowired
   private HackService service;
+  
+  @Autowired
+  private TeamRepository teamRepository;
 
   @ApiOperation("Returns all hacks by filter")
   @GetMapping
@@ -100,5 +105,13 @@ public class HackController {
   @PutMapping("/{id}/status")
   public ResponseEntity<Object> updateStatus(@PathVariable UUID id, @RequestBody String status){
     return service.updateStatus(id, status);
+  }
+  
+  @ApiOperation("Returns all teams by hack UUID")
+  @GetMapping("/{hackID}/teams")
+  public List<Team> getHackTeams(
+      @ApiParam(value = "Company's uuid", required = true) @PathVariable UUID hackID) {
+    
+    return teamRepository.findByHackUuid(hackID);
   }
 }

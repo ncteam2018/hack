@@ -28,7 +28,7 @@ public class TeamChatMessage {
   @Column(name = "createDate")
   private Date date;
   
-  @Column(name = "message")
+  @Column(name = "message", length = 1000)
   private String message;
 
 

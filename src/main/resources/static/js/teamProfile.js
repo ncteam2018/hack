@@ -52,6 +52,10 @@ function loadTeamProfile() {
 
 						teamMembers
 								.forEach(function(member, index, arr) {
+									
+									if(Me.uuid == member.uuid)
+										$("#chatPanel").css('display','block');
+									
 									member.index = index;
 									$("#memberAvatar").tmpl(member).appendTo(
 											"#memberList");
@@ -124,7 +128,14 @@ function showMemberProfile(index) {
 	$("#course").html(teamMembers[index].course);
 	$("#placeOfWork").html(teamMembers[index].placeOfWork);
 	$("#position").html(teamMembers[index].position);
-	$("#sendMessageButton").attr("onclick",'return showMessageWindow(' + index + ')');
+
+	if (teamMembers[index].uuid == Me.uuid) {
+		$("#sendMessageButton").css('display', 'none');
+	} else {
+		$("#sendMessageButton").attr("onclick",
+				'return showMessageWindow(' + index + ')');
+		$("#sendMessageButton").css('display', 'block');
+	}
 
 	if (teamMembers[index].companyData != null) {
 		$("#companyData").html(teamMembers[index].companyData.companyName);
@@ -171,10 +182,11 @@ function sendMessage() {
 
 function sendRemoveMemberRequest(teamID, userID, id) {
 
-	let query = '/api/team/' + teamID + ' /' + userID;
+	let query = '/api/team/' + teamID + '/removeUser';
 	fetch(query, {
 		method : 'POST',
 		headers : getDefaultHeaders(),
+		body : JSON.stringify(userID),
 		credentials : "same-origin"
 	}).then(
 			function() {
@@ -182,6 +194,7 @@ function sendRemoveMemberRequest(teamID, userID, id) {
 				$("#memberCounter").html(
 						Number.parseInt($("#memberCounter").html()) - 1);
 			});
+
 }
 
 function showDeleteAlert() {
@@ -295,20 +308,20 @@ function showMessageWindow(index) {
 
 	$("#receiverName").html(
 			teamMembers[index].lastName + " " + teamMembers[index].firstName);
-	$("#sendToUser").attr("onclick",'return sendMessageToUser(' + index + ')');
-	
+	$("#sendToUser").attr("onclick", 'return sendMessageToUser(' + index + ')');
+
 	$("#messageWindow").modal("show");
 	return false;
 }
 
 function sendMessageToUser(index) {
-	
+
 	let Message = new function() {
 		this.sender = Me.uuid;
 		this.receiver = teamMembers[index].uuid;
 		this.message = $("#messageTextarea").val();
 	}
-	
+
 	let query = '/api/profile/sendMessage';
 	fetch(query, {
 		method : 'POST',
@@ -316,19 +329,9 @@ function sendMessageToUser(index) {
 		body : JSON.stringify(Message),
 		credentials : "same-origin"
 	});
-	
+
 	$("#messageWindow").modal("hide");
 	$("#messageSendAlert").modal("show");
-	
+
 	return false;
 }
-
-
-
-
-
-
-
-
-
-

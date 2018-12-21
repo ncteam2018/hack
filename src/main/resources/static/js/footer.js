@@ -1,6 +1,6 @@
 
-function showInfo()  {
-	$("#aboutInfo").modal("show");
+function showDevInfo()  {
+	$("#aboutDevelopersInfo").modal("show");
 	return false;
 }
 

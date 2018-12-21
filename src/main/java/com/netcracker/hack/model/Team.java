@@ -27,11 +27,11 @@ public class Team {
   @Column(name = "id")
   private UUID uuid;
 
-  @Column(name = "name")
+  @Column(name = "name", length = 300)
   private String name;
   
   @Column(name = "status")
-  private String status;        //TODO: Active/Completed
+  private String status;      
 
   @ManyToOne
   private Profile captain;
@@ -39,7 +39,7 @@ public class Team {
   @ManyToOne
   private Hack hack;
 
-  @Column(name = "about")
+  @Column(name = "about", length = 1000)
   private String about;
 
   @ManyToMany
