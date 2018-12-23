@@ -5,10 +5,9 @@ spring:
       connectionTimeout: 15000
       dataSourceProperties:
         socketTimeout: 10
-    url: jdbc:postgresql://ec2-54-217-214-201.eu-west-1.compute.amazonaws.com:5432/dc4hb17n6gdggs
-    username: ztzzdrovhletgd
-    password: 0b0d1682a0979f33ef75e12c899c0d1122cdb841d310bc0837fafaf96db66f58
-
+    url: jdbc:postgresql://localhost:5432/TestDB
+    username: admin
+    password: 123
 
   jpa:
     generate-ddl: true
@@ -18,12 +17,12 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL82Dialect
         current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
-        # Fix Postgres JPA Error:
-        # Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented.
         temp.use_jdbc_metadata_defaults: false
 
+  servlet:
+    multipart:
+      enabled : true
+   
+      
 
-  # Mustache template
-  mustache:
-    charset: UTF-8
-    #expose-request-attributes: true
+   
