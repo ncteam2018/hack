@@ -88,6 +88,7 @@ fetch("/api/profile/me", {
 			Me = myProfile;
 			UserID = myProfile.uuid;
 			reloadEvents(myProfile.uuid);
+			$("#header_avatar").attr("src","/img/avatars/" + Me.uuid);
 
 			stompClient = Stomp.over(socket);
 			stompClient.connect({}, function(frame) {

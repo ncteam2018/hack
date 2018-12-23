@@ -21,10 +21,12 @@ function addTag(type) {
 		var tagName = $("#skillTagsInput").val();
 		var tagID = "skill_" + $("#skillTagsInput").val();
 		var place = "#filterSkillTags";
+		$("#skillTagsInput").val("");
 	} else {
 		var tagName = $("#scopeTagsInput").val();
 		var tagID = "scope_" + $("#scopeTagsInput").val();
 		var place = "#filterScopeTags";
+		$("#scopeTagsInput").val("");
 	}
 
 	if (tagName != "") {
@@ -46,6 +48,7 @@ function addTag(type) {
 			$("#tagItem").tmpl(newTag).appendTo(place);
 		}
 	}
+	
 	return false;
 }
 

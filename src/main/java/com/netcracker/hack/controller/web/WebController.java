@@ -101,6 +101,12 @@ public class WebController {
     return "profileView";
   }
 
+  @RequestMapping(path = "/testImage", method = RequestMethod.GET)
+  public String getImagePage() {
+
+    return "testImage";
+  }
+  
 
 
 }

@@ -32,12 +32,6 @@ public class ProfileController {
   @Autowired
   private EventService eventService;
 
-  @ApiOperation("Returns all users")
-  @GetMapping
-  public List<UserDTO> getAllProfile() {
-    return service.getAllProfile();
-  }
-
   @ApiOperation("Returns user by uuid")
   @GetMapping("/me")
   public UserDTO getAuthorizedUserProfile(Principal principal) {
@@ -57,13 +51,6 @@ public class ProfileController {
   public List<UserDTO> findUsers(@RequestParam String userLogin, @RequestParam UUID teamID) {
 
     return service.findUsersByLogin(userLogin, teamID);
-  }
-
-
-  @ApiOperation("Returns user by login")
-  @GetMapping("login/{login}")
-  public UserDTO getProfileByLogin(@PathVariable String login) {
-    return service.getUserDTOByLogin(login);
   }
 
   @ApiOperation("Deletes user profile by uuid")
@@ -97,7 +84,6 @@ public class ProfileController {
         message.getSender(), message.getReceiver(), null, null, message.getMessage());
     
     eventService.sendNotificationToUser("Вам пришло письмо!", null, null, message.getSender(), message.getReceiver());
-    // TODO: послать и на почту
   }
 
   @ApiOperation("Send message to admin")
@@ -107,7 +93,10 @@ public class ProfileController {
 
     eventService.sendToAdmin(EventService.MESSAGE_EVENT_TYPE, EventService.OK_EVENT_STATUS,
         message.getSender(), null, null, message.getMessage());
-    
-    // TODO: послать и на почту
+
   }
+  
+  
+  
+  
 }

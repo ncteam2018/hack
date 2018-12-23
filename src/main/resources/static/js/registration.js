@@ -72,7 +72,6 @@ function createUserProfile() {
       });
     } else {
       $(function () {
-
         $('body').prepend(
             ' <div id="myModal" class="modal fade" tabindex="-1"><div class="modal-dialog modal-lg"> <div class="modal-content"> <div class="modal-header"> <h4 class="modal-title">Регистрация</h4></div><div class="modal-body">Пользователь успешно создан!</div><div class="modal-footer"><button class="btn btn-success" data-dismiss="modal">Войти</button></div></div></div></div>');
         $('#myModal').modal("show");
@@ -87,7 +86,6 @@ function createUserProfile() {
 
   return false;
 }	
-
 
 $("#orgCheck").change(function() {
     if(this.checked) 

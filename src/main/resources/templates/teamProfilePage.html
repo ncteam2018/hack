@@ -30,7 +30,7 @@
 			<div class="userInfo  row">
 				<div class="avatar col-md-3" style="margin-left: 20px;">
 					<img
-						src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+						src="https://image.freepik.com/free-icon/no-translate-detected_318-44341.jpg"
 						class=" rounded  profile-avatar" alt="Avatar"> <br> <br>
 					<div id="captainPanel" style="display: none;">
 						<button onclick="updatePage()" class="btn bg-dark text-light"
@@ -105,13 +105,11 @@
 						<div class="row">
 							<div class="userInfo  col-md-8 row ">
 								<div class="avatar col-md-4">
-									<img
-										src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+									<img src="" id="main_avatar"
 										class="img-responsive rounded float-left profile-avatar"
 										alt="Avatar">
 
-									<button id="sendMessageButton"
-										onclick=""
+									<button id="sendMessageButton" onclick=""
 										class="btn-sm btn-success" style="margin: 10px;">
 										Написать сообщение</button>
 								</div>
@@ -206,7 +204,8 @@
 
 				</div>
 			</div>
-			<div id="chatPanel" class="card" style="margin-top: 10px; display: none;">
+			<div id="chatPanel" class="card"
+				style="margin-top: 10px; display: none;">
 				<div class="card-header bg-dark text-light font-weight-bold">Чат</div>
 				<div class="card-body" id="teamChat"
 					style="height: 400px; overflow-y: scroll;"></div>
@@ -240,7 +239,7 @@
 	<script id="memberAvatar" type="text/jquery-tmpl">
 				<button onclick="return showMemberProfile(${index})" id="member_${index}">
 				 <img
-					src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+					src="/img/avatars/${uuid}"
 					class=" rounded  profile-avatar" alt="Avatar"
 					style="width: 100%">
 				</button>
@@ -258,7 +257,7 @@
 	<tr>
 		<th scope="row">${number}</th>
 		<td id="searchAvatar"><img
-			src="https://bugaga.ru/uploads/posts/2017-03/1489052030_kotik-hosiko-12.jpg"
+			src="/img/avatars/${uuid}"
 			class="img-responsive rounded float-left profile-avatar" alt="Avatar"
 			style="height: 35px; width: 35px;"></td>
 		<td>${FIO}</td>
@@ -445,7 +444,7 @@
 		src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
 		
 	</script>
-	<script src="/js/teamProfile.js?2132123"></script>
+	<script src="/js/teamProfile.js?1"></script>
 </body>
 </html>
 

@@ -39,7 +39,7 @@ public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .rememberMe().key("shvahyvadlydvhy").and().logout().logoutSuccessUrl("/")
         .deleteCookies("JSESSIONID")
 
-        .and().authorizeRequests().antMatchers("/", "/login", "/registration")
+        .and().authorizeRequests().antMatchers("/", "/login", "/registration","/api/image")
         .permitAll()
         .antMatchers("/api/profile").permitAll().antMatchers("/api/**").hasAnyRole("USER", "ADMIN", "ORGANIZATION")
         .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",

@@ -54,9 +54,6 @@ public class HackServiceImpl implements HackService {
   @Autowired
   private TeamRepository teamRepository;
 
-  @Autowired
-  private TeamService teamService;
-
   @Override
   public Set<String> getAllHackPlaces() {
 
@@ -126,10 +123,6 @@ public class HackServiceImpl implements HackService {
     return new HackDTO(hackRepository.findByUuid(id));
   }
 
-  public List<Hack> getHackByCompany(UUID id) {
-    return null;// repository.findByCompany_Uuid(id);
-  }
-
   public void deleteHack(UUID hackID) {
 
     Hack hack = hackRepository.findByUuid(hackID);
@@ -143,7 +136,6 @@ public class HackServiceImpl implements HackService {
           "Хакатон больше не действителен, смените его или команда будет удалена!", hackID,
           team.getUuid(), null);
       team.setStatus(TeamService.TEAM_COMPLETED_STATUS);
-      // TODO: team.setDeleteTime();
       teamRepository.save(team);
     });
   }

@@ -128,6 +128,8 @@ function showMemberProfile(index) {
 	$("#course").html(teamMembers[index].course);
 	$("#placeOfWork").html(teamMembers[index].placeOfWork);
 	$("#position").html(teamMembers[index].position);
+	
+	$("#main_avatar").attr("src","/img/avatars/" + teamMembers[index].uuid);
 
 	if (teamMembers[index].uuid == Me.uuid) {
 		$("#sendMessageButton").css('display', 'none');

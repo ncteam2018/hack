@@ -77,7 +77,6 @@ public class ProfileServiceImpl implements ProfileService {
       profile.getCompanyData().setStatus(status);
       profile.getCompanyData().setVerification(false);
       role = RolesService.ORGANIZATION_ROLE;
-      // TODO: СОБЫТИЕ ПОДТВЕРДИТЬ КОМПАНИЮ
       
     } else
       role = RolesService.USER_ROLE;
