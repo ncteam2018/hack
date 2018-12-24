@@ -266,6 +266,7 @@ function showTeamInformation(index) {
 	$("#userCounter").html(teamList[index].peopleCount);
 	$("#hacknameRef").html(teamList[index].hack.title)
 
+	$("#captain_avatar").attr("src","/img/avatars/"+teamList[index].captain.uuid);
 	$("#fio").html(
 			teamList[index].captain.lastName + " "
 					+ teamList[index].captain.firstName + " "

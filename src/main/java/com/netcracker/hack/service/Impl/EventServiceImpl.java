@@ -108,7 +108,6 @@ public class EventServiceImpl implements EventService {
       UUID hackID, UUID teamID, String message) {
 
     createEvent(typeID, statusID, senderID, receiverID, hackID, teamID, message);
-    // todo
   }
 
 

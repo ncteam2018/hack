@@ -33,6 +33,7 @@ function loadUserProfile() {
 				$("#course").html(profile.course);
 				$("#placeOfWork").html(profile.placeOfWork);
 				$("#position").html(profile.position);
+				$("#main_avatar").attr("src","/img/avatars/" + profile.uuid);
 
 				if (profile.companyData != null) {
 					$("#companyData").html(profile.companyData.companyName);

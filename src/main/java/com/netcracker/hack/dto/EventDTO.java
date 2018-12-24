@@ -15,7 +15,7 @@ public class EventDTO {
   private Date dateOfCreation;
   private Date dateOfUpdate;
   private HackDTO resourceHackReference;
-  private Team resourceTeamReference; // TODO: Team -> TeamDTO
+  private Team resourceTeamReference; 
   private String message;
 
   public EventDTO(Event event) {

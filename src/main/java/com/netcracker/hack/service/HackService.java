@@ -2,7 +2,6 @@ package com.netcracker.hack.service;
 
 import com.netcracker.hack.dto.HackDTO;
 import com.netcracker.hack.dto.builder.PageRequestBuilder;
-import com.netcracker.hack.model.Hack;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -19,8 +18,6 @@ public interface HackService {
   Page<HackDTO> getFilteredHacks(PageRequestBuilder requestBuilder);
 
   HackDTO getHack(UUID id);
-
-  List<Hack> getHackByCompany(UUID id);
 
   void deleteHack(UUID id);
 

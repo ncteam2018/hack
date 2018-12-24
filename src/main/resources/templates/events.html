@@ -193,7 +193,7 @@
 													<label for="message" class="font-weight-bold">Текст
 														сообщения </label>
 													<div id="message" class="font-italic">"${message}" 
-														<p>Автор - ${sender.userData.lname} ${sender.userData.fname}</p>
+														<p>Автор - ${sender.userData.lName} ${sender.userData.fName}</p>
 													</div>
 												</div>
 
@@ -530,7 +530,7 @@
 												<br> <br> <br>
 											</div>
 											<div class="row">	
-												<a href="/profileView/${receiver.uuid}" class="btn bg-dark text-light">Пользователь</a>
+												<a href="/profileView/${sender.uuid}" class="btn bg-dark text-light">Пользователь</a>
 												&nbsp
 												<div>
 													<button onclick="return changeInviteStatus('${team.uuid}', '${sender.uuid}', '${id}', 1, '${id}')"
@@ -583,6 +583,6 @@
 			src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
 		
 	</script>
-	<script src="/js/event.js?134233"></script>
+	<script src="/js/event.js?1342332"></script>
 </body>
 </html>

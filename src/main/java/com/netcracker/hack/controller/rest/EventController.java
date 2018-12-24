@@ -30,21 +30,13 @@ public class EventController {
   public List<List<Event>> getAllEvents(@PathVariable UUID userID) {
     return service.getAllUserEvents(userID);
   }
-
-  @ApiOperation("Returns all events")
-  @GetMapping("/all")
-  public List<Event> getAllUserEvents() {
-    return service.getAllEvents();
-  }
-
-  @ApiOperation("Returns all user notifications")
+  
   @GetMapping("/notifications")
   public List<NotificationDTO> getUserNotifications(
       @RequestParam(name = "ownerID", required = true) UUID ownerID) {
     return service.getUserNotifications(ownerID);
   }
 
-  @ApiOperation("Returns all user notifications")
   @PutMapping("/notifications")
   public void updateUserNotification(@RequestBody NotificationDTO notification) {
     service.updateUserNotifications(notification);

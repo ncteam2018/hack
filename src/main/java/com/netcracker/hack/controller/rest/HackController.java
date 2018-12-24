@@ -2,7 +2,6 @@ package com.netcracker.hack.controller.rest;
 
 import com.netcracker.hack.dto.HackDTO;
 import com.netcracker.hack.dto.builder.PageRequestBuilder;
-import com.netcracker.hack.model.Hack;
 import com.netcracker.hack.model.Team;
 import com.netcracker.hack.repository.TeamRepository;
 import com.netcracker.hack.service.HackService;
@@ -34,7 +33,7 @@ public class HackController {
   
   @Autowired
   private TeamRepository teamRepository;
-
+  
   @ApiOperation("Returns all hacks by filter")
   @GetMapping
   public Page<HackDTO> getFilteredHacks(
@@ -43,6 +42,7 @@ public class HackController {
       @RequestParam(name = "sort", required = false) String sortJson,
       @RequestParam(name = "filter", required = false) String filtersJson) {
 
+    
     return service.getFilteredHacks(new PageRequestBuilder(sortJson, page, size, filtersJson));
   }
 
@@ -65,13 +65,6 @@ public class HackController {
   public Set<String> getAllCompNames() {
 
     return service.getAllCompNames();
-  }
-
-  @ApiOperation("Returns all hacks by company UUID")
-  @GetMapping("company/{id}")
-  public List<Hack> getHackByCompanyUuid(
-      @ApiParam(value = "Company's uuid", required = true) @PathVariable UUID id) {
-    return service.getHackByCompany(id);
   }
 
   @ApiOperation("Returns hack by uuid")
